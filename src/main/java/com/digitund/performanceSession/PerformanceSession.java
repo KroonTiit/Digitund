@@ -1,4 +1,4 @@
-package com.digitund;
+package com.digitund.performanceSession;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

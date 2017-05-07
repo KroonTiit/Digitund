@@ -1,4 +1,4 @@
-package com.digitund;
+package com.digitund.video;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

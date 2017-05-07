@@ -1,4 +1,4 @@
-package com.digitund;
+package com.digitund.user;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;

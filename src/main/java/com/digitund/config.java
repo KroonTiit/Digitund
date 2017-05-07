@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-public class config {
+public class Config {
 	@Bean
 	public DataSource dataSource() {
 	    DriverManagerDataSource dataSource = new DriverManagerDataSource();

@@ -1,4 +1,4 @@
-package com.digitund;
+package com.digitund.lesson;
 
 import java.sql.Timestamp;
 

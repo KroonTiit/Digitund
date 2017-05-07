@@ -1,8 +1,7 @@
-package com.digitund;
-
+package com.digitund.tekst;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface QuestionsRepo extends JpaRepository<Questions, Long>{
+public interface TekstRepo extends JpaRepository<Tekst, Long>{
 }

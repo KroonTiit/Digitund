@@ -1,4 +1,4 @@
-package com.digitund;
+package com.digitund.performance;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.digitund;
+package com.digitund.performanceSession;
 
 import java.util.List;
 
