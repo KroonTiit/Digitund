@@ -8,33 +8,33 @@ import javax.persistence.Id;
 public class PerformanceSession {
 	@Id @GeneratedValue
 	private Long id;
-	private long performanceId;
-	private long questionsId;
-	private long answerOptionId;
+	private Long performance_id;//peab selline olema et andmebaas tunneks objeti ära
+	private Long questions_id;//peab selline olema et andmebaas tunneks objeti ära
+	private Long answer_options_id;
 	
 	public PerformanceSession(){}
-	public PerformanceSession(long performanceId, long questionsId, long answerOptionId){
-		this.performanceId=performanceId;
-		this.questionsId=questionsId;
-		this.answerOptionId=answerOptionId;
+	public PerformanceSession(Long performanceId, Long questionsId, Long answerOptionId){
+		this.performance_id=performanceId;
+		this.questions_id=questionsId;
+		this.answer_options_id=answerOptionId;
 	}
 	
 	public long getPerformance_id() {
-		return performanceId;
+		return performance_id;
 	}
 	public void setPerformance_id(long performanceId) {
-		this.performanceId = performanceId;
+		this.performance_id = performanceId;
 	}
-	public long getQuestions_id() {
-		return questionsId;
+	public Long getQuestions_id() {
+		return questions_id;
 	}
 	public void setQuestions_id(long questionsId) {
-		this.questionsId = questionsId;
+		this.questions_id = questionsId;
 	}
-	public long getAnswer_options_id() {
-		return answerOptionId;
+	public Long getAnswer_options_id() {
+		return answer_options_id;
 	}
 	public void setAnswer_options_id(long answerOptionId) {
-		this.answerOptionId = answerOptionId;
+		this.answer_options_id = answerOptionId;
 	}
 }

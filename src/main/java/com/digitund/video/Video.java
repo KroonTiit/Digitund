@@ -60,6 +60,4 @@ public class Video {
 	public void setVideo_url(String videoUrl) {
 		this.videoUrl = videoUrl;
 	}
-	
-	
 }

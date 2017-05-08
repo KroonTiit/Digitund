@@ -33,8 +33,8 @@ public class PerformanceRestController {
 		return per;
     }
     @RequestMapping("/getSession")
-    public List<Performance> getSession(@RequestParam(value="performerId")Long performerId,
-    						@RequestParam(value="lessonId")Long lessonId){
+    public List<Performance> getSession(@RequestParam(value="performerId")long performerId,
+    						@RequestParam(value="lessonId")long lessonId){
     	List<Performance> responce=null;
     	try{
     		responce=performanceRepo.getPerformance(performerId, lessonId);
