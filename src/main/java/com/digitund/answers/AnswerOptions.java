@@ -8,34 +8,34 @@ import javax.persistence.Id;
 public class AnswerOptions {
 	@Id @GeneratedValue
 	private Long id;
-	private Long question_id;
+	private Long questionId;
 	private Boolean correct;
 	private String tekst;
 	
 	public AnswerOptions (){}
-	public AnswerOptions (Long id){
-		this.question_id=question_id;
+	public AnswerOptions (Long questionId){
+		this.questionId=questionId;
 	}
-	public AnswerOptions (Long id, Long question_id){
+	public AnswerOptions (Long id, Long questionId){
 		this.id=id;
-		this.question_id=question_id;
+		this.questionId=questionId;
 	}
-	public AnswerOptions (Long question_id, Boolean correct, String tekst){
-		this.question_id=question_id;
+	public AnswerOptions (Long questionId, Boolean correct, String tekst){
+		this.questionId=questionId;
 		this.correct=correct;
 		this.tekst=tekst;
 	}
-	public AnswerOptions (Long id, Long question_id, Boolean correct, String tekst){
+	public AnswerOptions (Long id, Long questionId, Boolean correct, String tekst){
 		this.id=id;
-		this.question_id=question_id;
+		this.questionId=questionId;
 		this.correct=correct;
 		this.tekst=tekst;
 	}
 	public long getQuestion_id() {
-		return question_id;
+		return questionId;
 	}
-	public void setQuestion_id(Long question_id) {
-		this.question_id = question_id;
+	public void setQuestion_id(Long questionId) {
+		this.questionId = questionId;
 	}
 	public boolean isCorrect() {
 		return correct;

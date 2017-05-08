@@ -22,11 +22,11 @@ public class AnswersRestController {
    
     //ANSWERS
     @RequestMapping("/getAllAnswerOptions")
-    public List<AnswerOptions> getAllQuestionsAnswers(@RequestParam(value="question_id")long question_id) {
+    public List<AnswerOptions> getAllQuestionsAnswers(@RequestParam(value="questionId")long questionId) {
 		List<AnswerOptions> responce=null;
 		List<Long> answer=null;
     	try{
-    		answer.add(question_id);
+    		answer.add(questionId);
     		responce = answerOptionsRepo.findAll(answer);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -35,11 +35,11 @@ public class AnswersRestController {
     }
     
     @RequestMapping("/saveAnswerOption")
-    public void saveAnswerOption(@RequestParam(value="question_id")Long question_id,
+    public void saveAnswerOption(@RequestParam(value="questionId")Long questionId,
     							 @RequestParam(value="tekst")String tekst,
     							 @RequestParam(value="correct")boolean correct) {
     	try{
-    		AnswerOptions answerOption = new AnswerOptions(question_id, correct, tekst);
+    		AnswerOptions answerOption = new AnswerOptions(questionId, correct, tekst);
     		answerOptionsRepo.save(answerOption);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -48,10 +48,10 @@ public class AnswersRestController {
     
     @RequestMapping("/deleteAnswerOption")
     public void deleteAnswerOption(@RequestParam(value="id")long id,
-    		@RequestParam(value="question_id")long question_id) {
+    		@RequestParam(value="question_id")long questionId) {
     	AnswerOptions responce=null;
     	try{
-    		responce= new AnswerOptions(id, question_id);
+    		responce= new AnswerOptions(id, questionId);
     		answerOptionsRepo.delete(responce);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -60,15 +60,15 @@ public class AnswersRestController {
     
     @RequestMapping("/updateAnswerOption")
     public void updateAnswerOption(@RequestParam(value="id")Long id,
-    						@RequestParam(value="question_id")Long question_id,
+    						@RequestParam(value="questionId")Long questionId,
     						@RequestParam(value="tekst")String tekst,
 							 @RequestParam(value="correct")boolean correct) {
 		try{
-			AnswerOptions newAnswer= new AnswerOptions(id, question_id, correct, tekst);
+			AnswerOptions newAnswer= new AnswerOptions(id, questionId, correct, tekst);
 			AnswerOptions updateAnswer = answerOptionsRepo.findOne(id);
 			Boolean change =false;
 			if(!((Long)newAnswer.getQuestion_id()).equals(null)){
-				updateAnswer.setQuestion_id(question_id);
+				updateAnswer.setQuestion_id(questionId);
 				change=true;
 			}
 			if(!((Boolean)newAnswer.isCorrect()).equals(null)){

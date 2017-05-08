@@ -20,11 +20,11 @@ public class VideoRestController {
 
     //VIDEO
     @RequestMapping("/getAllUserVid")
-    public List<Video> getAllVid(@RequestParam(value="lesson_id")long lesson_id) {
+    public List<Video> getAllVid(@RequestParam(value="lessonId")long lessonId) {
 		List<Video> responce=null;
 		List<Long> id=null;
     	try{
-    		id.add(lesson_id);
+    		id.add(lessonId);
     		responce = videoRepo.findAll(id);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -32,12 +32,12 @@ public class VideoRestController {
     	return responce;
     }
     @RequestMapping("/saveVid")
-    public void saveVid(@RequestParam(value="lessonId")long lesson_id, 
-    						   @RequestParam(value="ordernr")long order_nr,
-    						   @RequestParam(value="videostart")String video_start,
-    						   @RequestParam(value="videoend")String video_end,
-    						   @RequestParam(value="videourl")String video_url) {
-    	Video video = new Video(lesson_id, order_nr, video_start, video_end, video_url);
+    public void saveVid(@RequestParam(value="lessonId")long lessonId, 
+    						   @RequestParam(value="orderNr")long orderNr,
+    						   @RequestParam(value="videoStart")String videoStart,
+    						   @RequestParam(value="videoEnd")String videoEnd,
+    						   @RequestParam(value="videoUrl")String videoUrl) {
+    	Video video = new Video(lessonId, orderNr, videoStart, videoEnd, videoUrl);
     	try{
     		videoRepo.save(video);
     	} catch (Exception e) {
@@ -46,8 +46,8 @@ public class VideoRestController {
     }
     @RequestMapping("/deleteVid")
     public void deleteVid(@RequestParam(value="id")long id,
-    		@RequestParam(value="lesson_id")long lesson_id) {
-		Video video = new Video(id, lesson_id);
+    		@RequestParam(value="lessonId")long lessonId) {
+		Video video = new Video(id, lessonId);
 		try{
 			videoRepo.delete(video);
 		} catch (Exception e) {
@@ -57,33 +57,33 @@ public class VideoRestController {
     
     @RequestMapping("/updateVid")
     public void updateVid(@RequestParam(value="id")long id,
-    					@RequestParam(value="lessonId")long lesson_id, 
-    					@RequestParam(value="ordernr")long order_nr,
-    					@RequestParam(value="videostart")String video_start,
-    					@RequestParam(value="videoend")String video_end,
-    					@RequestParam(value="videourl")String video_url) {
+    					@RequestParam(value="lessonId")long lessonId, 
+    					@RequestParam(value="ordernr")long orderNr,
+    					@RequestParam(value="videostart")String videoStart,
+    					@RequestParam(value="videoend")String videoEnd,
+    					@RequestParam(value="videourl")String videoUrl) {
 		try{
-			Video newVid = new Video(lesson_id, order_nr, video_start, video_end, video_url);
+			Video newVid = new Video(lessonId, orderNr, videoStart, videoEnd, videoUrl);
 			Video updateVideo = videoRepo.findOne(id);
 			Boolean change =false;
 			if(!newVid.getLesson_id().equals(null)){
-				updateVideo.setLesson_id(lesson_id);
+				updateVideo.setLesson_id(lessonId);
 				change=true;
 			}
 			if(!newVid.getOrder_nr().equals(null)){
-				updateVideo.setOrder_nr(order_nr);
+				updateVideo.setOrder_nr(orderNr);
 				change=true;
 			}
 			if(!newVid.getVideo_end().equals(null)){
-				updateVideo.setVideo_end(video_end);
+				updateVideo.setVideo_end(videoEnd);
 				change=true;
 			}
 			if(!newVid.getVideo_start().equals(null)){
-				updateVideo.setVideo_start(video_start);
+				updateVideo.setVideo_start(videoStart);
 				change=true;
 			}
 			if(!newVid.getVideo_url().equals(null)){
-				updateVideo.setVideo_url(video_url);
+				updateVideo.setVideo_url(videoUrl);
 				change=true;
 			}
 			if(change){

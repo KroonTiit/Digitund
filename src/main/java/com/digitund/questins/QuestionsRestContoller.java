@@ -19,11 +19,11 @@ public class QuestionsRestContoller {
 	}
 	 //QUESTIONS
     @RequestMapping("/getAllUserQuestions")
-    public List<Questions> getAllUserQuestions(@RequestParam(value="material_id")long material_id) {
+    public List<Questions> getAllUserQuestions(@RequestParam(value="materialId")long materialId) {
 		List<Questions> responce=null;
 		List<Long> lesson=null;
     	try{
-    		lesson.add(material_id);
+    		lesson.add(materialId);
     		responce = questionsRepo.findAll(lesson);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -32,11 +32,11 @@ public class QuestionsRestContoller {
     }
     
     @RequestMapping("/saveQuestion")
-    public void saveQuestion(@RequestParam(value="material_id")Long material_id,
-    							 @RequestParam(value="ordernr")Long order_nr,
+    public void saveQuestion(@RequestParam(value="materialId")Long materialId,
+    							 @RequestParam(value="orderNr")Long orderNr,
     							 @RequestParam(value="question")String question) {
     	try{
-    		Questions Question = new Questions(material_id, order_nr, question);
+    		Questions Question = new Questions(materialId, orderNr, question);
     		questionsRepo.save(Question);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -45,10 +45,10 @@ public class QuestionsRestContoller {
     
     @RequestMapping("/deleteQuestion")
     public void deleteQuestion(@RequestParam(value="id")long id,
-    		@RequestParam(value="material_id")long material_id) {
+    		@RequestParam(value="material_id")long materialId) {
     	Questions responce=null;
     	try{
-    		responce= new Questions(id, material_id);
+    		responce= new Questions(id, materialId);
     		questionsRepo.delete(responce);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -57,19 +57,19 @@ public class QuestionsRestContoller {
     
     @RequestMapping("/updateQuestion")
     public void updateQuestion(@RequestParam(value="id")Long id,
-    						@RequestParam(value="material_id")Long material_id,
-    						@RequestParam(value="ordernr")Long order_nr,
+    						@RequestParam(value="materialId")Long materialId,
+    						@RequestParam(value="orderNr")Long orderNr,
     						@RequestParam(value="question")String question) {
 		try{
-			Questions newQuestion= new Questions(id, material_id, order_nr, question);
+			Questions newQuestion= new Questions(id, materialId, orderNr, question);
 			Questions updateQuestion = questionsRepo.findOne(id);
 			Boolean change =false;
 			if(!((Long)newQuestion.getMaterial_id()).equals(null)){
-				updateQuestion.setMaterial_id(material_id);
+				updateQuestion.setMaterial_id(materialId);
 				change=true;
 			}
 			if(!((Long)newQuestion.getOrder_nr()).equals(null)){
-				updateQuestion.setOrder_nr(order_nr);
+				updateQuestion.setOrder_nr(orderNr);
 				change=true;
 			}
 			if(!((String)newQuestion.getTekst()).equals(null)){

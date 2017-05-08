@@ -19,11 +19,11 @@ public class TekstRestController {
 	}
 	  //TEKST 
     @RequestMapping("/getAllUserTekst")
-    public List<Tekst> getAllUserTekst(@RequestParam(value="lesson_id")long lesson_id) {
+    public List<Tekst> getAllUserTekst(@RequestParam(value="lessonId")long lessonId) {
 		List<Tekst> responce=null;
 		List<Long> lesson=null;
     	try{
-    		lesson.add(lesson_id);
+    		lesson.add(lessonId);
     		responce = tekstRepo.findAll(lesson);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -32,13 +32,13 @@ public class TekstRestController {
     }
     
     @RequestMapping("/saveTekst")
-    public void saveTekst(@RequestParam(value="lessonId")Long lesson_id,
-    							 @RequestParam(value="ordernr")Long order_nr,
+    public void saveTekst(@RequestParam(value="lessonId")Long lessonId,
+    							 @RequestParam(value="ordernr")Long orderNr,
     							 @RequestParam(value="tekst")String tekst) {
 		
     	try{
-    		Tekst Tekst = new Tekst(lesson_id, order_nr, tekst);
-    		tekstRepo.save(Tekst);
+    		Tekst text = new Tekst(lessonId, orderNr, tekst);
+    		tekstRepo.save(text);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
@@ -47,10 +47,10 @@ public class TekstRestController {
     
     @RequestMapping("/deleteTekst")
     public void deleteTekst(@RequestParam(value="id")long id,
-    						@RequestParam(value="lesson_id")long lesson_id) {
+    						@RequestParam(value="lessonId")long lessonId) {
 		Tekst responce=null;
     	try{
-    		responce= new Tekst(id, lesson_id);
+    		responce= new Tekst(id, lessonId);
     		tekstRepo.delete(responce);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -59,19 +59,19 @@ public class TekstRestController {
 
     @RequestMapping("/updateTekst")
     public void updateTekst(@RequestParam(value="id")Long id,
-    						@RequestParam(value="lessonid")Long lesson_id,
-    						@RequestParam(value="ordernr")Long order_nr,
+    						@RequestParam(value="lessonId")Long lessonId,
+    						@RequestParam(value="orderNr")Long orderNr,
     						@RequestParam(value="tekst")String tekst) {
 		try{
-			Tekst newTekst = new Tekst(id, lesson_id, order_nr, tekst);
+			Tekst newTekst = new Tekst(id, lessonId, orderNr, tekst);
 			Tekst updateTekst = tekstRepo.findOne(id);
 			Boolean change =false;
 			if(!((Long)newTekst.getLesson_id()).equals(null)){
-				updateTekst.setLesson_id(lesson_id);
+				updateTekst.setLesson_id(lessonId);
 				change=true;
 			}
 			if(!((Long)newTekst.getOrder_nr()).equals(null)){
-				updateTekst.setOrder_nr(order_nr);
+				updateTekst.setOrder_nr(orderNr);
 				change=true;
 			}
 			if(!((String)newTekst.getTekst()).equals(null)){

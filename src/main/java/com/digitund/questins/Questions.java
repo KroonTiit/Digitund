@@ -8,41 +8,41 @@ import javax.persistence.Id;
 public class Questions {
 	@Id @GeneratedValue
 	private Long id;
-	private Long material_id;
-	private Long order_nr;
+	private Long materialId;
+	private Long orderNr;
 	private String tekst;
 	
 	public Questions(){}
-	public Questions(Long material_id){
-		this.material_id=material_id;
+	public Questions(Long materialId){
+		this.materialId=materialId;
 	}
-	public Questions(Long id, Long material_id){
+	public Questions(Long id, Long materialId){
 		this.id=id;
-		this.material_id=material_id;
+		this.materialId=materialId;
 	}
-	public Questions(Long material_id, Long order_nr, String tekst){
-		this.material_id=material_id;
-		this.order_nr=order_nr;
+	public Questions(Long materialId, Long orderNr, String tekst){
+		this.materialId=materialId;
+		this.orderNr=orderNr;
 		this.tekst=tekst;
 	}
-	public Questions(Long id, Long material_id, Long order_nr, String tekst){
+	public Questions(Long id, Long materialId, Long orderNr, String tekst){
 		this.id=id;
-		this.material_id=material_id;
-		this.order_nr=order_nr;
+		this.materialId=materialId;
+		this.orderNr=orderNr;
 		this.tekst=tekst;
 	}
 	
 	public long getMaterial_id() {
-		return material_id;
+		return materialId;
 	}
-	public void setMaterial_id(Long material_id) {
-		this.material_id = material_id;
+	public void setMaterial_id(Long materialId) {
+		this.materialId = materialId;
 	}
 	public long getOrder_nr() {
-		return order_nr;
+		return orderNr;
 	}
-	public void setOrder_nr(Long order_nr) {
-		this.order_nr = order_nr;
+	public void setOrder_nr(Long orderNr) {
+		this.orderNr = orderNr;
 	}
 	public String getTekst() {
 		return tekst;

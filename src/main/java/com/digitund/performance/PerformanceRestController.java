@@ -19,12 +19,12 @@ public class PerformanceRestController {
     }
 	 //PERFORMANCE
     @RequestMapping("/startSession")
-    public Performance startSession(@RequestParam(value="performer_id")long performer_id,
-    						@RequestParam(value="lesson_id")long lesson_id){
+    public Performance startSession(@RequestParam(value="performerId")long performerId,
+    						@RequestParam(value="lessonId")long lessonId){
     	Performance per =null;
     	try{
     		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    		Performance session = new Performance(performer_id, lesson_id, timestamp);
+    		Performance session = new Performance(performerId, lessonId, timestamp);
     		per = performanceRepo.save(session);
     		
     	} catch (Exception e) {
@@ -33,13 +33,11 @@ public class PerformanceRestController {
 		return per;
     }
     @RequestMapping("/getSession")
-    public List<Performance> getSession(@RequestParam(value="performer_id")Long performer_id,
-    						@RequestParam(value="lesson_id")Long lesson_id){
+    public List<Performance> getSession(@RequestParam(value="performerId")Long performerId,
+    						@RequestParam(value="lessonId")Long lessonId){
     	List<Performance> responce=null;
     	try{
-    		Performance session = new Performance(performer_id, lesson_id);
-    		
-    		responce=performanceRepo.getPerformance(performer_id, lesson_id);
+    		responce=performanceRepo.getPerformance(performerId, lessonId);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}

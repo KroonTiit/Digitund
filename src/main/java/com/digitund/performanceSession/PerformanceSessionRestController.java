@@ -19,12 +19,12 @@ public class PerformanceSessionRestController {
 	
 	  //PERFORMANCE SESSION
     @RequestMapping("/savePerformanceSession")
-    public PerformanceSession createPerformanceSession(@RequestParam(value="performance_id")long performance_id,
-		    						@RequestParam(value="question_id")long question_id,
-		    						@RequestParam(value="answer_option_id")long answer_option_id){
+    public PerformanceSession createPerformanceSession(@RequestParam(value="performanceId")long performanceId,
+		    						@RequestParam(value="questionId")long questionId,
+		    						@RequestParam(value="answerOptionId")long answerOptionId){
     	PerformanceSession per= null;
     	try{
-    		PerformanceSession performanceSession = new PerformanceSession(performance_id, question_id, answer_option_id);
+    		PerformanceSession performanceSession = new PerformanceSession(performanceId, questionId, answerOptionId);
     		per = performanceSessionRepo.save(performanceSession);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -32,12 +32,12 @@ public class PerformanceSessionRestController {
     	return per;
     }
     @RequestMapping("/getPerformanceSession")
-    public List<PerformanceSession> getPerformanceSession(@RequestParam(value="performance_id")long performance_id,
-									@RequestParam(value="question_id")long question_id,
-									@RequestParam(value="answer_option_id")long answer_option_id){
+    public List<PerformanceSession> getPerformanceSession(@RequestParam(value="performanceId")long performanceId,
+									@RequestParam(value="questionId")long questionId,
+									@RequestParam(value="answerOptionId")long answerOptionId){
     	List<PerformanceSession> per =null;
     	try{
-    		per = performanceSessionRepo.getPerformanceSession(performance_id, question_id, answer_option_id);
+    		per = performanceSessionRepo.getPerformanceSession(performanceId, questionId, answerOptionId);
 		} catch (Exception e) {
 			System.out.println( e.getStackTrace());
 		}

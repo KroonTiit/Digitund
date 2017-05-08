@@ -11,8 +11,8 @@ public class Lesson {
 	@Id @GeneratedValue
 	private long id;
 	private long creatorId;
-	private Timestamp start_date ;
-	private Timestamp end_date;
+	private Timestamp startDate ;
+	private Timestamp endDate;
 	private Timestamp created;
 	private String lessonPermalink;
 	private String name;
@@ -25,15 +25,15 @@ public class Lesson {
 		this.id=id;
 		this.creatorId=creatorId;
 	}
-	public Lesson(Timestamp start_date, Timestamp end_date, Timestamp created,long creatorId, String lessonPermalink){
-		this.start_date=start_date;
-		this.end_date=end_date;
+	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,long creatorId, String lessonPermalink){
+		this.startDate=startDate;
+		this.endDate=endDate;
 		this.created=created;
 		this.creatorId=creatorId;
 		this.lessonPermalink=lessonPermalink;
 	}
-	public Lesson(Timestamp start_date, Timestamp created, long creatorId, String lessonPermaLink, String name) {
-		this.start_date=start_date;
+	public Lesson(Timestamp startDate, Timestamp created, long creatorId, String lessonPermaLink, String name) {
+		this.startDate=startDate;
 		this.created=created;
 		this.creatorId=creatorId;
 		this.lessonPermalink=lessonPermaLink;
@@ -46,16 +46,16 @@ public class Lesson {
 		this.creatorId = creatorId;
 	}
 	public Timestamp getStart_date() {
-		return start_date;
+		return startDate;
 	}
-	public void setStart_date(Timestamp start_date) {
-		this.start_date = start_date;
+	public void setStart_date(Timestamp startDate) {
+		this.startDate = startDate;
 	}
 	public Timestamp getEnd_date() {
-		return end_date;
+		return endDate;
 	}
-	public void setEnd_date(Timestamp end_date) {
-		this.end_date = end_date;
+	public void setEnd_date(Timestamp endDate) {
+		this.endDate = endDate;
 	}
 	public Timestamp getCreated() {
 		return created;

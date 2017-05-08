@@ -8,57 +8,57 @@ import javax.persistence.Id;
 public class Video {
 	@Id @GeneratedValue
 	private Long id;
-	private Long lesson_id;
-	private Long order_nr;
-	private String video_start;
-	private String video_end;
-	private String video_url;
+	private Long lessonId;
+	private Long orderNr;
+	private String videoStart;
+	private String videoEnd;
+	private String videoUrl;
 	
 	public Video(){}
-	public Video(long lesson_id){
-		this.lesson_id=lesson_id;
+	public Video(long lessonId){
+		this.lessonId=lessonId;
 	}
-	public Video(long id,long lesson_id){
+	public Video(long id,long lessonId){
 		this.id=id;
-		this.lesson_id=lesson_id;
+		this.lessonId=lessonId;
 	}
-	public Video(Long lesson_id, Long order_nr, String video_start, String video_end, String video_url){
-		this.lesson_id=lesson_id;
-		this.order_nr=order_nr;
-		this.video_end=video_end;
-		this.video_start=video_start;
-		this.video_url=video_url;
+	public Video(Long lessonId, Long orderNr, String videoStart, String videoEnd, String videoUrl){
+		this.lessonId=lessonId;
+		this.orderNr=orderNr;
+		this.videoEnd=videoEnd;
+		this.videoStart=videoStart;
+		this.videoUrl=videoUrl;
 	}
 	
 	public Long getLesson_id() {
-		return lesson_id;
+		return lessonId;
 	}
-	public void setLesson_id(Long lesson_id) {
-		this.lesson_id = lesson_id;
+	public void setLesson_id(Long lessonId) {
+		this.lessonId = lessonId;
 	}
 	public Long getOrder_nr() {
-		return order_nr;
+		return orderNr;
 	}
-	public void setOrder_nr(Long order_nr) {
-		this.order_nr = order_nr;
+	public void setOrder_nr(Long orderNr) {
+		this.orderNr = orderNr;
 	}
 	public String getVideo_start() {
-		return video_start;
+		return videoStart;
 	}
-	public void setVideo_start(String video_start) {
-		this.video_start = video_start;
+	public void setVideo_start(String videoStart) {
+		this.videoStart = videoStart;
 	}
 	public String getVideo_end() {
-		return video_end;
+		return videoEnd;
 	}
-	public void setVideo_end(String video_end) {
-		this.video_end = video_end;
+	public void setVideo_end(String videoEnd) {
+		this.videoEnd = videoEnd;
 	}
 	public String getVideo_url() {
-		return video_url;
+		return videoUrl;
 	}
-	public void setVideo_url(String video_url) {
-		this.video_url = video_url;
+	public void setVideo_url(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 	
 	

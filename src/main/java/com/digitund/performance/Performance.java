@@ -10,37 +10,37 @@ import javax.persistence.Id;
 public class Performance {
 	@Id @GeneratedValue
 	private Long id;
-	private long performer_id;
-	private long lesson_id;
-	private Timestamp start_date;
+	private long performerId;
+	private long lessonId;
+	private Timestamp startSate;
 	
 	public Performance(){}
-	public Performance(long performer_id, long lesson_id){
-		this.performer_id=performer_id;
-		this.lesson_id=lesson_id;
+	public Performance(long performerId, long lessonId){
+		this.performerId=performerId;
+		this.lessonId=lessonId;
 	}
-	public Performance(long performer_id, long lesson_id, Timestamp start_date){
-		this.performer_id=performer_id;
-		this.lesson_id=lesson_id;
-		this.start_date=start_date;
+	public Performance(long performerId, long lessonId, Timestamp startSate){
+		this.performerId=performerId;
+		this.lessonId=lessonId;
+		this.startSate=startSate;
 	}
 	public long getPerformer_id() {
-		return performer_id;
+		return performerId;
 	}
-	public void setPerformer_id(long performer_id) {
-		this.performer_id = performer_id;
+	public void setPerformer_id(long performerId) {
+		this.performerId = performerId;
 	}
 	public long getLesson_id() {
-		return lesson_id;
+		return lessonId;
 	}
-	public void setLesson_id(long lesson_id) {
-		this.lesson_id = lesson_id;
+	public void setLesson_id(long lessonId) {
+		this.lessonId = lessonId;
 	}
 	public Timestamp getStart_date() {
-		return start_date;
+		return startSate;
 	}
-	public void setStart_date(Timestamp start_date) {
-		this.start_date = start_date;
+	public void setStart_date(Timestamp startSate) {
+		this.startSate = startSate;
 	}
 	
 }

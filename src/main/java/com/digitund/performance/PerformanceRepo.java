@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PerformanceRepo extends JpaRepository<Performance, Long>{
 	@Query("select s from Performance s where s.performer_id like ?1 and s.lesson_id = ?2")
-	List<Performance> getPerformance(Long performer_id, Long lesson_id);
+	List<Performance> getPerformance(Long performerId, Long lessonId);
 }

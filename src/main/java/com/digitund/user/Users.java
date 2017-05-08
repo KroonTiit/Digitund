@@ -9,20 +9,20 @@ import javax.persistence.Id;
 public class Users {
 	@Id @GeneratedValue
 	private Long id;
-	private Timestamp start_date ;
-	private Timestamp end_date;
+	private Timestamp startDate ;
+	private Timestamp endDate;
 	
 	public Users(){};
 	public Users(Long id){
 		this.id=id;
 	}
-	public Users(Timestamp start_date){
-		this.start_date=start_date;
+	public Users(Timestamp startDate){
+		this.startDate=startDate;
 	}
-	public Users(long id,  Timestamp start_date, Timestamp end_date){
+	public Users(long id,  Timestamp startDate, Timestamp endDate){
 		this.id=id;
-		this.start_date=start_date;
-		this.end_date=end_date;
+		this.startDate=startDate;
+		this.endDate=endDate;
 	}
 	public Long getId() {
 		return id;
@@ -31,15 +31,15 @@ public class Users {
 		this.id = id;
 	}
 	public Timestamp getEnd_date() {
-		return end_date;
+		return endDate;
 	}
-	public void setEnd_date(Timestamp end_date) {
-		this.end_date = end_date;
+	public void setEnd_date(Timestamp endDate) {
+		this.endDate = endDate;
 	}
 	public Timestamp getStart_date() {
-		return start_date;
+		return startDate;
 	}
-	public void setStart_date(Timestamp start_date) {
-		this.start_date = start_date;
+	public void setStart_date(Timestamp startDate) {
+		this.startDate = startDate;
 	}
 }

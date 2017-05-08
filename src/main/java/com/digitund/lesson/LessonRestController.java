@@ -19,9 +19,9 @@ public class LessonRestController {
 	}
 	 //LESSON 
     @RequestMapping("/getAllUserLessons")
-    public  Object getAllUserLessons(@RequestParam(value="creator_id")long creator_id) {
+    public  Object getAllUserLessons(@RequestParam(value="creatorId")long creatorId) {
     	try{ 
-    		return lessonRepo.findOne(creator_id);
+    		return lessonRepo.findOne(creatorId);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return null;
