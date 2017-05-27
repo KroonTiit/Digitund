@@ -1,6 +1,8 @@
 package com.digitund.lesson;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
+import com.digitund.BaseX;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +19,32 @@ public class LessonRestController {
 	public  LessonRestController (LessonRepo lessonRepo){
 		this.lessonRepo=lessonRepo;
 	}
+	
 	 //LESSON 
+    public String makeUrl(Long id) {
+    	try{
+    		BaseX baseX = new BaseX();
+    		String lesson = baseX.encode(new BigInteger(id.toString()));
+    		return lesson;
+    	} catch (Exception e) {
+    		System.out.println( e.getStackTrace());
+    		return null;
+		}
+    }
+	@RequestMapping("/getSingleLessons")
+    public Object getAllUserLessons(@RequestParam(value="l")String Id) {
+    	try{
+    		BaseX baseX = new BaseX();
+    		BigInteger lesson = baseX.decode(Id);
+    		return lessonRepo.findOne(lesson.longValue());
+    	} catch (Exception e) {
+    		System.out.println( e.getStackTrace());
+    		return null;
+		}
+    }
     @RequestMapping("/getAllUserLessons")
-    public  Object getAllUserLessons(@RequestParam(value="creatorId")long creatorId) {
-    	try{ 
+    public Object getAllUserLessons(@RequestParam(value="creatorId")long creatorId) {
+    	try{
     		return lessonRepo.findOne(creatorId);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -40,18 +64,19 @@ public class LessonRestController {
     }
    
     @RequestMapping("/createUserLessons")
-    public void setCreateUserLessons( 
+    public String setCreateUserLessons( 
     		@RequestParam(value="startDate")Timestamp startDate, 
-    		@RequestParam(value="created")Timestamp created,
     		@RequestParam(value="creatorId")long creatorId,
-    		@RequestParam(value="lessonPermaLink")String lessonPermaLink,
+//    		@RequestParam(value="lessonPermaLink")String lessonPermaLink,
     		@RequestParam(value="name")String name) {
     	try{
-    		//lessonPermaLink selle loomine tuleb väljaselgitada
-    		Lesson lesson = new Lesson(startDate, created, creatorId, lessonPermaLink, name);
-    		lessonRepo.save(lesson);
+    		Timestamp created = new Timestamp(System.currentTimeMillis());
+    		Lesson lesson = new Lesson(startDate, created, creatorId, name);
+    		Lesson savedLesson = lessonRepo.save(lesson);
+    		return makeUrl(savedLesson.getId());
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
+    		return null;
 		}
     }
     @RequestMapping("/updateUserLessons")

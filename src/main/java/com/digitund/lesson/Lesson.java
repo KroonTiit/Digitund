@@ -14,7 +14,7 @@ public class Lesson {
 	private Timestamp startDate ;
 	private Timestamp endDate;
 	private Timestamp created;
-	private String lessonPermalink;
+//	private String lessonPermalink;
 	private String name;
 	
 	public Lesson(){}
@@ -25,19 +25,25 @@ public class Lesson {
 		this.id=id;
 		this.creatorId=creatorId;
 	}
-	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,long creatorId, String lessonPermalink){
+	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,long creatorId){
 		this.startDate=startDate;
 		this.endDate=endDate;
 		this.created=created;
 		this.creatorId=creatorId;
-		this.lessonPermalink=lessonPermalink;
+//		this.lessonPermalink=lessonPermalink;
 	}
-	public Lesson(Timestamp startDate, Timestamp created, long creatorId, String lessonPermaLink, String name) {
+	public Lesson(Timestamp startDate, Timestamp created, long creatorId, String name) {
 		this.startDate=startDate;
 		this.created=created;
 		this.creatorId=creatorId;
-		this.lessonPermalink=lessonPermaLink;
+//		this.lessonPermalink=lessonPermaLink;
 		this.name=name;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	public long getCreatorId() {
 		return creatorId;
@@ -63,12 +69,12 @@ public class Lesson {
 	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
-	public String getLessonPermalink() {
-		return lessonPermalink;
-	}
-	public void setLessonPermalink(String lessonPermalink) {
-		this.lessonPermalink = lessonPermalink;
-	}
+//	public String getLessonPermalink() {
+//		return lessonPermalink;
+//	}
+//	public void setLessonPermalink(String lessonPermalink) {
+//		this.lessonPermalink = lessonPermalink;
+//	}
 	public String getName() {
 		return name;
 	}
