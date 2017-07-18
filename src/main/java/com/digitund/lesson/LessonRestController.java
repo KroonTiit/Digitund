@@ -11,6 +11,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,20 +24,12 @@ import com.digitund.tekst.TekstRestController;
 @RestController
 @RequestMapping("/LessonRestController")
 public class LessonRestController {
-	
-//	@Autowired 
-//	private TekstRepo tekstRepo;
+
 	@Autowired 
 	private LessonRepo lessonRepo;
-//	
 	@Autowired 
 	public  LessonRestController (LessonRepo lessonRepo){
 		this.lessonRepo=lessonRepo;
-	}
-//	
-	public JsonValue getMaterials(){
-		
-		return null;
 	}
     public String makeUrl(Long id) {
     	try{
@@ -49,20 +42,43 @@ public class LessonRestController {
 		}
     }
 	@RequestMapping("/getSingleLessons")
-    public Object getAllUserLessons(@RequestParam(value="l")String Id) {
+    public JsonObject getAllUserLessons(@RequestParam(value="Id")String Id) {
     	try{
     		BaseX baseX = new BaseX();
-    		BigInteger lesson = baseX.decode(Id);
-    		return lessonRepo.findOne(lesson.longValue());
+    		BigInteger lessonId = baseX.decode(Id);
+			Lesson lesson = lessonRepo.findOne(lessonId.longValue());
+			
+			JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+    			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
+    			JsonObject lessonJson = lessonbuilder.add("id", lesson.getId())
+    			.add("name",lesson.getName())
+    			.add("userId", lesson.getCreatorId())
+    			.build();
+    			arrayBuilder.add(lessonJson);
+    		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
+    		return build;
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return null;
 		}
     }
     @RequestMapping("/getAllUserLessons")
-    public Object getAllUserLessons(@RequestParam(value="creatorId")long creatorId) {
+    public JsonObject getAllUserLessons(@RequestParam(value="creatorId")long creatorId) {
     	try{
-    		return lessonRepo.findOne(creatorId);
+    		List<Lesson> findByCreator = lessonRepo.findByCreator(creatorId);
+    		JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+    		for (Lesson lesson : findByCreator) {
+    			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
+    			JsonObject lessonJson = lessonbuilder.add("id", lesson.getId())
+    			.add("name",lesson.getName())
+    			.add("userId", lesson.getCreatorId())
+    			.build();
+    			arrayBuilder.add(lessonJson);
+    		}
+    		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
+    		return build;
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return null;
@@ -70,7 +86,7 @@ public class LessonRestController {
     }
     
     @RequestMapping("/deleteUserLessonsById")
-    public void getDeleteUserLessons(@RequestParam(value="id")long id,
+    public void getDeleteUserLessons(@RequestParam(value="Id")long id,
     		@RequestParam(value="creatorId")long creatorId) {
     	try{ 
     		Lesson lesson = new Lesson(id, creatorId);
@@ -82,14 +98,17 @@ public class LessonRestController {
    
     @RequestMapping("/createUserLessons")
     public String setCreateUserLessons( 
-    		@RequestParam(value="startDate")Timestamp startDate, 
-    		@RequestParam(value="creatorId")long creatorId,
-//    		@RequestParam(value="lessonPermaLink")String lessonPermaLink,
-    		@RequestParam(value="name")String name) {
+    		@RequestBody Lesson lesson
+//    		,
+//    		@RequestParam(value="startDate")Timestamp startDate, 
+//    		@RequestParam(value="creatorId")long creatorId,
+////    		@RequestParam(value="lessonPermaLink")String lessonPermaLink,
+//    		@RequestParam(value="name")String name
+    		) {
     	try{
 //    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
     		Timestamp created = new Timestamp(System.currentTimeMillis());
-    		Lesson lesson = new Lesson(startDate, created, creatorId, name);
+//    		Lesson lesson = new Lesson(lesson.getStart_date(), created, creatorId, name);
     		Lesson savedLesson = lessonRepo.save(lesson);
     		return makeUrl(savedLesson.getId());
     	} catch (Exception e) {
@@ -98,17 +117,20 @@ public class LessonRestController {
 		}
     }
     @RequestMapping("/updateUserLessons")
-    public void setUpdateUserLessons(
-    		@RequestParam(value="id")long id,
-    		@RequestParam(value="name")String name) {
+    public String setUpdateUserLessons(
+    		@RequestBody Lesson lesson
+//    		@RequestParam(value="id")long id,
+//    		@RequestParam(value="name")String name
+    		) {
     	try{
-    		Lesson updateLesson = lessonRepo.findOne(id);
-    		updateLesson.setName(name);
-    		lessonRepo.save(updateLesson);
+//    		Lesson updateLesson = lessonRepo.findOne(id);
+//    		updateLesson.setName(name);
+    		lessonRepo.save(lesson);
+    		return "OK";
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
+    		return "not OK";
 		}
     }
     //LESSON END
-
 }

@@ -6,6 +6,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,30 +34,31 @@ public class Controller {
     	return "Olen Ärkvel... Päriselt! Miks sa ei usu mind?";
     }
 	
-	@RequestMapping("/getLes")
-	public JsonObject getUsersLessons(@RequestParam(value="creatorId")Long Id){
+	@RequestMapping("/getAllUserLessons")
+	
+	public JsonObject getUsersLessons(@RequestParam(value="Id")Long Id){
 		List<Lesson> findByCreator = lessonRepo.findByCreator(Id);
 		JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-		JsonArrayBuilder arrayMaterials = Json.createArrayBuilder();
+//		JsonArrayBuilder arrayMaterials = Json.createArrayBuilder();
 		
 		for (Lesson lesson : findByCreator) {
-			List<Tekst> allUserTekst = tekstRepo.findByLessonId((Long)lesson.getId());
-			for (Tekst tekst : allUserTekst) {
-//				System.out.println("w: "+tekst.getLesson_id()+" t: "+tekst.getOrder_nr()+" r: "+tekst.getTekst());
-				JsonObjectBuilder tekstBuilder = Json.createObjectBuilder();
-				JsonObject lessonJson =tekstBuilder.add("lessonId", tekst.getLesson_id())
-						.add("order_nr", tekst.getOrder_nr())
-						.add("tekst", tekst.getTekst()).build();
-				arrayMaterials.add(lessonJson);
-			}
-			
-			
+//			List<Tekst> allUserTekst = tekstRepo.findByLessonId((Long)lesson.getId());
+//			for (Tekst tekst : allUserTekst) {
+////				System.out.println("w: "+tekst.getLesson_id()+" t: "+tekst.getOrder_nr()+" r: "+tekst.getTekst());
+//				JsonObjectBuilder tekstBuilder = Json.createObjectBuilder();
+//				JsonObject lessonJson =tekstBuilder.add("lessonId", tekst.getLesson_id())
+//						.add("order_nr", tekst.getOrder_nr())
+//						.add("tekst", tekst.getTekst()).build();
+//				arrayMaterials.add(lessonJson);
+////			}
 			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
 			JsonObject lessonJson = lessonbuilder.add("id", lesson.getId())
 			.add("name",lesson.getName())
 			.add("userId", lesson.getCreatorId())
-			.add("materials", arrayMaterials)
+//			.add("startDate", (JsonValue) lesson.getStart_date())
+//			.add("EndDate",(JsonValue) lesson.getEnd_date())
+//			.add("materials", arrayMaterials)
 			.build();
 			arrayBuilder.add(lessonJson);
 		}
