@@ -2,25 +2,42 @@ package com.digitund.lesson;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import com.digitund.BaseX;
+import java.util.List;
+
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.digitund.BaseX;
+import com.digitund.tekst.Tekst;
+import com.digitund.tekst.TekstRepo;
+import com.digitund.tekst.TekstRestController;
+
 @RestController
 @RequestMapping("/LessonRestController")
 public class LessonRestController {
 	
+//	@Autowired 
+//	private TekstRepo tekstRepo;
 	@Autowired 
 	private LessonRepo lessonRepo;
+//	
 	@Autowired 
 	public  LessonRestController (LessonRepo lessonRepo){
 		this.lessonRepo=lessonRepo;
 	}
-	
-	 //LESSON 
+//	
+	public JsonValue getMaterials(){
+		
+		return null;
+	}
     public String makeUrl(Long id) {
     	try{
     		BaseX baseX = new BaseX();
@@ -70,6 +87,7 @@ public class LessonRestController {
 //    		@RequestParam(value="lessonPermaLink")String lessonPermaLink,
     		@RequestParam(value="name")String name) {
     	try{
+//    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
     		Timestamp created = new Timestamp(System.currentTimeMillis());
     		Lesson lesson = new Lesson(startDate, created, creatorId, name);
     		Lesson savedLesson = lessonRepo.save(lesson);

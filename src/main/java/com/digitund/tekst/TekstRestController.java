@@ -33,7 +33,7 @@ public class TekstRestController {
     
     @RequestMapping("/saveTekst")
     public void saveTekst(@RequestParam(value="lessonId")Long lessonId,
-    							 @RequestParam(value="ordernr")Long orderNr,
+    							 @RequestParam(value="orderNr")Long orderNr,
     							 @RequestParam(value="tekst")String tekst) {
 		
     	try{

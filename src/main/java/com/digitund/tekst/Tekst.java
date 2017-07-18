@@ -20,13 +20,14 @@ public class Tekst {
 		this.id=id;
 		this.lessonId=lessonId;
 	}
-	public Tekst (Long id, Long lessonId, Long orderNr, String tekst){
-		this.id=id;
+	
+	public Tekst (Long lessonId,Long orderNr,String tekst){
 		this.lessonId=lessonId;
 		this.orderNr=orderNr;
 		this.tekst=tekst;
 	}
-	public Tekst (Long lesson_id,Long orderNr,String tekst){
+	public Tekst (Long id, Long lessonId, Long orderNr, String tekst){
+		this.id=id;
 		this.lessonId=lessonId;
 		this.orderNr=orderNr;
 		this.tekst=tekst;
