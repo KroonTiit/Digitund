@@ -3,6 +3,7 @@ package com.digitund.performanceSession;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,25 +20,30 @@ public class PerformanceSessionRestController {
 	
 	  //PERFORMANCE SESSION
     @RequestMapping("/savePerformanceSession")
-    public PerformanceSession createPerformanceSession(@RequestParam(value="performanceId")long performanceId,
-		    						@RequestParam(value="questionId")long questionId,
-		    						@RequestParam(value="answerOptionId")long answerOptionId){
+    public PerformanceSession createPerformanceSession(@RequestBody PerformanceSession performanceSession
+//    		Param(value="performanceId")long performanceId,
+//		    						@RequestParam(value="questionId")long questionId,
+//		    						@RequestParam(value="answerOptionId")long answerOptionId
+		    						){
     	PerformanceSession per= null;
     	try{
-    		PerformanceSession performanceSession = new PerformanceSession(performanceId, questionId, answerOptionId);
-    		per = performanceSessionRepo.save(performanceSession);
+    		PerformanceSession newPerformanceSession = new PerformanceSession(performanceSession.getPerformance_id(), performanceSession.getQuestions_id(), performanceSession.getAnswer_options_id());
+    		per = performanceSessionRepo.save(newPerformanceSession);
+    		return per;
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
+    		return null;
 		}
-    	return per;
     }
     @RequestMapping("/getPerformanceSession")
-    public List<PerformanceSession> getPerformanceSession(@RequestParam(value="performanceId")long performanceId,
-									@RequestParam(value="questionId")long questionId,
-									@RequestParam(value="answerOptionId")long answerOptionId){
+    public List<PerformanceSession> getPerformanceSession(@RequestBody PerformanceSession performanceSession
+//    		Param(value="performanceId")long performanceId,
+//									@RequestParam(value="questionId")long questionId,
+//									@RequestParam(value="answerOptionId")long answerOptionId
+									){
     	List<PerformanceSession> per =null;
     	try{
-    		per = performanceSessionRepo.getPerformanceSession(performanceId, questionId, answerOptionId);
+    		per = performanceSessionRepo.getPerformanceSession(performanceSession.getPerformance_id(), performanceSession.getQuestions_id(), performanceSession.getAnswer_options_id());
 		} catch (Exception e) {
 			System.out.println( e.getStackTrace());
 		}

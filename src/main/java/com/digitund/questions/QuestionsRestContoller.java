@@ -1,4 +1,4 @@
-package com.digitund.questins;
+package com.digitund.questions;
 
 import java.util.List;
 
