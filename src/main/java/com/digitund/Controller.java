@@ -6,7 +6,6 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.digitund.lesson.Lesson;
 import com.digitund.lesson.LessonRepo;
-import com.digitund.tekst.Tekst;
-import com.digitund.tekst.TekstRepo;
 
 
 @RestController
 @RequestMapping("/")
 public class Controller {
 	
-	@Autowired 
-	private TekstRepo tekstRepo;
 	@Autowired 
 	private LessonRepo lessonRepo;
 	

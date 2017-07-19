@@ -8,16 +8,13 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.digitund.BaseX;
-import com.digitund.tekst.Tekst;
-import com.digitund.tekst.TekstRepo;
-import com.digitund.tekst.TekstRestController;
 
 @RestController
 @RequestMapping("/LessonRestController")
@@ -40,18 +37,18 @@ public class LessonRestController {
 		}
     }
 	@RequestMapping("/getSingleLessons")
-    public JsonObject getAllUserLessons(@RequestParam(value="Id")String Id) {
+    public JsonObject getOneUserLesson(@RequestBody Lesson lesson) {
     	try{
     		BaseX baseX = new BaseX();
-    		BigInteger lessonId = baseX.decode(Id);
-			Lesson lesson = lessonRepo.findOne(lessonId.longValue());
+    		BigInteger lessonId = baseX.decode(Long.toString(lesson.getId()));
+			Lesson newLesson = lessonRepo.findOne(lessonId.longValue());
 			
 			JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
     		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
     			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
-    			JsonObject lessonJson = lessonbuilder.add("id", lesson.getId())
-    			.add("name",lesson.getName())
-    			.add("userId", lesson.getCreatorId())
+    			JsonObject lessonJson = lessonbuilder.add("id", newLesson.getId())
+    			.add("name",newLesson.getName())
+    			.add("userId", newLesson.getCreatorId())
     			.build();
     			arrayBuilder.add(lessonJson);
     		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
@@ -62,16 +59,16 @@ public class LessonRestController {
 		}
     }
     @RequestMapping("/getAllUserLessons")
-    public JsonObject getAllUserLessons(@RequestParam(value="creatorId")long creatorId) {
+    public JsonObject getAllUserLessons(@RequestBody Lesson lesson) {
     	try{
-    		List<Lesson> findByCreator = lessonRepo.findByCreator(creatorId);
+    		List<Lesson> findByCreator = lessonRepo.findByCreator(lesson.getCreatorId());
     		JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
     		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    		for (Lesson lesson : findByCreator) {
+    		for (Lesson oneLesson : findByCreator) {
     			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
-    			JsonObject lessonJson = lessonbuilder.add("id", lesson.getId())
-    			.add("name",lesson.getName())
-    			.add("userId", lesson.getCreatorId())
+    			JsonObject lessonJson = lessonbuilder.add("id", oneLesson.getId())
+    			.add("name",oneLesson.getName())
+    			.add("userId", oneLesson.getCreatorId())
     			.build();
     			arrayBuilder.add(lessonJson);
     		}
@@ -84,10 +81,9 @@ public class LessonRestController {
     }
     
     @RequestMapping("/deleteUserLessonsById")
-    public void getDeleteUserLessons(@RequestParam(value="Id")long id,
-    		@RequestParam(value="creatorId")long creatorId) {
+    public void getDeleteUserLessons(@RequestBody Lesson lesson) {
     	try{ 
-    		Lesson lesson = new Lesson(id, creatorId);
+//    		Lesson deletingLesson = new Lesson(lesson.getId(), lesson.getCreatorId());
     		lessonRepo.delete(lesson);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -107,6 +103,7 @@ public class LessonRestController {
 //    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
     		Timestamp created = new Timestamp(System.currentTimeMillis());
 //    		Lesson lesson = new Lesson(lesson.getStart_date(), created, creatorId, name);
+    		lesson.setStart_date(created);
     		Lesson savedLesson = lessonRepo.save(lesson);
     		return makeUrl(savedLesson.getId());
     	} catch (Exception e) {

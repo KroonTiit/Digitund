@@ -3,6 +3,7 @@ package com.digitund.questins;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +19,13 @@ public class QuestionsRestContoller {
 		this.questionsRepo=questionsRepo;
 	}
 	 //QUESTIONS
-    @RequestMapping("/getAllUserQuestions")
-    public List<Questions> getAllUserQuestions(@RequestParam(value="materialId")long materialId) {
+    @SuppressWarnings("null")
+	@RequestMapping("/getAllUserQuestions")
+    public List<Questions> getAllUserQuestions(@RequestBody Questions questions) {
 		List<Questions> responce=null;
 		List<Long> lesson=null;
     	try{
-    		lesson.add(materialId);
+    		lesson.add(questions.getMaterial_id());
     		responce = questionsRepo.findAll(lesson);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -31,24 +33,21 @@ public class QuestionsRestContoller {
     	return responce;
     }
     
-    @RequestMapping("/saveQuestion")
-    public void saveQuestion(@RequestParam(value="materialId")Long materialId,
-    							 @RequestParam(value="orderNr")Long orderNr,
-    							 @RequestParam(value="question")String question) {
+    @RequestMapping("/createQuestion")
+    public void saveQuestion(@RequestBody Questions question) {
     	try{
-    		Questions Question = new Questions(materialId, orderNr, question);
-    		questionsRepo.save(Question);
+//    		Questions Question = new Questions(materialId, orderNr, question);
+    		questionsRepo.save(question);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     }
     
     @RequestMapping("/deleteQuestion")
-    public void deleteQuestion(@RequestParam(value="id")long id,
-    		@RequestParam(value="material_id")long materialId) {
+    public void deleteQuestion(@RequestBody Questions question) {
     	Questions responce=null;
     	try{
-    		responce= new Questions(id, materialId);
+    		responce= new Questions(question.getMaterial_id());
     		questionsRepo.delete(responce);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());

@@ -3,6 +3,7 @@ package com.digitund.answers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,11 +36,9 @@ public class AnswersRestController {
     }
     
     @RequestMapping("/saveAnswerOption")
-    public void saveAnswerOption(@RequestParam(value="questionId")Long questionId,
-    							 @RequestParam(value="tekst")String tekst,
-    							 @RequestParam(value="correct")boolean correct) {
+    public void saveAnswerOption(@RequestBody AnswerOptions answerOption) {
     	try{
-    		AnswerOptions answerOption = new AnswerOptions(questionId, correct, tekst);
+//    		AnswerOptions answerOption = new AnswerOptions(questionId, correct, tekst);
     		answerOptionsRepo.save(answerOption);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
