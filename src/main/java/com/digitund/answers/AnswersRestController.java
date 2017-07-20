@@ -25,15 +25,15 @@ public class AnswersRestController {
     //ANSWERS
     @RequestMapping("/getAllAnswerOptions")
     public List<AnswerOptions> getAllQuestionsAnswers(@RequestParam(value="questionId")long questionId) {
-		List<AnswerOptions> responce=null;
 		List<Long> answer=null;
     	try{
     		answer.add(questionId);
-    		responce = answerOptionsRepo.findAll(answer);
+    		return answerOptionsRepo.findAll(answer);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
+    		return null;
 		}
-    	return responce;
+    	
     }
     
     @RequestMapping(value="/saveAnswerOption", method = RequestMethod.POST)

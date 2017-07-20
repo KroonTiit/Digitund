@@ -3,7 +3,9 @@ package com.digitund.video;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,25 +21,27 @@ public class VideoRestController {
 	}
 
     //VIDEO
-    @RequestMapping("/getAllUserVid")
-    public List<Video> getAllVid(@RequestParam(value="lessonId")long lessonId) {
+    @RequestMapping(value="/getAllUserVid", method=RequestMethod.POST)
+    public List<Video> getAllVid(@RequestBody Video video) {
 		List<Video> responce=null;
 		List<Long> id=null;
     	try{
-    		id.add(lessonId);
+    		id.add(video.getLesson_id());
     		responce = videoRepo.findAll(id);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     	return responce;
     }
-    @RequestMapping("/saveVid")
-    public void saveVid(@RequestParam(value="lessonId")long lessonId, 
-    						   @RequestParam(value="orderNr")long orderNr,
-    						   @RequestParam(value="videoStart")String videoStart,
-    						   @RequestParam(value="videoEnd")String videoEnd,
-    						   @RequestParam(value="videoUrl")String videoUrl) {
-    	Video video = new Video(lessonId, orderNr, videoStart, videoEnd, videoUrl);
+    @RequestMapping (value="/saveVid", method= RequestMethod.POST)
+    public void saveVid(@RequestBody Video video
+//    		Param(value="lessonId")long lessonId, 
+//    						   @RequestParam(value="orderNr")long orderNr,
+//    						   @RequestParam(value="videoStart")String videoStart,
+//    						   @RequestParam(value="videoEnd")String videoEnd,
+//    						   @RequestParam(value="videoUrl")String videoUrl
+    						   ) {
+//    	Video video = new Video(video.getLesson_id(), video.getOrder_nr(), video.getVideo_start(), video.getVideo_end(), videoUrl);
     	try{
     		videoRepo.save(video);
     	} catch (Exception e) {

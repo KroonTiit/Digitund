@@ -3,7 +3,9 @@ package com.digitund.tekst;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +20,14 @@ public class TekstRestController {
 		this.tekstRepo=tekstRepo;
 	}
 	  //TEKST 
-    @RequestMapping("/getAllUserTekst")
-    public List<Tekst> getAllUserTekst(@RequestParam(value="lessonId")long lessonId) {
+    @RequestMapping(value="/getAllUserTekst", method=RequestMethod.POST)
+    public List<Tekst> getAllUserTekst(@RequestBody Tekst tekst
+//    		Param(value="lessonId")long lessonId
+    		) {
 		List<Tekst> responce=null;
 		List<Long> lesson=null;
     	try{
-    		lesson.add(lessonId);
+    		lesson.add(tekst.getLesson_id());
     		responce = tekstRepo.findAll(lesson);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -31,26 +35,30 @@ public class TekstRestController {
     	return responce;
     }
     
-    @RequestMapping("/saveTekst")
-    public void saveTekst(@RequestParam(value="lessonId")Long lessonId,
-    							 @RequestParam(value="orderNr")Long orderNr,
-    							 @RequestParam(value="tekst")String tekst) {
+    @RequestMapping(value="/saveTekst", method=RequestMethod.POST)
+    public void saveTekst(@RequestBody Tekst tekst
+//    		Param(value="lessonId")Long lessonId,
+//    							 @RequestParam(value="orderNr")Long orderNr,
+//    							 @RequestParam(value="tekst")String tekst
+    							 ) {
 		
     	try{
-    		Tekst text = new Tekst(lessonId, orderNr, tekst);
-    		tekstRepo.save(text);
+//    		Tekst text = new Tekst(lessonId, orderNr, tekst);
+    		tekstRepo.save(tekst);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     	
     }
     
-    @RequestMapping("/deleteTekst")
-    public void deleteTekst(@RequestParam(value="id")long id,
-    						@RequestParam(value="lessonId")long lessonId) {
+    @RequestMapping(value="/deleteTekst", method=RequestMethod.POST)
+    public void deleteTekst(@RequestBody Tekst tekst
+//    		Param(value="id")long id,
+//    						@RequestParam(value="lessonId")long lessonId
+    						) {
 		Tekst responce=null;
     	try{
-    		responce= new Tekst(id, lessonId);
+    		responce= new Tekst(tekst.getLesson_id(),responce.getOrder_nr(), tekst.getTekst());
     		tekstRepo.delete(responce);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());

@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,20 +22,26 @@ public class UserRestController {
 	}
 	
 	// USER STUFF
-    @RequestMapping("/getuser")
-    public boolean getUser(@RequestParam(value="id")long id) {
-    	Users user = userRepo.findOne(id);
-    	if(user != null && user.getId()==id){
+    @RequestMapping(value="/getUser", method=RequestMethod.POST)
+    public boolean getUser(@RequestBody Users user) {
+    	Users newUser = userRepo.findOne(user.getId());
+    	if(newUser != null && newUser.getId()==user.getId()){
     		return true;
     	} else {
     		return false;
     	}
     }
-    @RequestMapping("/createuser")
-    public void createUser(){
-    	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    	Users user = new Users(timestamp);
-    	userRepo.save(user);
+    @RequestMapping("/createUser")
+    public String createUser(){
+    	try {
+    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        	Users user = new Users(timestamp);
+        	userRepo.save(user);
+        	return "OK";
+		} catch (Exception e) {
+			return null;
+		}
+    	
     }
    
     @RequestMapping("/showAllUsers")
@@ -41,12 +49,18 @@ public class UserRestController {
     	return userRepo.findAll();
     }
     
-    @RequestMapping("/deleteUsers")
-    public String showAllUsers(@RequestParam(value="id")long id){
-    	Users user=null; 
-    	user =new Users(id);
-    	userRepo.delete(user);
-		return "OK";
+    @RequestMapping(value="/deleteUsers", method=RequestMethod.POST)
+    public String showAllUsers(@RequestBody Users user){
+    	try {
+//        	Users user=null; 
+//        	user =new Users(id);
+    		userRepo.delete(user);
+    		return "OK";
+		} catch (Exception e) {
+			return null;
+		}
+    	
+    	
     }
     //USER END
 
