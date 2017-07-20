@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class AnswersRestController {
     	return responce;
     }
     
-    @RequestMapping("/saveAnswerOption")
+    @RequestMapping(value="/saveAnswerOption", method = RequestMethod.POST)
     public void saveAnswerOption(@RequestBody AnswerOptions answerOption) {
     	try{
 //    		AnswerOptions answerOption = new AnswerOptions(questionId, correct, tekst);

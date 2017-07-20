@@ -12,6 +12,8 @@ import javax.json.JsonObjectBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.digitund.BaseX;
@@ -36,7 +38,13 @@ public class LessonRestController {
     		return null;
 		}
     }
-	@RequestMapping("/getSingleLessons")
+    @RequestMapping("/basex")
+    public String getconvert(@RequestParam (value="b")BigInteger base) {
+    	BaseX baseX= new BaseX();
+    	return baseX.encode(base);
+    }
+    
+	@RequestMapping(value="/getSingleLessons", method = RequestMethod.POST)
     public JsonObject getOneUserLesson(@RequestBody Lesson lesson) {
     	try{
     		BaseX baseX = new BaseX();
@@ -58,7 +66,7 @@ public class LessonRestController {
     		return null;
 		}
     }
-    @RequestMapping("/getAllUserLessons")
+    @RequestMapping(value="/getAllUserLessons", method = RequestMethod.POST)
     public JsonObject getAllUserLessons(@RequestBody Lesson lesson) {
     	try{
     		List<Lesson> findByCreator = lessonRepo.findByCreator(lesson.getCreatorId());
@@ -80,7 +88,7 @@ public class LessonRestController {
 		}
     }
     
-    @RequestMapping("/deleteUserLessonsById")
+    @RequestMapping(value="/deleteUserLessonsById", method = RequestMethod.POST)
     public void getDeleteUserLessons(@RequestBody Lesson lesson) {
     	try{ 
 //    		Lesson deletingLesson = new Lesson(lesson.getId(), lesson.getCreatorId());
@@ -90,7 +98,7 @@ public class LessonRestController {
 		}
     }
    
-    @RequestMapping("/createUserLessons")
+    @RequestMapping(value="/createUserLessons", method = RequestMethod.POST)
     public String setCreateUserLessons( 
     		@RequestBody Lesson lesson
 //    		,
@@ -111,7 +119,7 @@ public class LessonRestController {
     		return null;
 		}
     }
-    @RequestMapping("/updateUserLessons")
+    @RequestMapping(value="/updateUserLessons", method = RequestMethod.POST)
     public String setUpdateUserLessons(
     		@RequestBody Lesson lesson
 //    		@RequestParam(value="id")long id,

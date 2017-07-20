@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class QuestionsRestContoller {
 	}
 	 //QUESTIONS
     @SuppressWarnings("null")
-	@RequestMapping("/getAllUserQuestions")
+	@RequestMapping(value="/getAllUserQuestions" , method = RequestMethod.POST)
     public List<Questions> getAllUserQuestions(@RequestBody Questions questions) {
 		List<Questions> responce=null;
 		List<Long> lesson=null;
@@ -33,7 +34,7 @@ public class QuestionsRestContoller {
     	return responce;
     }
     
-    @RequestMapping("/createQuestion")
+    @RequestMapping(value="/createQuestion", method = RequestMethod.POST)
     public void saveQuestion(@RequestBody Questions question) {
     	try{
 //    		Questions Question = new Questions(materialId, orderNr, question);
@@ -43,7 +44,7 @@ public class QuestionsRestContoller {
 		}
     }
     
-    @RequestMapping("/deleteQuestion")
+    @RequestMapping(value="/deleteQuestion", method = RequestMethod.POST)
     public void deleteQuestion(@RequestBody Questions question) {
     	Questions responce=null;
     	try{

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class PerformanceSessionRestController {
 	}
 	
 	  //PERFORMANCE SESSION
-    @RequestMapping("/savePerformanceSession")
+    @RequestMapping(value="/savePerformanceSession", method = RequestMethod.POST)
     public PerformanceSession createPerformanceSession(@RequestBody PerformanceSession performanceSession
 //    		Param(value="performanceId")long performanceId,
 //		    						@RequestParam(value="questionId")long questionId,
@@ -35,7 +36,7 @@ public class PerformanceSessionRestController {
     		return null;
 		}
     }
-    @RequestMapping("/getPerformanceSession")
+    @RequestMapping(value="/getPerformanceSession", method = RequestMethod.POST)
     public List<PerformanceSession> getPerformanceSession(@RequestBody PerformanceSession performanceSession
 //    		Param(value="performanceId")long performanceId,
 //									@RequestParam(value="questionId")long questionId,

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class PerformanceRestController {
     	this.performanceRepo=performanceRepo;
     }
 	 //PERFORMANCE
-    @RequestMapping("/startSession")
+    @RequestMapping(value="/startSession", method = RequestMethod.POST)
     public Performance startSession(@RequestBody Performance performance){
     	Performance per =null;
     	try{
@@ -33,7 +34,7 @@ public class PerformanceRestController {
 		}
 		
     }
-    @RequestMapping("/getSession")
+    @RequestMapping(value="/getSession", method = RequestMethod.POST)
     public List<Performance> getSession(@RequestBody Performance performance){
     	List<Performance> responce=null;
     	try{
