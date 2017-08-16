@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LessonRepo extends JpaRepository<Lesson, Long>{
 
-	@Query("select s from Lesson s where s.creatorId like ?1 ")
-	List<Lesson> findByCreator(Long creatorId);
+	@Query("select s from Lesson s where s.userId like ?1 ")
+	List<Lesson> findByCreator(Long userId);
 }

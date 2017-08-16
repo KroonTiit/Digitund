@@ -10,34 +10,42 @@ import javax.persistence.Id;
 public class Lesson {
 	@Id @GeneratedValue
 	private long id;
-	private long creatorId;
-	private Timestamp startDate ;
-	private Timestamp endDate;
+	private long userId;
+	private Timestamp startTime ;
+	private Timestamp endTime;
 	private Timestamp created;
-//	private String lessonPermalink;
 	private String name;
+	private String description;
 	
 	public Lesson(){}
 	public Lesson(Long creatorId){
-		this.creatorId=creatorId;
+		this.userId=creatorId;
 	}
 	public Lesson(long id, Long creatorId){
 		this.id=id;
-		this.creatorId=creatorId;
+		this.userId=creatorId;
 	}
-	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,long creatorId){
-		this.startDate=startDate;
-		this.endDate=endDate;
+	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,long userId){
+		this.startTime=startDate;
+		this.endTime=endDate;
 		this.created=created;
-		this.creatorId=creatorId;
+		this.userId=userId;
 //		this.lessonPermalink=lessonPermalink;
 	}
-	public Lesson(Timestamp startDate, Timestamp created, long creatorId, String name) {
-		this.startDate=startDate;
+	public Lesson(Timestamp startDate, Timestamp created, long userId, String name) {
+		this.startTime=startDate;
 		this.created=created;
-		this.creatorId=creatorId;
+		this.userId=userId;
 //		this.lessonPermalink=lessonPermaLink;
 		this.name=name;
+	}
+	public Lesson(Timestamp startDate, Timestamp created, long userId, String name, String description) {
+		this.startTime=startDate;
+		this.created=created;
+		this.userId=userId;
+//		this.lessonPermalink=lessonPermaLink;
+		this.name=name;
+		this.description=description;
 	}
 	public long getId() {
 		return id;
@@ -46,22 +54,22 @@ public class Lesson {
 		this.id = id;
 	}
 	public long getCreatorId() {
-		return creatorId;
+		return userId;
 	}
-	public void setCreatorId(long creatorId) {
-		this.creatorId = creatorId;
+	public void setCreatorId(long userId) {
+		this.userId = userId;
 	}
 	public Timestamp getStart_date() {
-		return startDate;
+		return startTime;
 	}
 	public void setStart_date(Timestamp startDate) {
-		this.startDate = startDate;
+		this.startTime = startDate;
 	}
 	public Timestamp getEnd_date() {
-		return endDate;
+		return endTime;
 	}
 	public void setEnd_date(Timestamp endDate) {
-		this.endDate = endDate;
+		this.endTime = endDate;
 	}
 	public Timestamp getCreated() {
 		return created;
@@ -80,5 +88,11 @@ public class Lesson {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

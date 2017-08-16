@@ -10,7 +10,7 @@ public class Tekst {
 	private Long id;
 	private Long lessonId;
 	private Long orderNr;
-	private String tekst;
+	private String text;
 	
 	public Tekst (){}
 	public Tekst (Long lessonId) {
@@ -21,16 +21,16 @@ public class Tekst {
 		this.lessonId=lessonId;
 	}
 	
-	public Tekst (Long lessonId,Long orderNr,String tekst){
+	public Tekst (Long lessonId,Long orderNr,String text){
 		this.lessonId=lessonId;
 		this.orderNr=orderNr;
-		this.tekst=tekst;
+		this.text=text;
 	}
-	public Tekst (Long id, Long lessonId, Long orderNr, String tekst){
+	public Tekst (Long id, Long lessonId, Long orderNr, String text){
 		this.id=id;
 		this.lessonId=lessonId;
 		this.orderNr=orderNr;
-		this.tekst=tekst;
+		this.text=text;
 	}
 	
 	public long getLesson_id() {
@@ -46,9 +46,9 @@ public class Tekst {
 		this.orderNr = orderNr;
 	}
 	public String getTekst() {
-		return tekst;
+		return text;
 	}
 	public void setTekst(String tekst) {
-		this.tekst = tekst;
+		this.text = tekst;
 	}
 }

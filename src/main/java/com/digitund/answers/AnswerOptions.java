@@ -10,7 +10,7 @@ public class AnswerOptions {
 	private Long id;
 	private Long questionId;
 	private Boolean correct;
-	private String tekst;
+	private String text;
 	
 	public AnswerOptions (){}
 	public AnswerOptions (Long questionId){
@@ -20,16 +20,16 @@ public class AnswerOptions {
 		this.id=id;
 		this.questionId=questionId;
 	}
-	public AnswerOptions (Long questionId, Boolean correct, String tekst){
+	public AnswerOptions (Long questionId, Boolean correct, String text){
 		this.questionId=questionId;
 		this.correct=correct;
-		this.tekst=tekst;
+		this.text=text;
 	}
 	public AnswerOptions (Long id, Long questionId, Boolean correct, String tekst){
 		this.id=id;
 		this.questionId=questionId;
 		this.correct=correct;
-		this.tekst=tekst;
+		this.text=tekst;
 	}
 	public long getQuestion_id() {
 		return questionId;
@@ -44,10 +44,10 @@ public class AnswerOptions {
 		this.correct = correct;
 	}
 	public String getTekst() {
-		return tekst;
+		return text;
 	}
 	public void setTekst(String tekst) {
-		this.tekst = tekst;
+		this.text = tekst;
 	}
 	
 	
