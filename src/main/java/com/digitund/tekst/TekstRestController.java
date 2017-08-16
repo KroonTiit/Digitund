@@ -24,8 +24,8 @@ public class TekstRestController {
 		this.tekstRepo=tekstRepo;
 	}
 	  //TEKST 
-	@CrossOrigin(value="/{lessonId}", origins = "http://localhost:3000")
-    @RequestMapping(method = RequestMethod.GET)
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="/{lessonId}",method = RequestMethod.GET)
     public Tekst getText(@PathVariable String lessonId) {
     	try{
     		return tekstRepo.findOne(Long.decode(lessonId));

@@ -26,7 +26,7 @@ public class QuestionsRestContoller {
 	 //QUESTIONS
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-    public List<Video> getAllLessonQuestions(@RequestParam(required=true,value="lessonId")String id) {
+    public List<Video> getAllMaterialQuestions(@RequestParam(required=true,value="materialId")String id) {
     	try{
     		return questionsRepo.findAll(Long.decode(id));
     	} catch (Exception e) {
