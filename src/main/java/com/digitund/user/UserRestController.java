@@ -38,7 +38,7 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.POST)
     public String createUser(@RequestBody Users user){
     	try {
-    		// siin tuleb mingi asi välja mõelda kuidas auth=-ist id-si salvestama hakata
+    		// siin tuleb mingi asi välja mõelda kuidas auth0-ist id-si salvestama hakata
 //    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 //        	Users user = new Users(timestamp);
         	userRepo.save(user);

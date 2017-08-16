@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.digitund.video.Video;
 
 @RestController
 @RequestMapping("/api/questionsRestContoller")
@@ -22,66 +25,38 @@ public class QuestionsRestContoller {
 	}
 	 //QUESTIONS
 	@CrossOrigin(origins = "http://localhost:3000")
-    @SuppressWarnings("null")
-	@RequestMapping(value="/getAllUserQuestions" , method = RequestMethod.POST)
-    public List<Questions> getAllUserQuestions(@RequestBody Questions questions) {
-		List<Questions> responce=null;
-		List<Long> lesson=null;
+	@RequestMapping(method = RequestMethod.GET)
+    public List<Video> getAllLessonQuestions(@RequestParam(required=true,value="lessonId")String id) {
     	try{
-    		lesson.add(questions.getMaterial_id());
-    		responce = questionsRepo.findAll(lesson);
+    		return questionsRepo.findAll(Long.decode(id));
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
+    		return null;
 		}
-    	return responce;
     }
 	@CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value="/createQuestion", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void saveQuestion(@RequestBody Questions question) {
     	try{
-//    		Questions Question = new Questions(materialId, orderNr, question);
     		questionsRepo.save(question);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     }
 	@CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value="/deleteQuestion", method = RequestMethod.POST)
-    public void deleteQuestion(@RequestBody Questions question) {
-    	Questions responce=null;
+    @RequestMapping(value="/{questionId}",method = RequestMethod.DELETE)
+    public void deleteQuestion(@PathVariable String questionId) {
     	try{
-    		responce= new Questions(question.getMaterial_id());
-    		questionsRepo.delete(responce);
+    		questionsRepo.delete(Long.decode(questionId));
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     }
 	@CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping("/updateQuestion")
-    public void updateQuestion(@RequestParam(value="id")Long id,
-    						@RequestParam(value="materialId")Long materialId,
-    						@RequestParam(value="orderNr")Long orderNr,
-    						@RequestParam(value="question")String question) {
+    @RequestMapping(value="/{questionId}", method = RequestMethod.PATCH)
+    public void updateQuestion(@RequestBody Questions question) {
 		try{
-			Questions newQuestion= new Questions(id, materialId, orderNr, question);
-			Questions updateQuestion = questionsRepo.findOne(id);
-			Boolean change =false;
-			if(!((Long)newQuestion.getMaterial_id()).equals(null)){
-				updateQuestion.setMaterial_id(materialId);
-				change=true;
-			}
-			if(!((Long)newQuestion.getOrder_nr()).equals(null)){
-				updateQuestion.setOrder_nr(orderNr);
-				change=true;
-			}
-			if(!((String)newQuestion.getTekst()).equals(null)){
-				updateQuestion.setTekst(question);
-				change=true;
-			}
-			if(change){
-				questionsRepo.save(updateQuestion);
-				change=false;
-			}
+				questionsRepo.save(question);
 		} catch (Exception e) {
 			System.out.println( e.getStackTrace());
 		}

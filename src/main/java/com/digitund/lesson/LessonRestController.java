@@ -94,9 +94,8 @@ public class LessonRestController {
     }
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping (value="/{lessonId}",method = RequestMethod.DELETE)
-    public void getDeleteUserLessons(@PathVariable String lessonId) {
+    public void deleteUserLessons(@PathVariable String lessonId) {
     	try{ 
-//    		Lesson deletingLesson = new Lesson(lesson.getId(), lesson.getCreatorId());
     		lessonRepo.delete(Long.decode(lessonId));
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -106,11 +105,6 @@ public class LessonRestController {
     @RequestMapping(method = RequestMethod.POST)
     public long createUserLessons( 
     		@RequestBody Lesson lesson
-//    		,
-//    		@RequestParam(value="startDate")Timestamp startDate, 
-//    		@RequestParam(value="creatorId")long creatorId,
-////    		@RequestParam(value="lessonPermaLink")String lessonPermaLink,
-//    		@RequestParam(value="name")String name
     		) {
     	try{
 //    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
@@ -127,14 +121,8 @@ public class LessonRestController {
     }
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping(value="/{lessonId}", method = RequestMethod.PATCH)
-    public String updateUserLessons(
-    		@RequestBody Lesson lesson
-//    		@RequestParam(value="id")long id,
-//    		@RequestParam(value="name")String name
-    		) {
+    public String updateUserLessons(@RequestBody Lesson lesson) {
     	try{
-//    		Lesson updateLesson = lessonRepo.findOne(id);
-//    		updateLesson.setName(name);
     		lessonRepo.save(lesson);
     		return "OK";
     	} catch (Exception e) {
