@@ -47,7 +47,7 @@ public class LessonRestController {
     	BaseX baseX= new BaseX();
     	return baseX.encode(base);
     }
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{lessonId}", method = RequestMethod.GET)
     public JsonObject getOneUserLesson(@PathVariable String lessonId) {
     	try{
@@ -104,7 +104,7 @@ public class LessonRestController {
     }
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
-    public long setCreateUserLessons( 
+    public long createUserLessons( 
     		@RequestBody Lesson lesson
 //    		,
 //    		@RequestParam(value="startDate")Timestamp startDate, 
@@ -127,7 +127,7 @@ public class LessonRestController {
     }
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping(value="/{lessonId}", method = RequestMethod.PATCH)
-    public String setUpdateUserLessons(
+    public String updateUserLessons(
     		@RequestBody Lesson lesson
 //    		@RequestParam(value="id")long id,
 //    		@RequestParam(value="name")String name

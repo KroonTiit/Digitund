@@ -22,7 +22,7 @@ public class Controller {
 	
 	@Autowired 
 	private LessonRepo lessonRepo;
-	
+
 	@RequestMapping("/")
     public String showAllUsers(){
 		

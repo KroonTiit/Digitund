@@ -3,14 +3,18 @@ package com.digitund.video;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.digitund.lesson.Lesson;
+
 @RestController
-@RequestMapping("/VideoRestController")
+@RequestMapping("/api/videoRestController")
 public class VideoRestController {
 	@Autowired
 	private VideoRepo videoRepo;
@@ -21,81 +25,56 @@ public class VideoRestController {
 	}
 
     //VIDEO
-    @RequestMapping(value="/getAllUserVid", method=RequestMethod.POST)
-    public List<Video> getAllVid(@RequestBody Video video) {
-		List<Video> responce=null;
-		List<Long> id=null;
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="/{videoId}", method=RequestMethod.GET)
+    public Video getVideo(@PathVariable String videoId) {
     	try{
-    		id.add(video.getLesson_id());
-    		responce = videoRepo.findAll(id);
+    		return videoRepo.findOne(Long.decode(videoId));
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
+    		return null;
 		}
-    	return responce;
+    	
     }
-    @RequestMapping (value="/saveVid", method= RequestMethod.POST)
-    public void saveVid(@RequestBody Video video
-//    		Param(value="lessonId")long lessonId, 
-//    						   @RequestParam(value="orderNr")long orderNr,
-//    						   @RequestParam(value="videoStart")String videoStart,
-//    						   @RequestParam(value="videoEnd")String videoEnd,
-//    						   @RequestParam(value="videoUrl")String videoUrl
-    						   ) {
-//    	Video video = new Video(video.getLesson_id(), video.getOrder_nr(), video.getVideo_start(), video.getVideo_end(), videoUrl);
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(method=RequestMethod.GET)
+    public List<Video> getAllVideos(@RequestParam(required=true,value="lessonId") String lessonId) {
     	try{
+    		
+    		return videoRepo.findAll(Long.decode(lessonId));
+    	} catch (Exception e) {
+    		System.out.println( e.getStackTrace());
+    		return null;
+		}
+    	
+    }
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping (method = RequestMethod.POST)
+    public void saveVid(@RequestBody Video video) {
+//    	Video video = new Video(video.getLesson_id(), video.getOrder_nr(), video.getVideo_start(), video.getVideo_end(), videoUrl);
+    	try {
     		videoRepo.save(video);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     }
-    @RequestMapping("/deleteVid")
-    public void deleteVid(@RequestParam(value="id")long id,
-    		@RequestParam(value="lessonId")long lessonId) {
-		Video video = new Video(id, lessonId);
-		try{
-			videoRepo.delete(video);
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="/{videoId}",method = RequestMethod.DELETE)
+    public void deleteVid(@PathVariable String videoId) {
+		try {
+			videoRepo.delete(Long.decode(videoId));
 		} catch (Exception e) {
 			System.out.println( e.getStackTrace());
 		}
 	}
-    
-    @RequestMapping("/updateVid")
-    public void updateVid(@RequestParam(value="id")long id,
-    					@RequestParam(value="lessonId")long lessonId, 
-    					@RequestParam(value="ordernr")long orderNr,
-    					@RequestParam(value="videostart")String videoStart,
-    					@RequestParam(value="videoend")String videoEnd,
-    					@RequestParam(value="videourl")String videoUrl) {
-		try{
-			Video newVid = new Video(lessonId, orderNr, videoStart, videoEnd, videoUrl);
-			Video updateVideo = videoRepo.findOne(id);
-			Boolean change =false;
-			if(!newVid.getLesson_id().equals(null)){
-				updateVideo.setLesson_id(lessonId);
-				change=true;
-			}
-			if(!newVid.getOrder_nr().equals(null)){
-				updateVideo.setOrder_nr(orderNr);
-				change=true;
-			}
-			if(!newVid.getVideo_end().equals(null)){
-				updateVideo.setVideo_end(videoEnd);
-				change=true;
-			}
-			if(!newVid.getVideo_start().equals(null)){
-				updateVideo.setVideo_start(videoStart);
-				change=true;
-			}
-			if(!newVid.getVideo_url().equals(null)){
-				updateVideo.setVideo_url(videoUrl);
-				change=true;
-			}
-			if(change){
-				videoRepo.save(updateVideo);
-				change=false;
-			}
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="/{videoId}", method = RequestMethod.PATCH)
+    public void updateVid(@RequestBody Video video) {
+		try {
+				videoRepo.save(video);
+			
 		} catch (Exception e) {
-			System.out.println( e.getStackTrace());
+			System.out.println(e.getStackTrace());
 		}
 	}
     //VIDEO END

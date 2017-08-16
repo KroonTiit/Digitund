@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/PerformanceRestController")
+@RequestMapping("/api/performanceRestController")
 public class PerformanceRestController {
 	@Autowired
 	private PerformanceRepo performanceRepo;
@@ -20,6 +21,7 @@ public class PerformanceRestController {
     	this.performanceRepo=performanceRepo;
     }
 	 //PERFORMANCE
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/startSession", method = RequestMethod.POST)
     public Performance startSession(@RequestBody Performance performance){
     	Performance per =null;
@@ -34,7 +36,8 @@ public class PerformanceRestController {
 		}
 		
     }
-    @RequestMapping(value="/getSession", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="/getSession", method = RequestMethod.GET)
     public List<Performance> getSession(@RequestBody Performance performance){
     	List<Performance> responce=null;
     	try{

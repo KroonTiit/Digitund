@@ -3,6 +3,7 @@ package com.digitund.tekst;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/TekstRestController")
+@RequestMapping("/api/tekstRestController")
 public class TekstRestController {
 
 	@Autowired 
@@ -20,6 +21,7 @@ public class TekstRestController {
 		this.tekstRepo=tekstRepo;
 	}
 	  //TEKST 
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/getAllUserTekst", method=RequestMethod.POST)
     public List<Tekst> getAllUserTekst(@RequestBody Tekst tekst
 //    		Param(value="lessonId")long lessonId
@@ -34,7 +36,7 @@ public class TekstRestController {
 		}
     	return responce;
     }
-    
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/saveTekst", method=RequestMethod.POST)
     public void saveTekst(@RequestBody Tekst tekst
 //    		Param(value="lessonId")Long lessonId,
@@ -50,7 +52,7 @@ public class TekstRestController {
 		}
     	
     }
-    
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/deleteTekst", method=RequestMethod.POST)
     public void deleteTekst(@RequestBody Tekst tekst
 //    		Param(value="id")long id,
@@ -64,7 +66,7 @@ public class TekstRestController {
     		System.out.println( e.getStackTrace());
 		}
     }
-
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/updateTekst")
     public void updateTekst(@RequestParam(value="id")Long id,
     						@RequestParam(value="lessonId")Long lessonId,

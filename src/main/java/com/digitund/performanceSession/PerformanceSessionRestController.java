@@ -3,6 +3,7 @@ package com.digitund.performanceSession;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/PerformanceSessionRestController")
+@RequestMapping("/api/performanceSessionRestController")
 public class PerformanceSessionRestController {
 	@Autowired
 	private PerformanceSessionRepo performanceSessionRepo;
@@ -20,6 +21,7 @@ public class PerformanceSessionRestController {
 	}
 	
 	  //PERFORMANCE SESSION
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/savePerformanceSession", method = RequestMethod.POST)
     public PerformanceSession createPerformanceSession(@RequestBody PerformanceSession performanceSession
 //    		Param(value="performanceId")long performanceId,
@@ -36,6 +38,7 @@ public class PerformanceSessionRestController {
     		return null;
 		}
     }
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/getPerformanceSession", method = RequestMethod.POST)
     public List<PerformanceSession> getPerformanceSession(@RequestBody PerformanceSession performanceSession
 //    		Param(value="performanceId")long performanceId,

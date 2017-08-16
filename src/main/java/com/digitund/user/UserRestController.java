@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/UserRestController")
+@RequestMapping("/api/userRestController")
 public class UserRestController {
 	@Autowired 
 	private UserRepo userRepo;
@@ -22,20 +24,23 @@ public class UserRestController {
 	}
 	
 	// USER STUFF
-    @RequestMapping(value="/getUser", method=RequestMethod.POST)
-    public boolean getUser(@RequestBody Users user) {
-    	Users newUser = userRepo.findOne(user.getId());
-    	if(newUser != null && newUser.getId()==user.getId()){
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(method=RequestMethod.GET)
+    public boolean getUser(@PathVariable String user) {
+    	Users newUser = userRepo.findOne(Long.decode(user));
+    	if(newUser != null && newUser.getId()==Long.decode(user)){
     		return true;
     	} else {
     		return false;
     	}
     }
-    @RequestMapping("/createUser")
-    public String createUser(){
+	@CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(method = RequestMethod.POST)
+    public String createUser(@RequestBody Users user){
     	try {
-    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        	Users user = new Users(timestamp);
+    		// siin tuleb mingi asi välja mõelda kuidas auth=-ist id-si salvestama hakata
+//    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//        	Users user = new Users(timestamp);
         	userRepo.save(user);
         	return "OK";
 		} catch (Exception e) {
@@ -43,12 +48,12 @@ public class UserRestController {
 		}
     	
     }
-   
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/showAllUsers")
     public List<Users> showAllUsers(){
     	return userRepo.findAll();
     }
-    
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/deleteUsers", method=RequestMethod.POST)
     public String showAllUsers(@RequestBody Users user){
     	try {

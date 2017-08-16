@@ -3,6 +3,7 @@ package com.digitund.questions;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/QuestionsRestContoller")
+@RequestMapping("/api/questionsRestContoller")
 public class QuestionsRestContoller {
 
 	@Autowired 
@@ -20,6 +21,7 @@ public class QuestionsRestContoller {
 		this.questionsRepo=questionsRepo;
 	}
 	 //QUESTIONS
+	@CrossOrigin(origins = "http://localhost:3000")
     @SuppressWarnings("null")
 	@RequestMapping(value="/getAllUserQuestions" , method = RequestMethod.POST)
     public List<Questions> getAllUserQuestions(@RequestBody Questions questions) {
@@ -33,7 +35,7 @@ public class QuestionsRestContoller {
 		}
     	return responce;
     }
-    
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/createQuestion", method = RequestMethod.POST)
     public void saveQuestion(@RequestBody Questions question) {
     	try{
@@ -43,7 +45,7 @@ public class QuestionsRestContoller {
     		System.out.println( e.getStackTrace());
 		}
     }
-    
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/deleteQuestion", method = RequestMethod.POST)
     public void deleteQuestion(@RequestBody Questions question) {
     	Questions responce=null;
@@ -54,7 +56,7 @@ public class QuestionsRestContoller {
     		System.out.println( e.getStackTrace());
 		}
     }
-    
+	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping("/updateQuestion")
     public void updateQuestion(@RequestParam(value="id")Long id,
     						@RequestParam(value="materialId")Long materialId,

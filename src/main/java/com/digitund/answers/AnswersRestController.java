@@ -3,7 +3,7 @@ package com.digitund.answers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,11 +24,12 @@ public class AnswersRestController {
     }
    
     //ANSWERS
-    @RequestMapping(value="/{questionId}", method = RequestMethod.GET)
-    public List<AnswerOptions> getAllQuestionsAnswers(@PathVariable String questionId) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/getAllAnswerOptions")
+    public List<AnswerOptions> getAllQuestionsAnswers(@RequestParam(value="questionId")long questionId) {
 		List<Long> answer=null;
     	try{
-    		answer.add(Long.decode(questionId));
+    		answer.add(questionId);
     		return answerOptionsRepo.findAll(answer);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
@@ -36,8 +37,8 @@ public class AnswersRestController {
 		}
     	
     }
-    
-    @RequestMapping(method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value="/saveAnswerOption", method = RequestMethod.POST)
     public void saveAnswerOption(@RequestBody AnswerOptions answerOption) {
     	try{
 //    		AnswerOptions answerOption = new AnswerOptions(questionId, correct, tekst);
@@ -46,28 +47,46 @@ public class AnswersRestController {
     		System.out.println( e.getStackTrace());
 		}
     }
-    
-    @RequestMapping(value="/{answerOptionId}{questionId}", method = RequestMethod.DELETE)
-    public void deleteAnswerOption(@PathVariable long AnswerOptionId,
-    		@PathVariable long QuestionId) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/deleteAnswerOption")
+    public void deleteAnswerOption(@RequestParam(value="id")long id,
+    		@RequestParam(value="question_id")long questionId) {
     	AnswerOptions responce=null;
     	try{
-    		responce= new AnswerOptions(AnswerOptionId, QuestionId);
+    		responce= new AnswerOptions(id, questionId);
     		answerOptionsRepo.delete(responce);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
 		}
     }
-    
-    @RequestMapping(value="/{updateAnswerOption}", method = RequestMethod.PATCH)
-    public String updateAnswerOption(@RequestBody AnswerOptions answerOptions) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping("/updateAnswerOption")
+    public void updateAnswerOption(@RequestParam(value="id")Long id,
+    						@RequestParam(value="questionId")Long questionId,
+    						@RequestParam(value="tekst")String tekst,
+							 @RequestParam(value="correct")boolean correct) {
 		try{
-				answerOptionsRepo.save(answerOptions);
-			return "OK";
-			
+			AnswerOptions newAnswer= new AnswerOptions(id, questionId, correct, tekst);
+			AnswerOptions updateAnswer = answerOptionsRepo.findOne(id);
+			Boolean change =false;
+			if(!((Long)newAnswer.getQuestion_id()).equals(null)){
+				updateAnswer.setQuestion_id(questionId);
+				change=true;
+			}
+			if(!((Boolean)newAnswer.isCorrect()).equals(null)){
+				updateAnswer.setCorrect(correct);
+				change=true;
+			}
+			if(!((String)newAnswer.getTekst()).equals(null)){
+				updateAnswer.setTekst(tekst);
+				change=true;
+			}
+			if(change){
+				answerOptionsRepo.save(updateAnswer);
+				change=false;
+			}
 		} catch (Exception e) {
 			System.out.println( e.getStackTrace());
-			return null;
 		}
 	}
     //ANSWERS END
