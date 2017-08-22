@@ -13,12 +13,9 @@ public class AnswerOptions {
 	private String text;
 	
 	public AnswerOptions (){}
-	public AnswerOptions (Long questionId){
-		this.questionId=questionId;
-	}
-	public AnswerOptions (Long id, Long questionId){
+	
+	public AnswerOptions (Long id){
 		this.id=id;
-		this.questionId=questionId;
 	}
 	public AnswerOptions (Long questionId, Boolean correct, String text){
 		this.questionId=questionId;

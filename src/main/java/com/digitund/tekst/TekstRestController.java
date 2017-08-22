@@ -23,6 +23,7 @@ public class TekstRestController {
 	public TekstRestController(TekstRepo tekstRepo){
 		this.tekstRepo=tekstRepo;
 	}
+	
 	  //TEKST 
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{lessonId}",method = RequestMethod.GET)
@@ -35,6 +36,7 @@ public class TekstRestController {
 		}
     	
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.GET)
     public List<Tekst> getAllTexts(@RequestParam(required=true,value="lessonId")String lessonId) {
@@ -56,6 +58,7 @@ public class TekstRestController {
     		System.out.println( e.getStackTrace());
 		}	
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{tekstId}",method = RequestMethod.DELETE)
     public void deleteTekst(@PathVariable String tekstId) {
@@ -65,6 +68,7 @@ public class TekstRestController {
     		System.out.println( e.getStackTrace());
 		}
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{tekstId}", method = RequestMethod.PATCH)
     public void updateTekst(@RequestBody Tekst tekst) {

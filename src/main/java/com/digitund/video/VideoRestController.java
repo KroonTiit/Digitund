@@ -35,6 +35,7 @@ public class VideoRestController {
 		}
     	
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method=RequestMethod.GET)
     public List<Video> getAllVideos(@RequestParam(required=true,value="lessonId") String lessonId) {
@@ -47,6 +48,7 @@ public class VideoRestController {
 		}
     	
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping (method = RequestMethod.POST)
     public void saveVid(@RequestBody Video video) {
@@ -57,6 +59,7 @@ public class VideoRestController {
     		System.out.println( e.getStackTrace());
 		}
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{videoId}",method = RequestMethod.DELETE)
     public void deleteVid(@PathVariable String videoId) {
@@ -66,6 +69,7 @@ public class VideoRestController {
 			System.out.println( e.getStackTrace());
 		}
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{videoId}", method = RequestMethod.PATCH)
     public void updateVid(@RequestBody Video video) {

@@ -39,8 +39,8 @@ public class UserRestController {
     public String createUser(@RequestBody Users user){
     	try {
     		// siin tuleb mingi asi välja mõelda kuidas auth0-ist id-si salvestama hakata
-//    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        	Users user = new Users(timestamp);
+    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        	user.setStart_date(timestamp);
         	userRepo.save(user);
         	return "OK";
 		} catch (Exception e) {
@@ -54,11 +54,9 @@ public class UserRestController {
     	return userRepo.findAll();
     }
 	@CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value="/deleteUsers", method=RequestMethod.POST)
+    @RequestMapping(value="/deleteUsers", method=RequestMethod.DELETE)
     public String showAllUsers(@RequestBody Users user){
     	try {
-//        	Users user=null; 
-//        	user =new Users(id);
     		userRepo.delete(user);
     		return "OK";
 		} catch (Exception e) {

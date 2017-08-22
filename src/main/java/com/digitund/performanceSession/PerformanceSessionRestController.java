@@ -23,11 +23,7 @@ public class PerformanceSessionRestController {
 	  //PERFORMANCE SESSION
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/savePerformanceSession", method = RequestMethod.POST)
-    public PerformanceSession createPerformanceSession(@RequestBody PerformanceSession performanceSession
-//    		Param(value="performanceId")long performanceId,
-//		    						@RequestParam(value="questionId")long questionId,
-//		    						@RequestParam(value="answerOptionId")long answerOptionId
-		    						){
+    public PerformanceSession createPerformanceSession(@RequestBody PerformanceSession performanceSession){
     	PerformanceSession per= null;
     	try{
     		PerformanceSession newPerformanceSession = new PerformanceSession(performanceSession.getPerformance_id(), performanceSession.getQuestions_id(), performanceSession.getAnswer_options_id());
@@ -40,11 +36,7 @@ public class PerformanceSessionRestController {
     }
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/getPerformanceSession", method = RequestMethod.POST)
-    public List<PerformanceSession> getPerformanceSession(@RequestBody PerformanceSession performanceSession
-//    		Param(value="performanceId")long performanceId,
-//									@RequestParam(value="questionId")long questionId,
-//									@RequestParam(value="answerOptionId")long answerOptionId
-									){
+    public List<PerformanceSession> getPerformanceSession(@RequestBody PerformanceSession performanceSession){
     	List<PerformanceSession> per =null;
     	try{
     		per = performanceSessionRepo.getPerformanceSession(performanceSession.getPerformance_id(), performanceSession.getQuestions_id(), performanceSession.getAnswer_options_id());

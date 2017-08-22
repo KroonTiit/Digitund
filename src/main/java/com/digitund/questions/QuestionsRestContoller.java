@@ -23,6 +23,7 @@ public class QuestionsRestContoller {
 	public QuestionsRestContoller(QuestionsRepo questionsRepo){
 		this.questionsRepo=questionsRepo;
 	}
+	
 	 //QUESTIONS
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
@@ -34,6 +35,7 @@ public class QuestionsRestContoller {
     		return null;
 		}
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
     public void saveQuestion(@RequestBody Questions question) {
@@ -43,6 +45,7 @@ public class QuestionsRestContoller {
     		System.out.println( e.getStackTrace());
 		}
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{questionId}",method = RequestMethod.DELETE)
     public void deleteQuestion(@PathVariable String questionId) {
@@ -52,6 +55,7 @@ public class QuestionsRestContoller {
     		System.out.println( e.getStackTrace());
 		}
     }
+	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{questionId}", method = RequestMethod.PATCH)
     public void updateQuestion(@RequestBody Questions question) {

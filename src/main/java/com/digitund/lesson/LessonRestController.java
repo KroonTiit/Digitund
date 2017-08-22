@@ -32,6 +32,7 @@ public class LessonRestController {
 	public  LessonRestController (LessonRepo lessonRepo){
 		this.lessonRepo=lessonRepo;
 	}
+	
     public String makeUrl(Long id) {
     	try{
     		BaseX baseX = new BaseX();
@@ -42,11 +43,13 @@ public class LessonRestController {
     		return null;
 		}
     }
+    
     @RequestMapping("/basex")
     public String getconvert(@RequestParam (value="b")BigInteger base) {
     	BaseX baseX= new BaseX();
     	return baseX.encode(base);
     }
+    
     @CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{lessonId}", method = RequestMethod.GET)
     public JsonObject getOneUserLesson(@PathVariable String lessonId) {
@@ -70,12 +73,12 @@ public class LessonRestController {
     		return null;
 		}
     }
+    
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping(method = RequestMethod.GET)
     public JsonArray getAllUserLessons(@RequestParam(required=true,value="userId")String id) {
     	try{
     		List<Lesson> findByCreator = lessonRepo.findByCreator(Long.decode(id));
-    		//JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
     		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
     		for (Lesson oneLesson : findByCreator) {
     			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
@@ -85,13 +88,13 @@ public class LessonRestController {
     			.build();
     			arrayBuilder.add(lessonJson);
     		}
-    		//JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
     		return arrayBuilder.build();
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return null;
 		}
     }
+    
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping (value="/{lessonId}",method = RequestMethod.DELETE)
     public void deleteUserLessons(@PathVariable String lessonId) {
@@ -101,6 +104,7 @@ public class LessonRestController {
     		System.out.println( e.getStackTrace());
 		}
     }
+    
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
     public long createUserLessons( 
@@ -109,16 +113,16 @@ public class LessonRestController {
     	try{
 //    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
     		Timestamp created = new Timestamp(System.currentTimeMillis());
-//    		Lesson lesson = new Lesson(lesson.getStart_date(), created, creatorId, name);
     		lesson.setStart_date(created);
     		Lesson savedLesson = lessonRepo.save(lesson);
-//    		makeUrl(savedLesson.getId());
+//    		makeUrl(savedLesson.getId()); //kommenteerisin välja sest tahame testimiseks kasutada kümnend id-sid
     		return savedLesson.getId();
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return 0;
 		}
     }
+    
     @CrossOrigin(origins ="http://localhost:3000")
     @RequestMapping(value="/{lessonId}", method = RequestMethod.PATCH)
     public String updateUserLessons(@RequestBody Lesson lesson) {
