@@ -24,7 +24,7 @@ public class Questions {
 	public Questions(Long materialId, Long orderNr, String texts){
 		this.materialId=materialId;
 		this.orderNr=orderNr;
-		this.text=text;
+		this.text=texts;
 	}
 	public Questions(Long id, Long materialId, Long orderNr, String text){
 		this.id=id;
