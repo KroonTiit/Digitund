@@ -70,7 +70,7 @@ public class LessonRestController {
     		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
     		return build;
     	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
+    		System.out.println(e.getStackTrace());
     		return null;
 		}
     }
