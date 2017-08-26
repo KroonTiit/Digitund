@@ -31,7 +31,7 @@ public class Controller {
 	
 	@RequestMapping("/getAllUserLessons")
 	
-	public JsonObject getUsersLessons(@RequestParam(value="Id")Long Id){
+	public JsonObject getUsersLessons(@RequestParam(value="Id")String Id){
 		List<Lesson> findByCreator = lessonRepo.findByCreator(Id);
 		JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
