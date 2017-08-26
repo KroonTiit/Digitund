@@ -18,12 +18,12 @@ public class Lesson {
 	private String description;
 	
 	public Lesson(){}
-	public Lesson(String creatorId){
-		this.userId=creatorId;
+	public Lesson(String userId){
+		this.userId=userId;
 	}
-	public Lesson(long id, String creatorId){
+	public Lesson(long id, String userId){
 		this.id=id;
-		this.userId=creatorId;
+		this.userId=userId;
 	}
 	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,String userId){
 		this.startTime=startDate;
@@ -53,10 +53,10 @@ public class Lesson {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getCreatorId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setCreatorId(String userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public Timestamp getStart_date() {

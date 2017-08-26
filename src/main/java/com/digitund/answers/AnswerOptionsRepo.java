@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AnswerOptionsRepo extends JpaRepository<AnswerOptions, Long>{
-	@Query("select s from answerOptions s where s.userId like ?1 ")
-	List<AnswerOptions> findByQuestionId(Long questionId);
+	@Query("select s from AnswerOptions s where s.questionId like ?1")
+	List<AnswerOptions> findByQuestionId(long questionId);
 }

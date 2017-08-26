@@ -50,7 +50,7 @@ public class Controller {
 			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
 			JsonObject lessonJson = lessonbuilder.add("id", lesson.getId())
 			.add("name",lesson.getName())
-			.add("userId", lesson.getCreatorId())
+			.add("userId", lesson.getUserId())
 //			.add("startDate", (JsonValue) lesson.getStart_date())
 //			.add("EndDate",(JsonValue) lesson.getEnd_date())
 //			.add("materials", arrayMaterials)

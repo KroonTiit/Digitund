@@ -64,7 +64,7 @@ public class LessonRestController {
     			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
     			JsonObject lessonJson = lessonbuilder.add("id", newLesson.getId())
     			.add("name",newLesson.getName())
-    			.add("userId", newLesson.getCreatorId())
+    			.add("userId", newLesson.getUserId())
     			.build();
     			arrayBuilder.add(lessonJson);
     		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
@@ -85,7 +85,7 @@ public class LessonRestController {
     			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
     			JsonObject lessonJson = lessonbuilder.add("id", oneLesson.getId())
     			.add("name",oneLesson.getName())
-    			.add("userId", oneLesson.getCreatorId())
+    			.add("userId", oneLesson.getUserId())
     			.build();
     			arrayBuilder.add(lessonJson);
     		}
@@ -108,19 +108,18 @@ public class LessonRestController {
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
-    public long createUserLessons(
+    public Lesson createUserLessons(
     		@RequestBody Lesson lesson
     		) {
     	try{
 //    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
     		Timestamp created = new Timestamp(System.currentTimeMillis());
     		lesson.setStart_date(created);
-    		Lesson savedLesson = lessonRepo.save(lesson);
 //    		makeUrl(savedLesson.getId()); //kommenteerisin välja sest tahame testimiseks kasutada kümnend id-sid
-    		return savedLesson.getId();
+    		return lessonRepo.save(lesson);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
-    		return 0;
+    		return null;
 		}
     }
     
