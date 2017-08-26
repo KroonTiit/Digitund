@@ -53,22 +53,22 @@ public class LessonRestController {
     
     @CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{lessonId}", method = RequestMethod.GET)
-    public JsonObject getOneUserLesson(@PathVariable String lessonId) {
+    public Lesson getOneUserLesson(@PathVariable String lessonId) {
     	try{
     	//	BaseX baseX = new BaseX();
     		//BigInteger lessonId = baseX.decode(id);
-			Lesson newLesson = lessonRepo.findOne(Long.decode(lessonId));
-			
-			JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
-    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
-    			JsonObject lessonJson = lessonbuilder.add("id", newLesson.getId())
-    			.add("name",newLesson.getName())
-    			.add("userId", newLesson.getUserId())
-    			.build();
-    			arrayBuilder.add(lessonJson);
-    		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
-    		return build;
+//			Lesson newLesson = lessonRepo.findOne(Long.decode(lessonId));
+//			
+//			JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
+//    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+//    			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
+//    			JsonObject lessonJson = lessonbuilder.add("id", newLesson.getId())
+//    			.add("name",newLesson.getName())
+//    			.add("userId", newLesson.getUserId())
+//    			.build();
+//    			arrayBuilder.add(lessonJson);
+//    		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
+    		return lessonRepo.findOne(Long.decode(lessonId));
     	} catch (Exception e) {
     		System.out.println(e.getStackTrace());
     		return null;
@@ -77,19 +77,20 @@ public class LessonRestController {
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.GET)
-    public JsonArray getAllUserLessons(@RequestParam(required=true,value="userId")String id) {
+    public List<Lesson> getAllUserLessons(@RequestParam(required=true,value="userId")String id) {
     	try{
-    		List<Lesson> findByCreator = lessonRepo.findByCreator(id);
-    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    		for (Lesson oneLesson : findByCreator) {
-    			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
-    			JsonObject lessonJson = lessonbuilder.add("id", oneLesson.getId())
-    			.add("name",oneLesson.getName())
-    			.add("userId", oneLesson.getUserId())
-    			.build();
-    			arrayBuilder.add(lessonJson);
-    		}
-    		return arrayBuilder.build();
+//    		List<Lesson> findByCreator = lessonRepo.findByCreator(id);
+//    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+//    		for (Lesson oneLesson : findByCreator) {
+//    			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
+//    			JsonObject lessonJson = lessonbuilder.add("id", oneLesson.getId())
+//    			.add("name",oneLesson.getName())
+//    			.add("userId", oneLesson.getUserId())
+//    			.build();
+//    			arrayBuilder.add(lessonJson);
+//    		}
+    		//return arrayBuilder.build();
+    		return lessonRepo.findByCreator(id);
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return null;
