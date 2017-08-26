@@ -26,6 +26,7 @@ import com.digitund.BaseX;
 @RequestMapping("/api/lessons")
 public class LessonRestController {
 
+	
 	@Autowired 
 	private LessonRepo lessonRepo;
 	@Autowired 
@@ -74,11 +75,11 @@ public class LessonRestController {
 		}
     }
     
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.GET)
     public JsonArray getAllUserLessons(@RequestParam(required=true,value="userId")String id) {
     	try{
-    		List<Lesson> findByCreator = lessonRepo.findByCreator(Long.decode(id));
+    		List<Lesson> findByCreator = lessonRepo.findByCreator(id);
     		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
     		for (Lesson oneLesson : findByCreator) {
     			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
@@ -95,7 +96,7 @@ public class LessonRestController {
 		}
     }
     
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping (value="/{lessonId}",method = RequestMethod.DELETE)
     public void deleteUserLessons(@PathVariable String lessonId) {
     	try{ 
@@ -105,9 +106,9 @@ public class LessonRestController {
 		}
     }
     
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
-    public long createUserLessons( 
+    public long createUserLessons(
     		@RequestBody Lesson lesson
     		) {
     	try{
@@ -123,7 +124,7 @@ public class LessonRestController {
 		}
     }
     
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{lessonId}", method = RequestMethod.PATCH)
     public String updateUserLessons(@RequestBody Lesson lesson) {
     	try{

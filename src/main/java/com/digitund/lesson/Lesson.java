@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Lesson {
 	@Id @GeneratedValue
 	private long id;
-	private long userId;
+	private String userId;
 	private Timestamp startTime ;
 	private Timestamp endTime;
 	private Timestamp created;
@@ -18,28 +18,28 @@ public class Lesson {
 	private String description;
 	
 	public Lesson(){}
-	public Lesson(Long creatorId){
+	public Lesson(String creatorId){
 		this.userId=creatorId;
 	}
-	public Lesson(long id, Long creatorId){
+	public Lesson(long id, String creatorId){
 		this.id=id;
 		this.userId=creatorId;
 	}
-	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,long userId){
+	public Lesson(Timestamp startDate, Timestamp endDate, Timestamp created,String userId){
 		this.startTime=startDate;
 		this.endTime=endDate;
 		this.created=created;
 		this.userId=userId;
 //		this.lessonPermalink=lessonPermalink;
 	}
-	public Lesson(Timestamp startDate, Timestamp created, long userId, String name) {
+	public Lesson(Timestamp startDate, Timestamp created, String userId, String name) {
 		this.startTime=startDate;
 		this.created=created;
 		this.userId=userId;
 //		this.lessonPermalink=lessonPermaLink;
 		this.name=name;
 	}
-	public Lesson(Timestamp startDate, Timestamp created, long userId, String name, String description) {
+	public Lesson(Timestamp startDate, Timestamp created, String userId, String name, String description) {
 		this.startTime=startDate;
 		this.created=created;
 		this.userId=userId;
@@ -53,10 +53,10 @@ public class Lesson {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getCreatorId() {
+	public String getCreatorId() {
 		return userId;
 	}
-	public void setCreatorId(long userId) {
+	public void setCreatorId(String userId) {
 		this.userId = userId;
 	}
 	public Timestamp getStart_date() {
