@@ -2,6 +2,11 @@ package com.digitund.answerGroup;
 
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.digitund.answerGroupAnswer.AnswerGroupAnswer;
 
 @RestController
 @RequestMapping("/api/answerGroup")
@@ -33,9 +40,28 @@ public class AnswerGroupRestController {
 	}
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-	 public List<AnswerGroup> getAllMaterial(@RequestParam(required=true,value="answerGroup") String answerGroup) {
+	 public JsonArrayBuilder getAllMaterial(@RequestParam(required=true,value="questionId") String questionId) {
 		try {
-			return answerGroupRepo.findByQuestionId(Long.decode(answerGroup));
+			AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(Long.decode(questionId));
+			
+			List<AnswerGroupAnswer> answer = answerGroupRepo.findAnswersById(answerGroup.getId());
+    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+    		JsonArrayBuilder arrayBuilderResponce = Json.createArrayBuilder();
+    		JsonObjectBuilder answerbuilder = Json.createObjectBuilder();
+    		for(AnswerGroupAnswer data : answer){
+    			JsonObject answerJson = answerbuilder.add("id", data.getId())
+            			.add("answerGroupId",data.getAnswerGroupId())
+            			.add("text", data.getText())
+            			.build();
+    			arrayBuilder.add(answerJson);
+    		}
+    		JsonObject responceJson = answerbuilder.add("id", answerGroup.getId())
+        			.add("questionId",answerGroup.getQuestionId())
+        			.add("text", answerGroup.getText())
+        			.add("answers", arrayBuilder)
+        			.build();
+    		arrayBuilderResponce.add(responceJson).build();
+			return arrayBuilderResponce;
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 			return null;

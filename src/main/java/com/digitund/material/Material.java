@@ -1,5 +1,7 @@
 package com.digitund.material;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +14,8 @@ public class Material {
 	private long orderNr;
 	private String type;
 	private String textContent;
-	private long videoStart;
-	private long videoEnd;
+	private BigDecimal videoStart;
+	private BigDecimal videoEnd;
 	private String youtubeId;
 	private String imageUrl;
 	public Material() {}
@@ -48,16 +50,16 @@ public class Material {
 	public void setTextContent(String textContent) {
 		this.textContent = textContent;
 	}
-	public long getVideoStart() {
+	public BigDecimal getVideoStart() {
 		return videoStart;
 	}
-	public void setVideoStart(long videoStart) {
+	public void setVideoStart(BigDecimal videoStart) {
 		this.videoStart = videoStart;
 	}
-	public long getVideoEnd() {
+	public BigDecimal getVideoEnd() {
 		return videoEnd;
 	}
-	public void setVideoEnd(long videoEnd) {
+	public void setVideoEnd(BigDecimal videoEnd) {
 		this.videoEnd = videoEnd;
 	}
 	public String getYoutubeId() {
