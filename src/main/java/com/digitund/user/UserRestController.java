@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/userRestController")
+@RequestMapping("/api/users")
 public class UserRestController {
 	@Autowired 
 	private UserRepo userRepo;
@@ -54,7 +54,7 @@ public class UserRestController {
     }
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/deleteUsers", method=RequestMethod.DELETE)
-    public String showAllUsers(@RequestBody Users user){
+    public String deleteUser(@RequestBody Users user){
     	try {
     		userRepo.delete(user);
     		return "OK";

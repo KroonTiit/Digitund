@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/performanceRestController")
+@RequestMapping("/api/performances")
 public class PerformanceRestController {
 	@Autowired
 	private PerformanceRepo performanceRepo;

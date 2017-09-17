@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.digitund.answerGroupAnswer.AnswerGroupAnswer;
 
 @RestController
-@RequestMapping("/api/answerGroup")
+@RequestMapping("/api/answer-group")
 public class AnswerGroupRestController {
 	
 	@Autowired 
@@ -28,6 +28,7 @@ public class AnswerGroupRestController {
 	public AnswerGroupRestController (AnswerGroupRepo answerGroupRepo){
 		this.answerGroupRepo=answerGroupRepo;
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{answerGroupId}", method = RequestMethod.GET)
 	 public AnswerGroup getMaterial(@PathVariable String materialId) {
@@ -38,6 +39,7 @@ public class AnswerGroupRestController {
 			return null;
 		}
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	 public JsonArrayBuilder getAllMaterial(@RequestParam(required=true,value="questionId") String questionId) {

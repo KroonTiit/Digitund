@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/compMaterial")
+@RequestMapping("/api/comp-materials")
 public class CompMaterialRestController {
 	@Autowired 
 	private CompMaterialRepo compMaterialRepo;
@@ -31,6 +31,7 @@ public class CompMaterialRestController {
 			return null;
 		}
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	 public List<CompMaterial> getAllMaterial(@RequestParam(required=true,value="lessonId") String lessonId) {
@@ -41,6 +42,7 @@ public class CompMaterialRestController {
 			return null;
 		}
 	}
+	
 	//POST
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST)
@@ -52,6 +54,7 @@ public class CompMaterialRestController {
 			return null;
 		}
 	}
+	
 	//DELETE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{compMaterialId}",method = RequestMethod.DELETE)
@@ -62,6 +65,7 @@ public class CompMaterialRestController {
 			System.out.println(e.getStackTrace());
 		}
 	}
+	
 	//UPDATE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{compMaterialId}",method = RequestMethod.PATCH)

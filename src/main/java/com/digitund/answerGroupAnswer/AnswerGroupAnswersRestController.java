@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/answerGroupAnswers")
+@RequestMapping("/api/answer-group-answers")
 public class AnswerGroupAnswersRestController {
 	@Autowired 
 	private AnswerGroupAnswerRepo answerGroupAnswersRepo;
@@ -21,6 +21,7 @@ public class AnswerGroupAnswersRestController {
 	public AnswerGroupAnswersRestController (AnswerGroupAnswerRepo answerGroupAnswersRepo){
 		this.answerGroupAnswersRepo=answerGroupAnswersRepo;
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{answerGroupAnswersId}", method = RequestMethod.GET)
 	 public AnswerGroupAnswer getMaterial(@PathVariable String materialId) {
@@ -31,6 +32,7 @@ public class AnswerGroupAnswersRestController {
 			return null;
 		}
 	}
+	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	 public List<AnswerGroupAnswer> getAllMaterial(@RequestParam(required=true,value="answerGroupAnswers") String answerGroupAnswers) {
@@ -41,6 +43,7 @@ public class AnswerGroupAnswersRestController {
 			return null;
 		}
 	}
+	
 	//POST
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST)
@@ -52,6 +55,7 @@ public class AnswerGroupAnswersRestController {
 			return null;
 		}
 	}
+	
 	//DELETE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{materialId}",method = RequestMethod.DELETE)
@@ -62,6 +66,7 @@ public class AnswerGroupAnswersRestController {
 			System.out.println(e.getStackTrace());
 		}
 	}
+	
 	//UPDATE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{materialId}",method = RequestMethod.PATCH)

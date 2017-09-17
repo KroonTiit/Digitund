@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/orderedAnswer")
+@RequestMapping("/api/ordered-answers")
 public class OrderedAnswerRestController {
 	@Autowired 
 	private OrderedAnswerRepo orderedAnswerRepo;

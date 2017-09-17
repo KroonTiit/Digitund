@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.digitund.video.Video;
 
 @RestController
-@RequestMapping("/api/questionsRestContoller")
+@RequestMapping("/api/questions")
 public class QuestionsRestContoller {
 
 	@Autowired 
