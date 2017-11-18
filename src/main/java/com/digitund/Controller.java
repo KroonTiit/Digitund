@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.digitund.lesson.Lesson;
-import com.digitund.lesson.LessonRepo;
+import com.digitund.manage.model.Lesson;
+import com.digitund.manage.data.LessonRepo;
 
 
 @RestController
@@ -38,13 +38,13 @@ public class Controller {
 //		JsonArrayBuilder arrayMaterials = Json.createArrayBuilder();
 		
 		for (Lesson lesson : findByCreator) {
-//			List<Tekst> allUserTekst = tekstRepo.findByLessonId((Long)lesson.getId());
-//			for (Tekst tekst : allUserTekst) {
-////				System.out.println("w: "+tekst.getLesson_id()+" t: "+tekst.getOrder_nr()+" r: "+tekst.getTekst());
+//			List<TextMaterial> allUserTekst = tekstRepo.findByLessonId((Long)lesson.getId());
+//			for (TextMaterial textmaterial : allUserTekst) {
+////				System.out.println("w: "+textmaterial.getLesson_id()+" t: "+textmaterial.getOrder_nr()+" r: "+textmaterial.getTekst());
 //				JsonObjectBuilder tekstBuilder = Json.createObjectBuilder();
-//				JsonObject lessonJson =tekstBuilder.add("lessonId", tekst.getLesson_id())
-//						.add("order_nr", tekst.getOrder_nr())
-//						.add("tekst", tekst.getTekst()).build();
+//				JsonObject lessonJson =tekstBuilder.add("lessonId", textmaterial.getLesson_id())
+//						.add("order_nr", textmaterial.getOrder_nr())
+//						.add("textmaterial", textmaterial.getTekst()).build();
 //				arrayMaterials.add(lessonJson);
 ////			}
 			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();
