@@ -11,7 +11,7 @@ public class Lesson {
 	@Id @GeneratedValue
 	private long id;
 	private String userId;
-	private Timestamp startTime ;
+	private Timestamp startTime;
 	private Timestamp endTime;
 	private Timestamp created;
 	private String name;
@@ -30,20 +30,17 @@ public class Lesson {
 		this.endTime=endDate;
 		this.created=created;
 		this.userId=userId;
-//		this.lessonPermalink=lessonPermalink;
 	}
 	public Lesson(Timestamp startDate, Timestamp created, String userId, String name) {
 		this.startTime=startDate;
 		this.created=created;
 		this.userId=userId;
-//		this.lessonPermalink=lessonPermaLink;
 		this.name=name;
 	}
 	public Lesson(Timestamp startDate, Timestamp created, String userId, String name, String description) {
 		this.startTime=startDate;
 		this.created=created;
 		this.userId=userId;
-//		this.lessonPermalink=lessonPermaLink;
 		this.name=name;
 		this.description=description;
 	}
@@ -59,30 +56,12 @@ public class Lesson {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public Timestamp getStart_date() {
-		return startTime;
-	}
-	public void setStart_date(Timestamp startDate) {
-		this.startTime = startDate;
-	}
-	public Timestamp getEnd_date() {
-		return endTime;
-	}
-	public void setEnd_date(Timestamp endDate) {
-		this.endTime = endDate;
-	}
 	public Timestamp getCreated() {
 		return created;
 	}
 	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
-//	public String getLessonPermalink() {
-//		return lessonPermalink;
-//	}
-//	public void setLessonPermalink(String lessonPermalink) {
-//		this.lessonPermalink = lessonPermalink;
-//	}
 	public String getName() {
 		return name;
 	}
@@ -94,5 +73,21 @@ public class Lesson {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Timestamp getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Timestamp startTime) {
+		this.startTime = startTime;
+	}
+
+	public Timestamp getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Timestamp endTime) {
+		this.endTime = endTime;
 	}
 }

@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/api/user-groups")
 public class UserGroupRestController {
+
+	private com.digitund.manage.data.UserGroupRepo userGroupRepo;
+
 	@Autowired 
-	private com.digitund.manage.data.UserGroupRepo UserGroupRepo;
-	@Autowired 
-	public UserGroupRestController(UserGroupRepo UserGroupRepo){
-		this.UserGroupRepo=UserGroupRepo;
+	public UserGroupRestController(UserGroupRepo userGroupRepo){
+		this.userGroupRepo = userGroupRepo;
 	}
 	
 	//USER_GROUP
@@ -25,7 +26,7 @@ public class UserGroupRestController {
     @RequestMapping(value="/{userId}",method = RequestMethod.GET)
     public UserGroup getUserGroup(@PathVariable String userId) {
     	try{
-    		return UserGroupRepo.findOne(Long.decode(userId));
+    		return userGroupRepo.findOne(Long.decode(userId));
     	} catch (Exception e) {
     		System.out.println( e.getStackTrace());
     		return null;
@@ -35,21 +36,21 @@ public class UserGroupRestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
-    public UserGroup createUserGroup(@RequestBody UserGroup UserGroup){
-    		return UserGroupRepo.save(UserGroup);
+    public UserGroup createUserGroup(@RequestBody UserGroup userGroup){
+    		return userGroupRepo.save(userGroup);
     }
 	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/deleteUsers", method=RequestMethod.DELETE)
-    public void deleteUserGroup(@RequestBody UserGroup UserGroup){
-    		UserGroupRepo.delete(UserGroup);
+    public void deleteUserGroup(@RequestBody UserGroup userGroup){
+    		userGroupRepo.delete(userGroup);
     }
 	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{userGroupId}", method = RequestMethod.PATCH)
-    public void updateUserGroup(@RequestBody UserGroup UserGroup) {
+    public void updateUserGroup(@RequestBody UserGroup userGroup) {
 		try{
-			UserGroupRepo.save(UserGroup);
+			userGroupRepo.save(userGroup);
 		} catch (Exception e) {
 			System.out.println( e.getStackTrace());
 		}

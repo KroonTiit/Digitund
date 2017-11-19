@@ -40,11 +40,11 @@ public class Controller {
 		for (Lesson lesson : findByCreator) {
 //			List<TextMaterial> allUserTekst = tekstRepo.findByLessonId((Long)lesson.getId());
 //			for (TextMaterial textmaterial : allUserTekst) {
-////				System.out.println("w: "+textmaterial.getLesson_id()+" t: "+textmaterial.getOrder_nr()+" r: "+textmaterial.getTekst());
+////				System.out.println("w: "+textmaterial.getLesson_id()+" t: "+textmaterial.getOrder_nr()+" r: "+textmaterial.getText());
 //				JsonObjectBuilder tekstBuilder = Json.createObjectBuilder();
 //				JsonObject lessonJson =tekstBuilder.add("lessonId", textmaterial.getLesson_id())
 //						.add("order_nr", textmaterial.getOrder_nr())
-//						.add("textmaterial", textmaterial.getTekst()).build();
+//						.add("textmaterial", textmaterial.getText()).build();
 //				arrayMaterials.add(lessonJson);
 ////			}
 			JsonObjectBuilder lessonbuilder = Json.createObjectBuilder();

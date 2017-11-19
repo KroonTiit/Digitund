@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
-	@Autowired 
+
 	private UserRepo userRepo;
 
 	@Autowired
@@ -41,7 +41,7 @@ public class UserRestController {
     	try {
     		// siin tuleb mingi asi välja mõelda kuidas auth0-ist id-si salvestama hakata
     		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        	user.setStart_date(timestamp);
+        	user.setStartDate(timestamp);
         	userRepo.save(user);
         	return "OK";
 		} catch (Exception e) {

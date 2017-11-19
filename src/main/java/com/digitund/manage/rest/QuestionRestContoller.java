@@ -14,55 +14,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/question")
+@RequestMapping("/api/questions")
 public class QuestionRestContoller {
 
-	@Autowired 
 	private QuestionRepo questionRepo;
+
 	@Autowired 
 	public QuestionRestContoller(QuestionRepo questionRepo){
 		this.questionRepo = questionRepo;
 	}
-	
-	 //QUESTIONS
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value="/{questionId}", method = RequestMethod.GET)
+	public Question getQuestion(@PathVariable Long questionId) {
+		return questionRepo.findOne(questionId);
+	}
+
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-    public List<Question> getAllMaterialQuestions(@RequestParam(required=true,value="materialId")String id) {
-    	try{
-    		return questionRepo.findAll(Long.decode(id));
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return null;
-		}
+    public List<Question> getQuestionsByCompMaterial(@RequestParam(value="compMaterialId") Long compMaterialId) {
+		return questionRepo.findAll(compMaterialId);
     }
 	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
     public void saveQuestion(@RequestBody Question question) {
-    	try{
-    		questionRepo.save(question);
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-		}
+		questionRepo.save(question);
     }
 	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{questionId}",method = RequestMethod.DELETE)
-    public void deleteQuestion(@PathVariable String questionId) {
-    	try{
-    		questionRepo.delete(Long.decode(questionId));
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-		}
+    public void deleteQuestion(@PathVariable Long questionId) {
+		questionRepo.delete(questionId);
     }
 	
 	@CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{questionId}", method = RequestMethod.PATCH)
     public void updateQuestion(@RequestBody Question question) {
-		try{
-				questionRepo.save(question);
-		} catch (Exception e) {
-			System.out.println( e.getStackTrace());
-		}
+		questionRepo.save(question);
 	}
 }

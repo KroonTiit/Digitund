@@ -16,69 +16,46 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/comp-materials")
 public class CompMaterialRestController {
-	@Autowired 
+
 	private CompMaterialRepo compMaterialRepo;
+
 	@Autowired 
 	public CompMaterialRestController (CompMaterialRepo compMaterialRepo){
 		this.compMaterialRepo=compMaterialRepo;
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value="/{lessonId}", method = RequestMethod.GET)
-	 public CompMaterial getMaterial(@PathVariable String lessonId) {
-		try {
-			return compMaterialRepo.findOne(Long.decode(lessonId));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+	@RequestMapping(value="/{compMaterialId}", method = RequestMethod.GET)
+	 public CompMaterial getMaterial(@PathVariable String compMaterialId) {
+		return compMaterialRepo.findOne(Long.decode(compMaterialId));
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	 public List<CompMaterial> getAllMaterial(@RequestParam(required=true,value="lessonId") String lessonId) {
-		try {
-			return compMaterialRepo.findByLessonId(Long.decode(lessonId));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+		return compMaterialRepo.findByLessonId(Long.decode(lessonId));
 	}
 	
 	//POST
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST)
 	public CompMaterial createMaterial(@RequestBody CompMaterial compMaterial) {
-		try {
-			return compMaterialRepo.save(compMaterial);
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+		return compMaterialRepo.save(compMaterial);
 	}
 	
 	//DELETE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{compMaterialId}",method = RequestMethod.DELETE)
 	public void deleteMaterial(@PathVariable String compMaterialId) {
-		try {
-			compMaterialRepo.delete(Long.decode(compMaterialId));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-		}
+		compMaterialRepo.delete(Long.decode(compMaterialId));
 	}
 	
 	//UPDATE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{compMaterialId}",method = RequestMethod.PATCH)
 	public String updateMaterial(@RequestBody CompMaterial compMaterial) {
-    	try{
-    		compMaterialRepo.save(compMaterial);
-    		return "OK";
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return "not OK";
-		}
+		compMaterialRepo.save(compMaterial);
+		return "OK";
     }
 	
 }

@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/api/user-group-users")
 public class UserGroupUserRestController {
-	@Autowired 
+
 	private UserGroupUserRepo userGroupUserRepo;
+
 	@Autowired 
 	public UserGroupUserRestController(UserGroupUserRepo UserGroupUserRepo){
 		this.userGroupUserRepo = UserGroupUserRepo;

@@ -23,23 +23,16 @@ import com.digitund.BaseX;
 @RequestMapping("/api/lessons")
 public class LessonRestController {
 
-	
-	@Autowired 
 	private LessonRepo lessonRepo;
+
 	@Autowired 
 	public  LessonRestController (LessonRepo lessonRepo){
 		this.lessonRepo=lessonRepo;
 	}
 	
     public String makeUrl(Long id) {
-    	try{
-    		BaseX baseX = new BaseX();
-    		String lesson = baseX.encode(new BigInteger(id.toString()));
-    		return lesson;
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return null;
-		}
+		BaseX baseX = new BaseX();
+		return baseX.encode(new BigInteger(id.toString()));
     }
     
     @RequestMapping("/basex")
@@ -51,7 +44,6 @@ public class LessonRestController {
     @CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{lessonId}", method = RequestMethod.GET)
     public Lesson getOneUserLesson(@PathVariable String lessonId) {
-    	try{
     	//	BaseX baseX = new BaseX();
     		//BigInteger lessonId = baseX.decode(id);
 //			Lesson newLesson = lessonRepo.findOne(Long.decode(lessonId));
@@ -65,17 +57,12 @@ public class LessonRestController {
 //    			.build();
 //    			arrayBuilder.add(lessonJson);
 //    		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
-    		return lessonRepo.findOne(Long.decode(lessonId));
-    	} catch (Exception e) {
-    		System.out.println(e.getStackTrace());
-    		return null;
-		}
+		return lessonRepo.findOne(Long.decode(lessonId));
     }
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.GET)
     public List<Lesson> getAllUserLessons(@RequestParam(required=true,value="userId")String id) {
-    	try{
 //    		List<Lesson> findByCreator = lessonRepo.findByCreator(id);
 //    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 //    		for (Lesson oneLesson : findByCreator) {
@@ -87,50 +74,29 @@ public class LessonRestController {
 //    			arrayBuilder.add(lessonJson);
 //    		}
     		//return arrayBuilder.build();
-    		return lessonRepo.findByCreator(id);
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return null;
-		}
+		return lessonRepo.findByCreator(id);
     }
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping (value="/{lessonId}",method = RequestMethod.DELETE)
     public void deleteUserLessons(@PathVariable String lessonId) {
-    	try{ 
-    		lessonRepo.delete(Long.decode(lessonId));
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-		}
+		lessonRepo.delete(Long.decode(lessonId));
     }
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(method = RequestMethod.POST)
-    public Lesson createUserLessons(
-    		@RequestBody Lesson lesson
-    		) {
-    	try{
+    public Lesson createUserLessons(@RequestBody Lesson lesson) {
 //    		Timestamp startDate = new Timestamp(System.currentTimeMillis());
-    		Timestamp created = new Timestamp(System.currentTimeMillis());
-    		lesson.setStart_date(created);
+		Timestamp created = new Timestamp(System.currentTimeMillis());
+		lesson.setStartTime(created);
 //    		makeUrl(savedLesson.getId()); //kommenteerisin välja sest tahame testimiseks kasutada kümnend id-sid
-    		return lessonRepo.save(lesson);
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return null;
-		}
+		return lessonRepo.save(lesson);
     }
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/{lessonId}", method = RequestMethod.PATCH)
     public String updateUserLessons(@RequestBody Lesson lesson) {
-    	try{
-    		lessonRepo.save(lesson);
-    		return "OK";
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return "not OK";
-		}
+		lessonRepo.save(lesson);
+		return "OK";
     }
-    //LESSON END
 }

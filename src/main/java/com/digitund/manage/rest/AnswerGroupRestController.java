@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.digitund.manage.model.AnswerGroupAnswer;
 
 @RestController
-@RequestMapping("/api/answer-group")
+@RequestMapping("/api/answer-groups")
 public class AnswerGroupRestController {
-	
-	@Autowired 
+
 	private AnswerGroupRepo answerGroupRepo;
+
 	@Autowired 
 	public AnswerGroupRestController (AnswerGroupRepo answerGroupRepo){
 		this.answerGroupRepo=answerGroupRepo;
@@ -33,76 +33,52 @@ public class AnswerGroupRestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{answerGroupId}", method = RequestMethod.GET)
-	 public AnswerGroup getMaterial(@PathVariable String materialId) {
-		try {
-			return answerGroupRepo.findOne(Long.decode(materialId));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+	 public AnswerGroup getAnswerGroup(@PathVariable String answerGroupId) {
+		return answerGroupRepo.findOne(Long.decode(answerGroupId));
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
 	 public JsonArrayBuilder getAllMaterial(@RequestParam(required=true,value="questionId") String questionId) {
-		try {
-			AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(Long.decode(questionId));
-			
-			List<AnswerGroupAnswer> answer = answerGroupRepo.findAnswersById(answerGroup.getId());
-    		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    		JsonArrayBuilder arrayBuilderResponce = Json.createArrayBuilder();
-    		JsonObjectBuilder answerbuilder = Json.createObjectBuilder();
-    		for(AnswerGroupAnswer data : answer){
-    			JsonObject answerJson = answerbuilder.add("id", data.getId())
-            			.add("answerGroupId",data.getAnswerGroupId())
-            			.add("text", data.getText())
-            			.build();
-    			arrayBuilder.add(answerJson);
-    		}
-    		JsonObject responceJson = answerbuilder.add("id", answerGroup.getId())
-        			.add("questionId",answerGroup.getQuestionId())
-        			.add("text", answerGroup.getText())
-        			.add("answeroption", arrayBuilder)
-        			.build();
-    		arrayBuilderResponce.add(responceJson).build();
-			return arrayBuilderResponce;
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
+		AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(Long.decode(questionId));
+
+		List<AnswerGroupAnswer> answer = answerGroupRepo.findAnswersById(answerGroup.getId());
+		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+		JsonArrayBuilder arrayBuilderResponce = Json.createArrayBuilder();
+		JsonObjectBuilder answerbuilder = Json.createObjectBuilder();
+		for(AnswerGroupAnswer data : answer){
+			JsonObject answerJson = answerbuilder.add("id", data.getId())
+					.add("answerGroupId",data.getAnswerGroupId())
+					.add("text", data.getText())
+					.build();
+			arrayBuilder.add(answerJson);
 		}
+		JsonObject responceJson = answerbuilder.add("id", answerGroup.getId())
+				.add("questionId",answerGroup.getQuestionId())
+				.add("text", answerGroup.getText())
+				.add("answeroption", arrayBuilder)
+				.build();
+		arrayBuilderResponce.add(responceJson).build();
+		return arrayBuilderResponce;
 	}
 	//POST
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST)
-	public AnswerGroup createMaterial(@RequestBody AnswerGroup answerGroup) {
-		try {
-			return answerGroupRepo.save(answerGroup);
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+	public AnswerGroup createAnswerGroup(@RequestBody AnswerGroup answerGroup) {
+		return answerGroupRepo.save(answerGroup);
 	}
 	//DELETE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{materialId}",method = RequestMethod.DELETE)
-	public void deleteMaterial(@PathVariable String answerGroup) {
-		try {
-			answerGroupRepo.delete(Long.decode(answerGroup));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-		}
+	public void deleteAnswerGroup(@PathVariable String answerGroup) {
+		answerGroupRepo.delete(Long.decode(answerGroup));
 	}
 	//UPDATE
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping (value="/{materialId}",method = RequestMethod.PATCH)
-	public String updateMaterial(@RequestBody AnswerGroup answerGroup) {
-    	try{
-    		answerGroupRepo.save(answerGroup);
-    		return "OK";
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return "not OK";
-		}
+	public String updateAnswerGroup(@RequestBody AnswerGroup answerGroup) {
+		answerGroupRepo.save(answerGroup);
+		return "OK";
     }
 	
 }

@@ -8,54 +8,39 @@ import javax.persistence.Id;
 public class Question {
 	@Id @GeneratedValue
 	private Long id;
-	private Long materialId;
-	private Long orderNr;
+	private Long compMaterialId;
 	private String text;
 	private String type;
 	
 	public Question(){}
-	public Question(Long materialId){
-		this.materialId=materialId;
+	public Question(Long compMaterialId){
+		this.compMaterialId = compMaterialId;
 	}
-	public Question(Long id, Long materialId){
+	public Question(Long id, Long compMaterialId){
 		this.id=id;
-		this.materialId=materialId;
+		this.compMaterialId = compMaterialId;
 	}
-	public Question(Long materialId, Long orderNr, String texts){
-		this.materialId=materialId;
-		this.orderNr=orderNr;
+	public Question(Long compMaterialId, String texts){
+		this.compMaterialId = compMaterialId;
 		this.text=texts;
 	}
-	public Question(Long id, Long materialId, Long orderNr, String text){
+	public Question(Long id, Long compMaterialId, String text, String type){
 		this.id=id;
-		this.materialId=materialId;
-		this.orderNr=orderNr;
-		this.text=text;
-	}
-	public Question(Long id, Long materialId, Long orderNr, String text, String type){
-		this.id=id;
-		this.materialId=materialId;
-		this.orderNr=orderNr;
+		this.compMaterialId = compMaterialId;
 		this.text=text;
 		this.type=type;
 	}
-	public long getMaterial_id() {
-		return materialId;
+	public long getCompMaterialId() {
+		return compMaterialId;
 	}
-	public void setMaterial_id(Long materialId) {
-		this.materialId = materialId;
+	public void setCompMaterialId(Long compMaterialId) {
+		this.compMaterialId = compMaterialId;
 	}
-	public long getOrder_nr() {
-		return orderNr;
-	}
-	public void setOrder_nr(Long orderNr) {
-		this.orderNr = orderNr;
-	}
-	public String getTekst() {
+	public String getText() {
 		return text;
 	}
-	public void setTekst(String tekst) {
-		this.text = tekst;
+	public void setText(String text) {
+		this.text = text;
 	}
 	public String getType() {
 		return type;
@@ -63,5 +48,12 @@ public class Question {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

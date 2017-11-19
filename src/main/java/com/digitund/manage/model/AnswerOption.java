@@ -28,10 +28,10 @@ public class AnswerOption {
 		this.correct=correct;
 		this.text=tekst;
 	}
-	public long getQuestion_id() {
+	public long getQuestionId() {
 		return questionId;
 	}
-	public void setQuestion_id(Long questionId) {
+	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
 	public boolean isCorrect() {
@@ -40,12 +40,19 @@ public class AnswerOption {
 	public void setCorrect(Boolean correct) {
 		this.correct = correct;
 	}
-	public String getTekst() {
+	public String getText() {
 		return text;
 	}
-	public void setTekst(String tekst) {
-		this.text = tekst;
+	public void setText(String text) {
+		this.text = text;
 	}
-	
-	
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

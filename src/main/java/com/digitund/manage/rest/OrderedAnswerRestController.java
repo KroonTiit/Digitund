@@ -15,67 +15,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/ordered-answeroption")
+@RequestMapping("/api/ordered-answers")
 public class OrderedAnswerRestController {
-	@Autowired 
+
 	private OrderedAnswerRepo orderedAnswerRepo;
+
 	@Autowired 
 	public OrderedAnswerRestController (OrderedAnswerRepo orderedAnswerRepo){
 		this.orderedAnswerRepo=orderedAnswerRepo;
 	}
-	//GET
+
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value="/{questionId}", method = RequestMethod.GET)
-	 public OrderedAnswer getMaterial(@PathVariable String questionId) {
-		try {
-			return orderedAnswerRepo.findOne(Long.decode(questionId));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+	@RequestMapping(value="/{orderedAnswerId}", method = RequestMethod.GET)
+	 public OrderedAnswer getOrderedAnswer(@PathVariable String orderedAnswerId) {
+		return orderedAnswerRepo.findOne(Long.decode(orderedAnswerId));
 	}
+
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-	 public List<OrderedAnswer> getAllMaterial(@RequestParam(required=true,value="orderedanswer") String questionId) {
-		try {
-			return orderedAnswerRepo.findByQuestionId(Long.decode(questionId));
-		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return null;
-		}
+	 public List<OrderedAnswer> getByQuestion(@RequestParam(required=true,value="questionId") String questionId) {
+		return orderedAnswerRepo.findByQuestionId(Long.decode(questionId));
 	}
-	//POST
-		@CrossOrigin(origins = "http://localhost:3000")
-		@RequestMapping(method = RequestMethod.POST)
-		public OrderedAnswer createMaterial(@RequestBody OrderedAnswer orderedAnswer) {
-			try {
-				return orderedAnswerRepo.save(orderedAnswer);
-			} catch (Exception e) {
-				System.out.println(e.getStackTrace());
-				return null;
-			}
-		}
-		//DELETE
-		@CrossOrigin(origins = "http://localhost:3000")
-		@RequestMapping (value="/{materialId}",method = RequestMethod.DELETE)
-		public void deleteMaterial(@PathVariable String materialId) {
-			try {
-				orderedAnswerRepo.delete(Long.decode(materialId));
-			} catch (Exception e) {
-				System.out.println(e.getStackTrace());
-			}
-		}
-		//UPDATE
-		@CrossOrigin(origins = "http://localhost:3000")
-		@RequestMapping (value="/{materialId}",method = RequestMethod.PATCH)
-		public String updateMaterial(@RequestBody OrderedAnswer orderedAnswer) {
-	    	try{
-	    		orderedAnswerRepo.save(orderedAnswer);
-	    		return "OK";
-	    	} catch (Exception e) {
-	    		System.out.println( e.getStackTrace());
-	    		return "not OK";
-			}
-	    }
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(method = RequestMethod.POST)
+	public OrderedAnswer createOrderedAnswer(@RequestBody OrderedAnswer orderedAnswer) {
+		return orderedAnswerRepo.save(orderedAnswer);
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping (value="/{orderedAnswerId}",method = RequestMethod.DELETE)
+	public void deleteOrderedAnswer(@PathVariable String orderedAnswerId) {
+		orderedAnswerRepo.delete(Long.decode(orderedAnswerId));
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping (value="/{materialId}",method = RequestMethod.PATCH)
+	public String updateOrderedAnswer(@RequestBody OrderedAnswer orderedAnswer) {
+		orderedAnswerRepo.save(orderedAnswer);
+		return "wat";
+	}
 		
 }

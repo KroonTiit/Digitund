@@ -14,60 +14,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/answeroption")
+@RequestMapping("/api/answer-options")
 public class AnswerOptionRestController {
 
-	@Autowired 
 	private AnswerOptionRepo answerOptionRepo;
-	
-    @Autowired
-    public AnswerOptionRestController(AnswerOptionRepo answerOptionRepo){
-    	this.answerOptionRepo = answerOptionRepo;
-    	
-    }
-   
-    //ANSWERS
-    @CrossOrigin(origins ="http://localhost:3000")
-    @RequestMapping(method = RequestMethod.GET)
-    public List<AnswerOption> getAllQuestionsAnswers(@RequestParam(required=true,value="questionId")String id) {
-    	try{
-    		return answerOptionRepo.findByQuestionId(Long.decode(id));
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-    		return null;
-		}
-    }
-    
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(method = RequestMethod.POST)
-    public void saveAnswerOption(@RequestBody AnswerOption answerOption) {
-    	try{
-    		answerOptionRepo.save(answerOption);
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-		}
-    }
-    
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value="/{answerId}", method=RequestMethod.DELETE)
-    public void deleteAnswerOption(@PathVariable String answerId) {
-    	try{
-    		answerOptionRepo.delete(Long.decode(answerId));
-    	} catch (Exception e) {
-    		System.out.println( e.getStackTrace());
-		}
-    }
-    
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value="/{answerId}", method = RequestMethod.PATCH)
-    public String updateAnswerOption(@RequestBody AnswerOption answerId) {
-		try{
-			answerOptionRepo.save(answerId);
-			return "OK";
-		} catch (Exception e) {
-			System.out.println( e.getStackTrace());
-			return null;
-		}
+
+	@Autowired
+	public AnswerOptionRestController(AnswerOptionRepo answerOptionRepo) {
+		this.answerOptionRepo = answerOptionRepo;
 	}
-    //ANSWERS END
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(method = RequestMethod.GET)
+	public List<AnswerOption> getAllQuestionsAnswers(@RequestParam(required = true, value = "questionId") String id) {
+		return answerOptionRepo.findByQuestionId(Long.decode(id));
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(method = RequestMethod.POST)
+	public void saveAnswerOption(@RequestBody AnswerOption answerOption) {
+		answerOptionRepo.save(answerOption);
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/{answerId}", method = RequestMethod.DELETE)
+	public void deleteAnswerOption(@PathVariable String answerId) {
+		answerOptionRepo.delete(Long.decode(answerId));
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/{answerId}", method = RequestMethod.PATCH)
+	public String updateAnswerOption(@RequestBody AnswerOption answerId) {
+		answerOptionRepo.save(answerId);
+		return "OK";
+	}
 }

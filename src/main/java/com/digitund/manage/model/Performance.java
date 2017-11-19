@@ -42,5 +42,12 @@ public class Performance {
 	public void setStart_date(Timestamp startDate) {
 		this.startDate = startDate;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

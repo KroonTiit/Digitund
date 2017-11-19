@@ -10,6 +10,7 @@ import javax.persistence.Id;
 public class Material {
 	@Id @GeneratedValue
 	private long id;
+	private String name;
 	private long compMaterialId;
 	private long orderNr;
 	private String type;
@@ -18,6 +19,8 @@ public class Material {
 	private BigDecimal videoEnd;
 	private String youtubeId;
 	private String imageUrl;
+	private String description;
+
 	public Material() {}
 	
 	public long getId() {
@@ -80,6 +83,12 @@ public class Material {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	private String description;
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

@@ -10,6 +10,7 @@ public class CompMaterial {
 	private long id;
 	private long lessonId;
 	private long orderNr;
+	private String name;
 	
 	public CompMaterial() {}
 	
@@ -30,5 +31,13 @@ public class CompMaterial {
 	}
 	public void setOrderNr(long orderNr) {
 		this.orderNr = orderNr;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

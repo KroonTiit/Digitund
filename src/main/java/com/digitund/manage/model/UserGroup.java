@@ -29,4 +29,12 @@ public class UserGroup {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }
