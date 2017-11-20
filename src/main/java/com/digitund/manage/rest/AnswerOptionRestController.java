@@ -32,8 +32,8 @@ public class AnswerOptionRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.POST)
-  public void saveAnswerOption(@RequestBody AnswerOption answerOption) {
-    answerOptionRepo.save(answerOption);
+  public AnswerOption saveAnswerOption(@RequestBody AnswerOption answerOption) {
+    return answerOptionRepo.save(answerOption);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

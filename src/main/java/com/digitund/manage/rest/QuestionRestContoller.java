@@ -38,8 +38,8 @@ public class QuestionRestContoller {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.POST)
-  public void saveQuestion(@RequestBody Question question) {
-    questionRepo.save(question);
+  public Question saveQuestion(@RequestBody Question question) {
+    return questionRepo.save(question);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
