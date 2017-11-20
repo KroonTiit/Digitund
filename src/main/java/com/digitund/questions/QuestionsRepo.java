@@ -12,5 +12,8 @@ import com.digitund.video.Video;
 public interface QuestionsRepo extends JpaRepository<Questions, Long>{
 	
 	@Query("select s from Questions s where s.materialId like ?1 ")
-	List<Video> findAll(Long decode);
+	List<Questions> findAll(Long decode);
+
+	@Query("select s from Questions s where s.materialId like ?1 and s.orderNr like ?2")
+	Questions findByCompMaterialId(long id, long orderNr);
 }

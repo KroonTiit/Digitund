@@ -1,4 +1,4 @@
-package com.digitund.compmaterial;
+package com.digitund.compMaterial;
 
 import java.util.List;
 

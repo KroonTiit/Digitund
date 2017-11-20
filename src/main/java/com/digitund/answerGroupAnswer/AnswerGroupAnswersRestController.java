@@ -24,7 +24,7 @@ public class AnswerGroupAnswersRestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{answerGroupAnswersId}", method = RequestMethod.GET)
-	 public AnswerGroupAnswer getMaterial(@PathVariable String materialId) {
+	 public AnswerGroupAnswer getAnswerGroupAnswers(@PathVariable String materialId) {
 		try {
 			return answerGroupAnswersRepo.findOne(Long.decode(materialId));
 		} catch (Exception e) {
@@ -35,9 +35,9 @@ public class AnswerGroupAnswersRestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-	 public List<AnswerGroupAnswer> getAllMaterial(@RequestParam(required=true,value="answerGroupAnswers") String answerGroupAnswers) {
+	 public List<AnswerGroupAnswer> getAllAnswerGroupAnswers(@RequestParam(required=true,value="answerGroupAnswers") String answerGroupAnswers) {
 		try {
-			return answerGroupAnswersRepo.findByAnswerGrouId(Long.decode(answerGroupAnswers));
+			return answerGroupAnswersRepo.findByAnswerGroupId(Long.decode(answerGroupAnswers));
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 			return null;
@@ -47,7 +47,7 @@ public class AnswerGroupAnswersRestController {
 	//POST
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST)
-	public AnswerGroupAnswer createMaterial(@RequestBody AnswerGroupAnswer answerGroupAnswers) {
+	public AnswerGroupAnswer createAnswerGroupAnswers(@RequestBody AnswerGroupAnswer answerGroupAnswers) {
 		try {
 			return answerGroupAnswersRepo.save(answerGroupAnswers);
 		} catch (Exception e) {
@@ -58,8 +58,8 @@ public class AnswerGroupAnswersRestController {
 	
 	//DELETE
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping (value="/{materialId}",method = RequestMethod.DELETE)
-	public void deleteMaterial(@PathVariable String answerGroupAnswers) {
+	@RequestMapping (value="/{answerGroupAnswersId}",method = RequestMethod.DELETE)
+	public void deleteAnswerGroupAnswers(@PathVariable String answerGroupAnswers) {
 		try {
 			answerGroupAnswersRepo.delete(Long.decode(answerGroupAnswers));
 		} catch (Exception e) {
@@ -69,8 +69,8 @@ public class AnswerGroupAnswersRestController {
 	
 	//UPDATE
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping (value="/{materialId}",method = RequestMethod.PATCH)
-	public String updateMaterial(@RequestBody AnswerGroupAnswer answerGroupAnswers) {
+	@RequestMapping (value="/{answerGroupAnswersId}",method = RequestMethod.PATCH)
+	public String updateAnswerGroupAnswers(@RequestBody AnswerGroupAnswer answerGroupAnswers) {
     	try{
     		answerGroupAnswersRepo.save(answerGroupAnswers);
     		return "OK";

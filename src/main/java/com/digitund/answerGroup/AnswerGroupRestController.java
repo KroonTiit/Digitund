@@ -31,9 +31,9 @@ public class AnswerGroupRestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/{answerGroupId}", method = RequestMethod.GET)
-	 public AnswerGroup getMaterial(@PathVariable String materialId) {
+	 public AnswerGroup getAnswerGroup(@PathVariable String answerGroupId) {
 		try {
-			return answerGroupRepo.findOne(Long.decode(materialId));
+			return answerGroupRepo.findOne(Long.decode(answerGroupId));
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 			return null;
@@ -42,7 +42,7 @@ public class AnswerGroupRestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET)
-	 public JsonArrayBuilder getAllMaterial(@RequestParam(required=true,value="questionId") String questionId) {
+	 public JsonArrayBuilder getAllAnswerGroup(@RequestParam(required=true,value="questionId") String questionId) {
 		try {
 			AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(Long.decode(questionId));
 			
@@ -72,7 +72,7 @@ public class AnswerGroupRestController {
 	//POST
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST)
-	public AnswerGroup createMaterial(@RequestBody AnswerGroup answerGroup) {
+	public AnswerGroup createAnswerGroup(@RequestBody AnswerGroup answerGroup) {
 		try {
 			return answerGroupRepo.save(answerGroup);
 		} catch (Exception e) {
@@ -82,8 +82,8 @@ public class AnswerGroupRestController {
 	}
 	//DELETE
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping (value="/{materialId}",method = RequestMethod.DELETE)
-	public void deleteMaterial(@PathVariable String answerGroup) {
+	@RequestMapping (value="/{answerGroup}",method = RequestMethod.DELETE)
+	public void deleteAnswerGroup(@PathVariable String answerGroup) {
 		try {
 			answerGroupRepo.delete(Long.decode(answerGroup));
 		} catch (Exception e) {
@@ -92,8 +92,8 @@ public class AnswerGroupRestController {
 	}
 	//UPDATE
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping (value="/{materialId}",method = RequestMethod.PATCH)
-	public String updateMaterial(@RequestBody AnswerGroup answerGroup) {
+	@RequestMapping (value="/{answerGroupId}",method = RequestMethod.PATCH)
+	public String updateAnswerGroup(@RequestBody AnswerGroup answerGroup) {
     	try{
     		answerGroupRepo.save(answerGroup);
     		return "OK";

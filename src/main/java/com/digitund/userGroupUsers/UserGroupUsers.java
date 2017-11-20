@@ -1,4 +1,4 @@
-package userGroupUsers;
+package com.digitund.userGroupUsers;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,14 +9,14 @@ public class UserGroupUsers {
 	@Id @GeneratedValue
 	private Long id;
 	private Long lessonId;
-	private Long groupUserId;
+	private Long userGroupId;
 	private String groupUserEmail;
 	
 	public UserGroupUsers () {}
 	
 	public UserGroupUsers (Long lessonId, Long groupUserId, String groupUserEmail) {
 		this.lessonId=lessonId;
-		this.groupUserId=groupUserId;
+		this.userGroupId=groupUserId;
 		this.groupUserEmail=groupUserEmail;
 	}
 	public Long getLessonId() {
@@ -26,10 +26,10 @@ public class UserGroupUsers {
 		this.lessonId = lessonId;
 	}
 	public Long getGroupUserId() {
-		return groupUserId;
+		return userGroupId;
 	}
 	public void setGroupUserId(Long groupUserId) {
-		this.groupUserId = groupUserId;
+		this.userGroupId = groupUserId;
 	}
 	public String getGroupUserEmail() {
 		return groupUserEmail;

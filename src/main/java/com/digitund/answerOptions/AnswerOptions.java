@@ -1,4 +1,4 @@
-package com.digitund.answers;
+package com.digitund.answerOptions;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

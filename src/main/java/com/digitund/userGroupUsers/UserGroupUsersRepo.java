@@ -1,4 +1,4 @@
-package userGroupUsers;
+package com.digitund.userGroupUsers;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

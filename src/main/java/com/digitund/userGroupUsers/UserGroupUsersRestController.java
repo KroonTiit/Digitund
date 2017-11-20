@@ -1,4 +1,4 @@
-package userGroupUsers;
+package com.digitund.userGroupUsers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

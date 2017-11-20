@@ -1,4 +1,4 @@
-package userGroup;
+package com.digitund.userGroup;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

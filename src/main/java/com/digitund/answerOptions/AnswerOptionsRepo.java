@@ -1,4 +1,4 @@
-package com.digitund.answers;
+package com.digitund.answerOptions;
 
 import java.util.List;
 
@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface AnswerOptionsRepo extends JpaRepository<AnswerOptions, Long>{
 	@Query("select s from AnswerOptions s where s.questionId like ?1")
 	List<AnswerOptions> findByQuestionId(long questionId);
+
+	
 }
