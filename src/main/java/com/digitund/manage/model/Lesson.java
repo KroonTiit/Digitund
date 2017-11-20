@@ -4,8 +4,13 @@ import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql = "UPDATE lesson SET deleted = 1 WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Where(clause = "deleted = 0")
 public class Lesson {
 
   @Id
@@ -17,6 +22,7 @@ public class Lesson {
   private Timestamp created;
   private String name;
   private String description;
+  private Boolean deleted = false;
 
   public Lesson() {
   }
@@ -107,5 +113,13 @@ public class Lesson {
 
   public void setEndTime(Timestamp endTime) {
     this.endTime = endTime;
+  }
+
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Boolean deleted) {
+    this.deleted = deleted;
   }
 }

@@ -3,8 +3,13 @@ package com.digitund.manage.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql = "UPDATE comp_material SET deleted = 1 WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Where(clause = "deleted = 0")
 public class CompMaterial {
 
   @Id
@@ -13,6 +18,7 @@ public class CompMaterial {
   private long lessonId;
   private long orderNr;
   private String name;
+  private Boolean deleted = false;
 
   public CompMaterial() {
   }
@@ -47,5 +53,13 @@ public class CompMaterial {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Boolean deleted) {
+    this.deleted = deleted;
   }
 }

@@ -4,8 +4,13 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql = "UPDATE material SET deleted = 1 WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Where(clause = "deleted = 0")
 public class Material {
 
   @Id
@@ -21,6 +26,7 @@ public class Material {
   private String youtubeId;
   private String imageUrl;
   private String description;
+  private Boolean deleted = false;
 
   public Material() {
   }
@@ -111,5 +117,13 @@ public class Material {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Boolean deleted) {
+    this.deleted = deleted;
   }
 }

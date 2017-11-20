@@ -26,7 +26,7 @@ public class PerformanceRestController {
   @RequestMapping(value = "/startSession", method = RequestMethod.POST)
   public Performance startSession(@RequestBody Performance performance) {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    Performance session = new Performance(performance.getPerformer_id(), performance.getLesson_id(),
+    Performance session = new Performance(performance.getPerformerId(), performance.getLessonId(),
         timestamp);
     return performanceRepo.save(session);
   }
@@ -35,6 +35,6 @@ public class PerformanceRestController {
   @RequestMapping(value = "/getSession", method = RequestMethod.GET)
   public List<Performance> getSession(@RequestBody Performance performance) {
     return performanceRepo
-        .getPerformance(performance.getPerformer_id(), performance.getLesson_id());
+        .getPerformances(performance.getPerformerId(), performance.getLessonId());
   }
 }

@@ -4,13 +4,11 @@ create table answer_group
 		primary key,
 	question_id bigint null,
 	text varchar(255) null,
-	constraint answer_group_question_id_fk
-		foreign key (question_id) references question (id)
-			on update cascade
+	deleted tinyint(1) default '0' not null
 )
 ;
 
-create index answer_group_answer_group_id_fk
+create index answer_group_question_id_fk
 	on answer_group (question_id)
 ;
 
@@ -21,8 +19,8 @@ create table answer_group_answer
 	answer_group_id bigint null,
 	text varchar(255) null,
 	constraint answer_group_answer_answer_group_id_fk
-		foreign key (answer_group_id) references answer_group (id)
-			on update cascade
+	foreign key (answer_group_id) references answer_group (id)
+		on update cascade
 )
 ;
 
@@ -50,7 +48,8 @@ create table comp_material
 		primary key,
 	lesson_id bigint null,
 	order_nr bigint not null,
-	name varchar(200) null
+	name varchar(200) null,
+	deleted tinyint(1) default '0' not null
 )
 ;
 
@@ -67,14 +66,15 @@ create table lesson
 	created timestamp null,
 	user_id varchar(255) not null,
 	name varchar(255) null,
-	description varchar(2000) null
+	description varchar(2000) null,
+	deleted tinyint(1) default '0' not null
 )
 ;
 
 alter table comp_material
 	add constraint comp_material_lesson_id_fk
-		foreign key (lesson_id) references lesson (id)
-			on update cascade
+foreign key (lesson_id) references lesson (id)
+	on update cascade
 ;
 
 create table material
@@ -91,9 +91,10 @@ create table material
 	image_url varchar(255) null,
 	description varchar(255) null,
 	name varchar(2000) null,
+	deleted tinyint(1) default '0' not null,
 	constraint material_comp_material_id_fk
-		foreign key (comp_material_id) references comp_material (id)
-			on update cascade
+	foreign key (comp_material_id) references comp_material (id)
+		on update cascade
 )
 ;
 
@@ -123,8 +124,8 @@ create table performance
 	lesson_id bigint not null,
 	start_date timestamp default CURRENT_TIMESTAMP not null,
 	constraint performance_lesson_id_fk
-		foreign key (lesson_id) references lesson (id)
-			on update cascade
+	foreign key (lesson_id) references lesson (id)
+		on update cascade
 )
 ;
 
@@ -139,9 +140,10 @@ create table question
 	comp_material_id bigint null,
 	text varchar(255) null,
 	type varchar(50) not null,
+	deleted tinyint(1) default '0' not null,
 	constraint question_comp_material_id_fk
-		foreign key (comp_material_id) references comp_material (id)
-			on update cascade
+	foreign key (comp_material_id) references comp_material (id)
+		on update cascade
 )
 ;
 
@@ -149,16 +151,22 @@ create index question_comp_material_id_fk
 	on question (comp_material_id)
 ;
 
+alter table answer_group
+	add constraint answer_group_question_id_fk
+foreign key (question_id) references question (id)
+	on update cascade
+;
+
 alter table answer_option
 	add constraint answer_option_question_id_fk
-		foreign key (question_id) references question (id)
-			on update cascade
+foreign key (question_id) references question (id)
+	on update cascade
 ;
 
 alter table ordered_answer
 	add constraint ordered_answer_question_id_fk
-		foreign key (question_id) references question (id)
-			on update cascade
+foreign key (question_id) references question (id)
+	on update cascade
 ;
 
 create table user
