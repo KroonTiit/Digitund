@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
   @Value("${auth0.audience}")
   private String audience;
 
@@ -19,11 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-            .antMatchers("/").permitAll()
-            .antMatchers("/users").authenticated();
+        .antMatchers("/").permitAll()
+        .antMatchers("/users").authenticated();
 
     JwtWebSecurityConfigurer
-            .forRS256(audience, issuer)
-            .configure(http);
+        .forRS256(audience, issuer)
+        .configure(http);
   }
 }

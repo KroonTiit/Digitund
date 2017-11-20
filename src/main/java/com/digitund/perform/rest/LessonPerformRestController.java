@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/perform-lesson")
 public class LessonPerformRestController {
 
-    @Autowired
-    private PerformanceService performanceService;
+  @Autowired
+  private PerformanceService performanceService;
 
-    //@CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(method = RequestMethod.POST, value = "/{lessonId}/start")
-    public StartPerformanceResponse startPerformance(@PathVariable Long lessonId) {
-        // TODO should call PerformanceService.startPerformance and do logic there.
-        // Should query necessary data from repos and assemble Response object there which gets
-        // converted to JSON here (automatically?)
-        String userId = "userId"; // TODO should be somehow come from the JWT in Authorization header
-        return performanceService.startPerformanceResponse(lessonId, userId);
-    }
+  //@CrossOrigin(origins = "http://localhost:3000")
+  @RequestMapping(method = RequestMethod.POST, value = "/{lessonId}/start")
+  public StartPerformanceResponse startPerformance(@PathVariable Long lessonId) {
+    // TODO should call PerformanceService.startPerformance and do logic there.
+    // Should query necessary data from repos and assemble Response object there which gets
+    // converted to JSON here (automatically?)
+    String userId = "userId"; // TODO should be somehow come from the JWT in Authorization header
+    return performanceService.startPerformanceResponse(lessonId, userId);
+  }
 
-    //@CrossOrigin(origins = "http://localhost:3000")
+  //@CrossOrigin(origins = "http://localhost:3000")
 //    @RequestMapping(method = RequestMethod.POST, value = "/{lessonId}/answer")
 //    public AnswerQuestionResponse answerQuestion(@RequestBody AnswerData answer, @PathVariable String lessonId) {
 //        // TODO should call PerformanceService.answerQuestion and do logic there

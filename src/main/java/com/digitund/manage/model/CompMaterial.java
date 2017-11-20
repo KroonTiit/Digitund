@@ -6,38 +6,46 @@ import javax.persistence.Id;
 
 @Entity
 public class CompMaterial {
-	@Id @GeneratedValue
-	private long id;
-	private long lessonId;
-	private long orderNr;
-	private String name;
-	
-	public CompMaterial() {}
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public long getLessonId() {
-		return lessonId;
-	}
-	public void setLessonId(long lessonId) {
-		this.lessonId = lessonId;
-	}
-	public long getOrderNr() {
-		return orderNr;
-	}
-	public void setOrderNr(long orderNr) {
-		this.orderNr = orderNr;
-	}
 
-	public String getName() {
-		return name;
-	}
+  @Id
+  @GeneratedValue
+  private long id;
+  private long lessonId;
+  private long orderNr;
+  private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public CompMaterial() {
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public long getLessonId() {
+    return lessonId;
+  }
+
+  public void setLessonId(long lessonId) {
+    this.lessonId = lessonId;
+  }
+
+  public long getOrderNr() {
+    return orderNr;
+  }
+
+  public void setOrderNr(long orderNr) {
+    this.orderNr = orderNr;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }
