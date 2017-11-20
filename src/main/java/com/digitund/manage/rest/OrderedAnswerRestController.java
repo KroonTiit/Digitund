@@ -26,15 +26,15 @@ public class OrderedAnswerRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{orderedAnswerId}", method = RequestMethod.GET)
-  public OrderedAnswer getOrderedAnswer(@PathVariable String orderedAnswerId) {
-    return orderedAnswerRepo.findOne(Long.decode(orderedAnswerId));
+  public OrderedAnswer getOrderedAnswer(@PathVariable Long orderedAnswerId) {
+    return orderedAnswerRepo.findOne(orderedAnswerId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
   public List<OrderedAnswer> getByQuestion(
-      @RequestParam(required = true, value = "questionId") String questionId) {
-    return orderedAnswerRepo.findByQuestionId(Long.decode(questionId));
+      @RequestParam(required = true, value = "questionId") Long questionId) {
+    return orderedAnswerRepo.findByQuestionId(questionId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -45,8 +45,8 @@ public class OrderedAnswerRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{orderedAnswerId}", method = RequestMethod.DELETE)
-  public void deleteOrderedAnswer(@PathVariable String orderedAnswerId) {
-    orderedAnswerRepo.delete(Long.decode(orderedAnswerId));
+  public void deleteOrderedAnswer(@PathVariable Long orderedAnswerId) {
+    orderedAnswerRepo.delete(orderedAnswerId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

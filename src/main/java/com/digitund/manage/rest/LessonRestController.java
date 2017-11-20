@@ -40,7 +40,7 @@ public class LessonRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{lessonId}", method = RequestMethod.GET)
-  public Lesson getOneUserLesson(@PathVariable String lessonId) {
+  public Lesson getOneUserLesson(@PathVariable Long lessonId) {
     //	BaseX baseX = new BaseX();
     //BigInteger lessonId = baseX.decode(id);
 //			Lesson newLesson = lessonRepo.findOne(Long.decode(lessonId));
@@ -54,7 +54,7 @@ public class LessonRestController {
 //    			.build();
 //    			arrayBuilder.add(lessonJson);
 //    		JsonObject build = rootBuilder.add("Lessons", arrayBuilder).build();
-    return lessonRepo.findOne(Long.decode(lessonId));
+    return lessonRepo.findOne(lessonId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -77,8 +77,8 @@ public class LessonRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{lessonId}", method = RequestMethod.DELETE)
-  public void deleteUserLessons(@PathVariable String lessonId) {
-    lessonRepo.delete(Long.decode(lessonId));
+  public void deleteUserLessons(@PathVariable Long lessonId) {
+    lessonRepo.delete(lessonId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

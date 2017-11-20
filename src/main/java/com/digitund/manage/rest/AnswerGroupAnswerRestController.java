@@ -26,18 +26,17 @@ public class AnswerGroupAnswerRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{answerGroupAnswerId}", method = RequestMethod.GET)
-  public AnswerGroupAnswer getAnswerGroupAnswer(@PathVariable String answerGroupAnswerId) {
-    return answerGroupAnswersRepo.findOne(Long.decode(answerGroupAnswerId));
+  public AnswerGroupAnswer getAnswerGroupAnswer(@PathVariable Long answerGroupAnswerId) {
+    return answerGroupAnswersRepo.findOne(answerGroupAnswerId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
   public List<AnswerGroupAnswer> getByAnswerGroupId(
-      @RequestParam(required = true, value = "answerGroupId") String answerGroupId) {
-    return answerGroupAnswersRepo.findByAnswerGroupId(Long.decode(answerGroupId));
+      @RequestParam(required = true, value = "answerGroupId") Long answerGroupId) {
+    return answerGroupAnswersRepo.findByAnswerGroupId(answerGroupId);
   }
 
-  //POST
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.POST)
   public AnswerGroupAnswer createAnswerGroupAnswer(
@@ -45,14 +44,12 @@ public class AnswerGroupAnswerRestController {
     return answerGroupAnswersRepo.save(answerGroupAnswer);
   }
 
-  //DELETE
   @CrossOrigin(origins = "http://localhost:3000")
-  @RequestMapping(value = "/{materialId}", method = RequestMethod.DELETE)
-  public void deleteAnswerGroupAnswer(@PathVariable String answerGroupAnswer) {
-    answerGroupAnswersRepo.delete(Long.decode(answerGroupAnswer));
+  @RequestMapping(value = "/{answerId}", method = RequestMethod.DELETE)
+  public void deleteAnswerGroupAnswer(@PathVariable Long answerId) {
+    answerGroupAnswersRepo.delete(answerId);
   }
 
-  //UPDATE
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{materialId}", method = RequestMethod.PATCH)
   public String updateMaterial(@RequestBody AnswerGroupAnswer answerGroupAnswer) {

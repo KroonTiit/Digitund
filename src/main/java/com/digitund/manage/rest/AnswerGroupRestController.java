@@ -30,15 +30,15 @@ public class AnswerGroupRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{answerGroupId}", method = RequestMethod.GET)
-  public AnswerGroup getAnswerGroup(@PathVariable String answerGroupId) {
-    return answerGroupRepo.findOne(Long.decode(answerGroupId));
+  public AnswerGroup getAnswerGroup(@PathVariable Long answerGroupId) {
+    return answerGroupRepo.findOne(answerGroupId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
   public JsonArrayBuilder getAllMaterial(
-      @RequestParam(required = true, value = "questionId") String questionId) {
-    AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(Long.decode(questionId));
+      @RequestParam(required = true, value = "questionId") Long questionId) {
+    AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(questionId);
 
     List<AnswerGroupAnswer> answer = answerGroupRepo.findAnswersById(answerGroup.getId());
     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -68,8 +68,8 @@ public class AnswerGroupRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{materialId}", method = RequestMethod.DELETE)
-  public void deleteAnswerGroup(@PathVariable String answerGroup) {
-    answerGroupRepo.delete(Long.decode(answerGroup));
+  public void deleteAnswerGroup(@PathVariable Long answerGroupId) {
+    answerGroupRepo.delete(answerGroupId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

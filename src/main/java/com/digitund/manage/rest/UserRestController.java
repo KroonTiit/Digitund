@@ -26,9 +26,9 @@ public class UserRestController {
   // USER STUFF
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
-  public boolean getUser(@PathVariable String user) {
-    User newUser = userRepo.findOne(Long.decode(user));
-    return newUser != null && newUser.getId() == Long.decode(user);
+  public boolean getUser(@PathVariable Long userId) {
+    User newUser = userRepo.findOne(userId);
+    return newUser != null && newUser.getId().equals(userId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

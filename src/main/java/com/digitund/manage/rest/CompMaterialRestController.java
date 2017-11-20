@@ -25,15 +25,15 @@ public class CompMaterialRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{compMaterialId}", method = RequestMethod.GET)
-  public CompMaterial getMaterial(@PathVariable String compMaterialId) {
-    return compMaterialRepo.findOne(Long.decode(compMaterialId));
+  public CompMaterial getMaterial(@PathVariable Long compMaterialId) {
+    return compMaterialRepo.findOne(compMaterialId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
   public List<CompMaterial> getAllMaterial(
-      @RequestParam(required = true, value = "lessonId") String lessonId) {
-    return compMaterialRepo.findByLessonId(Long.decode(lessonId));
+      @RequestParam(required = true, value = "lessonId") Long lessonId) {
+    return compMaterialRepo.findByLessonId(lessonId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -44,8 +44,8 @@ public class CompMaterialRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{compMaterialId}", method = RequestMethod.DELETE)
-  public void deleteMaterial(@PathVariable String compMaterialId) {
-    compMaterialRepo.delete(Long.decode(compMaterialId));
+  public void deleteMaterial(@PathVariable Long compMaterialId) {
+    compMaterialRepo.delete(compMaterialId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

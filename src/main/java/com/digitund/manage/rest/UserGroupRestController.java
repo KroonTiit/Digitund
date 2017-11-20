@@ -23,8 +23,8 @@ public class UserGroupRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-  public UserGroup getUserGroup(@PathVariable String userId) {
-    return userGroupRepo.findOne(Long.decode(userId));
+  public UserGroup getUserGroup(@PathVariable Long userId) {
+    return userGroupRepo.findOne(userId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

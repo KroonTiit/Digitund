@@ -26,8 +26,8 @@ public class AnswerOptionRestController {
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
   public List<AnswerOption> getAllQuestionsAnswers(
-      @RequestParam(required = true, value = "questionId") String id) {
-    return answerOptionRepo.findByQuestionId(Long.decode(id));
+      @RequestParam(required = true, value = "questionId") Long id) {
+    return answerOptionRepo.findByQuestionId(id);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -38,8 +38,8 @@ public class AnswerOptionRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(value = "/{answerId}", method = RequestMethod.DELETE)
-  public void deleteAnswerOption(@PathVariable String answerId) {
-    answerOptionRepo.delete(Long.decode(answerId));
+  public void deleteAnswerOption(@PathVariable Long answerId) {
+    answerOptionRepo.delete(answerId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
