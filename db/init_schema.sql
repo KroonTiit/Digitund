@@ -4,8 +4,8 @@ create table answer_group
 		primary key,
 	question_id bigint null,
 	text varchar(255) null,
-	constraint answer_group_answer_group_id_fk
-		foreign key (question_id) references answer_group (id)
+	constraint answer_group_question_id_fk
+		foreign key (question_id) references question (id)
 			on update cascade
 )
 ;
