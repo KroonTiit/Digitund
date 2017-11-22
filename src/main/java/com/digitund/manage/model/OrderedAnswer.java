@@ -11,7 +11,7 @@ public class OrderedAnswer {
   @GeneratedValue
   private long id;
   private long questionId;
-  private long orderNr;
+  private int orderNr;
   private String text;
 
   public OrderedAnswer() {
@@ -33,11 +33,11 @@ public class OrderedAnswer {
     this.questionId = questionId;
   }
 
-  public long getOrderNr() {
+  public int getOrderNr() {
     return orderNr;
   }
 
-  public void setOrderNr(long orderNr) {
+  public void setOrderNr(int orderNr) {
     this.orderNr = orderNr;
   }
 

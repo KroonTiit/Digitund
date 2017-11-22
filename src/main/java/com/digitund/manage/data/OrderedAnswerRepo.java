@@ -2,6 +2,7 @@ package com.digitund.manage.data;
 
 import com.digitund.manage.model.OrderedAnswer;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface OrderedAnswerRepo extends JpaRepository<OrderedAnswer, Long> {
 
   @Query("select s from OrderedAnswer s where s.questionId like ?1 ")
-  OrderedAnswer findByQuestionId(long questionId);
+  List<OrderedAnswer> findByQuestionId(long questionId);
  
 }

@@ -47,7 +47,7 @@ create table comp_material
 	id bigint auto_increment
 		primary key,
 	lesson_id bigint null,
-	order_nr bigint not null,
+	order_nr int not null,
 	name varchar(200) null,
 	deleted tinyint(1) default '0' not null
 )
@@ -82,7 +82,7 @@ create table material
 	id bigint auto_increment
 		primary key,
 	comp_material_id bigint null,
-	order_nr bigint null,
+	order_nr int null,
 	type varchar(255) not null,
 	text_content varchar(255) null,
 	video_start decimal(10,2) null,
@@ -107,7 +107,7 @@ create table ordered_answer
 	id bigint auto_increment
 		primary key,
 	question_id bigint null,
-	order_nr bigint not null,
+	order_nr int not null,
 	text varchar(255) null
 )
 ;
@@ -123,6 +123,7 @@ create table performance
 	performer_id varchar(255) not null,
 	lesson_id bigint not null,
 	start_date timestamp default CURRENT_TIMESTAMP not null,
+	active_order_nr int null,
 	constraint performance_lesson_id_fk
 	foreign key (lesson_id) references lesson (id)
 		on update cascade

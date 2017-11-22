@@ -1,22 +1,17 @@
 package com.digitund.perform.rest.model;
 
+import com.digitund.manage.model.AnswerOption;
+
 public class AnswerOptionData {
 
-  private Long id;
-  private String text;
-  
-	public Long getId() {
-		return id;
+  public Long id;
+  public String text;
+
+	public static AnswerOptionData fromModel(AnswerOption answerOption) {
+		AnswerOptionData data = new AnswerOptionData();
+		data.id = answerOption.getId();
+		data.text = answerOption.getText();
+		return data;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
-	}
-  
   
 }

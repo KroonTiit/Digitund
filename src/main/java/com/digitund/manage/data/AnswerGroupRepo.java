@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface AnswerGroupRepo extends JpaRepository<AnswerGroup, Long> {
 
   @Query("select s from AnswerGroup s where s.questionId like ?1 ")
-  AnswerGroup findByQuestionId(long questionId);
+  List<AnswerGroup> findByQuestionId(Long questionId);
 
-  @Query("select s from AnswerGroupAnswer s where s.answerGroupId like ?1 ")
-  List<AnswerGroupAnswer> findAnswersById(long answerGroupId);
 }

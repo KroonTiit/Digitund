@@ -33,7 +33,7 @@ public class QuestionRestContoller {
   @RequestMapping(method = RequestMethod.GET)
   public List<Question> getQuestionsByCompMaterial(
       @RequestParam(value = "compMaterialId") Long compMaterialId) {
-    return questionRepo.findAll(compMaterialId);
+    return questionRepo.findByCompMaterial(compMaterialId);
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

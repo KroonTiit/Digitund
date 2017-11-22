@@ -1,35 +1,17 @@
 package com.digitund.perform.rest.model;
 
+import com.digitund.manage.model.OrderedAnswer;
+
 public class OrderedAnswerData {
 
-  private Long id;
-  private Long questionId;
-  private String text;
-  private Long orderNr;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Long getQuestionId() {
-		return questionId;
-	}
-	public void setQuestionId(Long questionId) {
-		this.questionId = questionId;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
-	}
-	public Long getOrderNr() {
-		return orderNr;
-	}
-	public void setOrderNr(Long orderNr) {
-		this.orderNr = orderNr;
-	}
-  
+  public Long id;
+  public String text;
+
+  public static OrderedAnswerData fromModel(OrderedAnswer orderedAnswer) {
+    OrderedAnswerData data = new OrderedAnswerData();
+    data.id = orderedAnswer.getId();
+    data.text = orderedAnswer.getText();
+    return data;
+  }
   
 }

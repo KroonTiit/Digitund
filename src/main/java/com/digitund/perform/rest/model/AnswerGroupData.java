@@ -1,27 +1,17 @@
 package com.digitund.perform.rest.model;
 
+import com.digitund.manage.model.AnswerGroup;
+
 public class AnswerGroupData {
 
   public Long id;
   public String text;
-  public AnswerGroupAnswerData answerGroupAnswer;
-  
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
-	}
-	public AnswerGroupAnswerData getAnswerGroupAnswer() {
-		return answerGroupAnswer;
-	}
-	public void setAnswerGroupAnswer(AnswerGroupAnswerData answerGroupAnswer) {
-		this.answerGroupAnswer = answerGroupAnswer;
-	}
+
+  public static AnswerGroupData fromModel(AnswerGroup answerGroup) {
+    AnswerGroupData data = new AnswerGroupData();
+    data.id = answerGroup.getId();
+    data.text = answerGroup.getText();
+    return data;
+  }
+
 }

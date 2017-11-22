@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepo extends JpaRepository<Question, Long> {
 
   @Query("select s from Question s where s.compMaterialId like ?1 ")
-  List<Question> findAll(Long decode);
-  
-  @Query("select s from Question s where s.compMaterialId like ?1 and s.orderNr like ?2 ")
-  List<Question> findByOrderNrAndCompId(long id, long orderNr);
+  List<Question> findByCompMaterial(Long compMaterialId);
+
 }

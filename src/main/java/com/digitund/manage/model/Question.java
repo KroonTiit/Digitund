@@ -1,6 +1,9 @@
 package com.digitund.manage.model;
 
+import com.digitund.enums.QuestionType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.ResultCheckStyle;
@@ -17,7 +20,8 @@ public class Question {
   private Long id;
   private Long compMaterialId;
   private String text;
-  private String type;
+  @Enumerated(EnumType.STRING)
+  private QuestionType type;
   private Boolean deleted = false;
 
   public Question() {
@@ -37,7 +41,7 @@ public class Question {
     this.text = texts;
   }
 
-  public Question(Long id, Long compMaterialId, String text, String type) {
+  public Question(Long id, Long compMaterialId, String text, QuestionType type) {
     this.id = id;
     this.compMaterialId = compMaterialId;
     this.text = text;
@@ -60,11 +64,11 @@ public class Question {
     this.text = text;
   }
 
-  public String getType() {
+  public QuestionType getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(QuestionType type) {
     this.type = type;
   }
 

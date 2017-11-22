@@ -16,7 +16,7 @@ public class CompMaterial {
   @GeneratedValue
   private long id;
   private long lessonId;
-  private long orderNr;
+  private int orderNr;
   private String name;
   private Boolean deleted = false;
 
@@ -39,11 +39,11 @@ public class CompMaterial {
     this.lessonId = lessonId;
   }
 
-  public long getOrderNr() {
+  public int getOrderNr() {
     return orderNr;
   }
 
-  public void setOrderNr(long orderNr) {
+  public void setOrderNr(int orderNr) {
     this.orderNr = orderNr;
   }
 

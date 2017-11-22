@@ -1,6 +1,6 @@
-package com.digitund.manage.data;
+package com.digitund.perform.data;
 
-import com.digitund.manage.model.Performance;
+import com.digitund.perform.model.Performance;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

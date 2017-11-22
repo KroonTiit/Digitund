@@ -1,6 +1,6 @@
-package com.digitund.manage.model;
+package com.digitund.perform.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +13,8 @@ public class Performance {
   private Long id;
   private String performerId;
   private Long lessonId;
-  private Timestamp startDate;
+  private LocalDateTime startDate;
+  private int activeOrderNr;
 
   public Performance() {
   }
@@ -23,7 +24,7 @@ public class Performance {
     this.lessonId = lessonId;
   }
 
-  public Performance(String performerId, Long lessonId, Timestamp startDate) {
+  public Performance(String performerId, Long lessonId, LocalDateTime startDate) {
     this(performerId, lessonId);
     this.startDate = startDate;
   }
@@ -52,11 +53,19 @@ public class Performance {
     this.lessonId = lessonId;
   }
 
-  public Timestamp getStartDate() {
+  public LocalDateTime getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(Timestamp startDate) {
+  public void setStartDate(LocalDateTime startDate) {
     this.startDate = startDate;
+  }
+
+  public int getActiveOrderNr() {
+    return activeOrderNr;
+  }
+
+  public void setActiveOrderNr(int activeOrderNr) {
+    this.activeOrderNr = activeOrderNr;
   }
 }

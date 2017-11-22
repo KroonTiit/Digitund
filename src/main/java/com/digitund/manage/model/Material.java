@@ -1,7 +1,10 @@
 package com.digitund.manage.model;
 
+import com.digitund.enums.MaterialType;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.ResultCheckStyle;
@@ -15,11 +18,12 @@ public class Material {
 
   @Id
   @GeneratedValue
-  private long id;
+  private Long id;
   private String name;
-  private long compMaterialId;
-  private long orderNr;
-  private String type;
+  private Long compMaterialId;
+  private int orderNr;
+  @Enumerated(EnumType.STRING)
+  private MaterialType type;
   private String textContent;
   private BigDecimal videoStart;
   private BigDecimal videoEnd;
@@ -47,19 +51,19 @@ public class Material {
     this.compMaterialId = compMaterialId;
   }
 
-  public long getOrderNr() {
+  public int getOrderNr() {
     return orderNr;
   }
 
-  public void setOrderNr(long orderNr) {
+  public void setOrderNr(int orderNr) {
     this.orderNr = orderNr;
   }
 
-  public String getType() {
+  public MaterialType getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(MaterialType type) {
     this.type = type;
   }
 

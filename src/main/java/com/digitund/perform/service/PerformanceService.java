@@ -7,85 +7,112 @@ import com.digitund.manage.data.CompMaterialRepo;
 import com.digitund.manage.data.MaterialRepo;
 import com.digitund.manage.data.OrderedAnswerRepo;
 import com.digitund.manage.data.QuestionRepo;
-import com.digitund.manage.model.AnswerGroup;
-import com.digitund.manage.model.AnswerOption;
 import com.digitund.manage.model.CompMaterial;
-import com.digitund.manage.model.OrderedAnswer;
 import com.digitund.manage.model.Question;
+import com.digitund.perform.data.PerformanceRepo;
+import com.digitund.perform.model.Performance;
 import com.digitund.perform.rest.model.AnswerGroupAnswerData;
 import com.digitund.perform.rest.model.AnswerGroupData;
 import com.digitund.perform.rest.model.AnswerOptionData;
+import com.digitund.perform.rest.model.MaterialData;
 import com.digitund.perform.rest.model.OrderedAnswerData;
 import com.digitund.perform.rest.model.QuestionData;
 import com.digitund.perform.rest.model.StartPerformanceResponse;
-
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PerformanceService {
-	private CompMaterialRepo compMaterialRepo;
-	private MaterialRepo materialRepo;
-	private QuestionRepo questionRepo;
-	private AnswerGroupRepo answerGroupRepo;
-	private AnswerGroupAnswerRepo answerGroupAnswerRepo;
-	private OrderedAnswerRepo orderedAnswerRepo;
-	private AnswerOptionRepo answerOptionRepo;
-	
-  public StartPerformanceResponse startPerformanceResponse(Long lessonId, String userId) {
-    // TODO query and assemble data
-    return new StartPerformanceResponse();
+
+  @Autowired
+  private CompMaterialRepo compMaterialRepo;
+  @Autowired
+  private MaterialRepo materialRepo;
+  @Autowired
+  private QuestionRepo questionRepo;
+  @Autowired
+  private AnswerGroupRepo answerGroupRepo;
+  @Autowired
+  private AnswerGroupAnswerRepo answerGroupAnswerRepo;
+  @Autowired
+  private OrderedAnswerRepo orderedAnswerRepo;
+  @Autowired
+  private AnswerOptionRepo answerOptionRepo;
+  @Autowired
+  private PerformanceRepo performanceRepo;
+
+  public StartPerformanceResponse startPerformance(Long lessonId, String userId) {
+    StartPerformanceResponse response = new StartPerformanceResponse();
+    List<CompMaterial> compMaterials = compMaterialRepo.findByLessonId(lessonId);
+    CompMaterial firstCompMaterial = compMaterials.stream()
+        .min(Comparator.comparingInt(CompMaterial::getOrderNr))
+        .orElse(null);
+    if (firstCompMaterial == null) {
+      throw new IllegalStateException("Lesson should have complex materials present!");
+    }
+    response.lessonLength = compMaterials.size();
+    response.compMaterialName = firstCompMaterial.getName();
+
+    response.materials =  materialRepo.findByCompId(firstCompMaterial.getId()).stream()
+        .map(MaterialData::fromModel)
+        .collect(Collectors.toList());
+
+    List<Question> questions = questionRepo.findByCompMaterial(firstCompMaterial.getId());
+    response.questions = questions.stream()
+        .map(q -> {
+          QuestionData data = QuestionData.fromModel(q);
+          // TODO it's actually not great to do DB queries in a loop like this
+          addQuestionTypeSpecificData(q, data);
+          return data;
+        })
+        .collect(Collectors.toList());
+    createPerformance(lessonId, userId);
+    return response;
   }
 
-  public StartPerformanceResponse startLesson(String lessonId) {
-	  StartPerformanceResponse PerformanceResponse = new StartPerformanceResponse();
-	  CompMaterial compMaterial = compMaterialRepo.findOneByLessonId(Long.decode(lessonId), 1L);
-	  PerformanceResponse.setOrderNr(compMaterial.getOrderNr());
-	  PerformanceResponse.setMaterials(materialRepo.findByCompId(compMaterial.getId()));
-	  List<Question> queryResult = questionRepo.findByOrderNrAndCompId(compMaterial.getId(), compMaterial.getOrderNr());
-	  List<QuestionData> questions = null;
-	  for(Question question : queryResult){
-		  QuestionData questionData = new QuestionData();
-		  questionData.setId(question.getId());
-		  questionData.setText(question.getText());
-		  questionData.setCompMaterialId(question.getCompMaterialId());
-		  
-		  AnswerGroupData answerGroupData = null;
-		  OrderedAnswerData orderedAnswersData = null;
-		  List<AnswerOptionData> answerOptionsData = null;
-		switch(question.getType()){
-		  case "GROUP": 
-			  AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(question.getId());
-			  answerGroupData.setId(answerGroup.getId());
-			  answerGroupData.setText(answerGroup.getText());
-			  answerGroupData.setAnswerGroupAnswer((AnswerGroupAnswerData) answerGroupAnswerRepo.findByAnswerGroupId(answerGroup.getId()));
-			  questionData.setAnswerGroups(answerGroupData);
-		  case "ORDER": 
-			  OrderedAnswer orderedAnswer = orderedAnswerRepo.findByQuestionId(question.getId());
-			  orderedAnswersData.setId(orderedAnswer.getId());
-			  orderedAnswersData.setOrderNr(orderedAnswer.getOrderNr());
-			  orderedAnswersData.setQuestionId(orderedAnswer.getQuestionId());
-			  orderedAnswersData.setText(orderedAnswer.getText());
-			  questionData.setOrderedAnswers(orderedAnswersData);
-		  case "CHOOSE": 
-			  List<AnswerOption> answerOptions = answerOptionRepo.findByQuestionId(question.getId());
-			  for(AnswerOption answerOption : answerOptions){
-				  AnswerOptionData aod = new AnswerOptionData();
-				  aod.setId(answerOption.getId());
-				  aod.setText(answerOption.getText());
-				  answerOptionsData.add(aod);
-			  }
-			  questionData.setAnswerOptions(answerOptionsData);
-		  }
-		  questions.add(questionData);
-	  }
-	  PerformanceResponse.setQuestions(questions);
-	  return PerformanceResponse;
+  private void createPerformance(Long lessonId, String userId) {
+    Performance performance = new Performance();
+    performance.setPerformerId(userId);
+    performance.setLessonId(lessonId);
+    performance.setStartDate(LocalDateTime.now());
+    performanceRepo.save(performance);
   }
+
+  private void addQuestionTypeSpecificData(Question q, QuestionData data) {
+    switch (q.getType()) {
+      case GROUP:
+        data.answerGroups = answerGroupRepo.findByQuestionId(q.getId()).stream()
+            .map(AnswerGroupData::fromModel)
+            .collect(Collectors.toList());
+        Set<Long> groupIds = data.answerGroups.stream()
+            .map(g -> g.id)
+            .collect(Collectors.toSet());
+        data.answerGroupAnswers = answerGroupAnswerRepo.findByGroupIds(groupIds).stream()
+            .map(AnswerGroupAnswerData::fromModel)
+            .collect(Collectors.toList());
+        break;
+      case ORDER:
+        data.orderedAnswers = orderedAnswerRepo.findByQuestionId(q.getId()).stream()
+            .map(OrderedAnswerData::fromModel)
+            .collect(Collectors.toList());
+        break;
+      case CHOOSE:
+        data.answerOptions = answerOptionRepo.findByQuestionId(q.getId()).stream()
+            .map(AnswerOptionData::fromModel)
+            .collect(Collectors.toList());
+        break;
+    }
+  }
+
   public void nextMaterial(String lessonId) {
-	  StartPerformanceResponse PerformanceResponse = new StartPerformanceResponse();
-	  
+    StartPerformanceResponse PerformanceResponse = new StartPerformanceResponse();
+
   }
 
 }

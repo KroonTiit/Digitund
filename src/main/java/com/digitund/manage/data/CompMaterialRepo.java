@@ -13,5 +13,5 @@ public interface CompMaterialRepo extends JpaRepository<CompMaterial, Long> {
   List<CompMaterial> findByLessonId(long lessonId);
   
   @Query("select s from CompMaterial s where s.lessonId like ?1 and orderNr like ?2")
-  CompMaterial findOneByLessonId(long lessonId, long orderNr);
+  CompMaterial findOneByLessonId(long lessonId, int orderNr);
 }

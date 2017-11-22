@@ -1,5 +1,6 @@
 package com.digitund.manage.rest;
 
+import com.digitund.manage.data.AnswerGroupAnswerRepo;
 import com.digitund.manage.data.AnswerGroupRepo;
 import com.digitund.manage.model.AnswerGroup;
 import com.digitund.manage.model.AnswerGroupAnswer;
@@ -16,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @RestController
 @RequestMapping("/api/answer-groups")
 public class AnswerGroupRestController {
 
   private AnswerGroupRepo answerGroupRepo;
+  private AnswerGroupAnswerRepo answerGroupAnswerRepo;
 
   @Autowired
-  public AnswerGroupRestController(AnswerGroupRepo answerGroupRepo) {
+  public AnswerGroupRestController(AnswerGroupRepo answerGroupRepo, AnswerGroupAnswerRepo answerGroupAnswerRepo) {
     this.answerGroupRepo = answerGroupRepo;
+    this.answerGroupAnswerRepo = answerGroupAnswerRepo;
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -36,28 +40,29 @@ public class AnswerGroupRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
-  public JsonArrayBuilder getAllMaterial(
+  public JsonArrayBuilder getAllByQuestion(
       @RequestParam(required = true, value = "questionId") Long questionId) {
-    AnswerGroup answerGroup = answerGroupRepo.findByQuestionId(questionId);
-
-    List<AnswerGroupAnswer> answer = answerGroupRepo.findAnswersById(answerGroup.getId());
-    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    JsonArrayBuilder arrayBuilderResponce = Json.createArrayBuilder();
-    JsonObjectBuilder answerbuilder = Json.createObjectBuilder();
-    for (AnswerGroupAnswer data : answer) {
-      JsonObject answerJson = answerbuilder.add("id", data.getId())
-          .add("answerGroupId", data.getAnswerGroupId())
-          .add("text", data.getText())
-          .build();
-      arrayBuilder.add(answerJson);
-    }
-    JsonObject responceJson = answerbuilder.add("id", answerGroup.getId())
-        .add("questionId", answerGroup.getQuestionId())
-        .add("text", answerGroup.getText())
-        .add("answeroption", arrayBuilder)
-        .build();
-    arrayBuilderResponce.add(responceJson).build();
-    return arrayBuilderResponce;
+//    List<AnswerGroup> answerGroup = answerGroupRepo.findByQuestionId(questionId);
+//
+//    List<AnswerGroupAnswer> answer = answerGroupAnswerRepo.findByAnswerGroupId(answerGroup.getId());
+//    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+//    JsonArrayBuilder arrayBuilderResponce = Json.createArrayBuilder();
+//    JsonObjectBuilder answerbuilder = Json.createObjectBuilder();
+//    for (AnswerGroupAnswer data : answer) {
+//      JsonObject answerJson = answerbuilder.add("id", data.getId())
+//          .add("answerGroupId", data.getAnswerGroupId())
+//          .add("text", data.getText())
+//          .build();
+//      arrayBuilder.add(answerJson);
+//    }
+//    JsonObject responceJson = answerbuilder.add("id", answerGroup.getId())
+//        .add("questionId", answerGroup.getQuestionId())
+//        .add("text", answerGroup.getText())
+//        .add("answeroption", arrayBuilder)
+//        .build();
+//    arrayBuilderResponce.add(responceJson).build();
+//    return arrayBuilderResponce;
+    throw new NotImplementedException();
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
