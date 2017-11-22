@@ -2,6 +2,9 @@ package com.digitund;
 
 import com.digitund.manage.data.LessonRepo;
 import com.digitund.manage.model.Lesson;
+import com.digitund.perform.service.PerformanceService;
+import com.digitund.perform.rest.model.StartPerformanceResponse;
+
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -14,18 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class Controller {
 
   @Autowired
   private LessonRepo lessonRepo;
+  @Autowired
+  private PerformanceService performanceService;
 
   @RequestMapping("/")
-  public String showAllUsers() {
-
+  public String testAwake() {
     return "Olen Ärkvel... Päriselt! Miks sa ei usu mind?";
   }
 
+  @RequestMapping("/perform-lesson/start/{lessonId}")
+  public StartPerformanceResponse StartPerformanceResponse(@RequestParam(value = "lessonId") String lessonId){
+	  return performanceService.startLesson(lessonId); 
+  }
+  
+  
+  
   @RequestMapping("/getAllUserLessons")
 
   public JsonObject getUsersLessons(@RequestParam(value = "Id") String Id) {

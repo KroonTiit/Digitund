@@ -32,7 +32,7 @@ public class OrderedAnswerRestController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping(method = RequestMethod.GET)
-  public List<OrderedAnswer> getByQuestion(
+  public OrderedAnswer getByQuestion(
       @RequestParam(required = true, value = "questionId") Long questionId) {
     return orderedAnswerRepo.findByQuestionId(questionId);
   }
