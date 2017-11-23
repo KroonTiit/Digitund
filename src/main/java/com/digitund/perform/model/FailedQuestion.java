@@ -20,6 +20,10 @@ public class FailedQuestion {
   private Long performanceId;
   @Enumerated(EnumType.STRING)
   private QuestionType questionType;
+  /**
+   * See https://vladmihalcea.com/2016/06/20/how-to-map-json-objects-using-generic-hibernate-types/
+   * for details
+   */
   @Type(type = "com.vladmihalcea.hibernate.type.json.JsonStringType")
   @Column(columnDefinition = "json")
   private AnswerJson answerJson;
