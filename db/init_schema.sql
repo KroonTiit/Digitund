@@ -57,6 +57,37 @@ create index comp_material_lesson_id_fk
 	on comp_material (lesson_id)
 ;
 
+create table failed_question
+(
+	id bigint auto_increment
+		primary key,
+	fail_time timestamp default CURRENT_TIMESTAMP not null,
+	performance_id bigint not null,
+	question_id bigint not null,
+	question_type varchar(50) null,
+	answer_json json not null,
+	corrected tinyint(1) not null,
+	comp_material_id bigint not null,
+	order_nr int null,
+	constraint failed_question_comp_material_id_fk
+	foreign key (comp_material_id) references comp_material (id)
+		on update cascade
+)
+	comment 'Represents a failed answer to a question during lesson performance'
+;
+
+create index failed_question_comp_material_id_fk
+	on failed_question (comp_material_id)
+;
+
+create index failed_question_performance_id_fk
+	on failed_question (performance_id)
+;
+
+create index failed_question_question_id_fk
+	on failed_question (question_id)
+;
+
 create table lesson
 (
 	id bigint auto_increment
@@ -134,6 +165,12 @@ create index performance_lesson_id_fk
 	on performance (lesson_id)
 ;
 
+alter table failed_question
+	add constraint failed_question_performance_id_fk
+foreign key (performance_id) references performance (id)
+	on update cascade
+;
+
 create table question
 (
 	id bigint auto_increment
@@ -160,6 +197,12 @@ foreign key (question_id) references question (id)
 
 alter table answer_option
 	add constraint answer_option_question_id_fk
+foreign key (question_id) references question (id)
+	on update cascade
+;
+
+alter table failed_question
+	add constraint failed_question_question_id_fk
 foreign key (question_id) references question (id)
 	on update cascade
 ;

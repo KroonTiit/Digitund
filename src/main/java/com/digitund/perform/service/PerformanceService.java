@@ -11,16 +11,17 @@ import com.digitund.manage.model.CompMaterial;
 import com.digitund.manage.model.Question;
 import com.digitund.perform.data.PerformanceRepo;
 import com.digitund.perform.model.Performance;
+import com.digitund.perform.rest.model.AnswerData;
 import com.digitund.perform.rest.model.AnswerGroupAnswerData;
 import com.digitund.perform.rest.model.AnswerGroupData;
 import com.digitund.perform.rest.model.AnswerOptionData;
+import com.digitund.perform.rest.model.AnswerQuestionResponse;
 import com.digitund.perform.rest.model.MaterialData;
 import com.digitund.perform.rest.model.OrderedAnswerData;
 import com.digitund.perform.rest.model.QuestionData;
 import com.digitund.perform.rest.model.StartPerformanceResponse;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,7 +49,10 @@ public class PerformanceService {
   private PerformanceRepo performanceRepo;
 
   public StartPerformanceResponse startPerformance(Long lessonId, String userId) {
-    StartPerformanceResponse response = new StartPerformanceResponse();
+    /*
+    Actually need to check failed_question table for any uncorrected failures and return
+    the complex material of the one with the lowest order_nr.
+     */
     List<CompMaterial> compMaterials = compMaterialRepo.findByLessonId(lessonId);
     CompMaterial firstCompMaterial = compMaterials.stream()
         .min(Comparator.comparingInt(CompMaterial::getOrderNr))
@@ -56,6 +60,7 @@ public class PerformanceService {
     if (firstCompMaterial == null) {
       throw new IllegalStateException("Lesson should have complex materials present!");
     }
+    StartPerformanceResponse response = new StartPerformanceResponse();
     response.lessonLength = compMaterials.size();
     response.compMaterialName = firstCompMaterial.getName();
 
@@ -115,4 +120,15 @@ public class PerformanceService {
 
   }
 
+  public AnswerQuestionResponse answerQuestion(AnswerData answer, String lessonId, String userId) {
+    /*
+    1. Check correctness of all question answers.
+       - answering failed question successfully: set corrected flag of all failed_question for the
+         given comp_material_id and user_id
+       - all correct: return next complex material data and set performance.active_order_nr accordingly
+       - answers incorrect: create failed_question for each incorrect answer and return
+         the complex material data of the one with lowest order_nr
+     */
+    return null;
+  }
 }
