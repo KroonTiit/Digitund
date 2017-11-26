@@ -88,6 +88,23 @@ create index failed_question_question_id_fk
 	on failed_question (question_id)
 ;
 
+create table in_progress_question
+(
+	id bigint auto_increment
+		primary key,
+	question_id bigint not null,
+	performance_id bigint not null
+)
+;
+
+create index in_progress_question_question_id_fk
+	on in_progress_question (question_id)
+;
+
+create index in_progress_question_performance_id_fk
+	on in_progress_question (performance_id)
+;
+
 create table lesson
 (
 	id bigint auto_increment
@@ -153,8 +170,10 @@ create table performance
 		primary key,
 	performer_id varchar(255) not null,
 	lesson_id bigint not null,
-	start_date timestamp default CURRENT_TIMESTAMP not null,
+	start_time timestamp default CURRENT_TIMESTAMP not null,
 	active_order_nr int null,
+	end_time timestamp null,
+	status varchar(25) default 'IN_PROGRESS' not null,
 	constraint performance_lesson_id_fk
 	foreign key (lesson_id) references lesson (id)
 		on update cascade
@@ -167,6 +186,12 @@ create index performance_lesson_id_fk
 
 alter table failed_question
 	add constraint failed_question_performance_id_fk
+foreign key (performance_id) references performance (id)
+	on update cascade
+;
+
+alter table in_progress_question
+	add constraint in_progress_question_performance_id_fk
 foreign key (performance_id) references performance (id)
 	on update cascade
 ;
@@ -203,6 +228,12 @@ foreign key (question_id) references question (id)
 
 alter table failed_question
 	add constraint failed_question_question_id_fk
+foreign key (question_id) references question (id)
+	on update cascade
+;
+
+alter table in_progress_question
+	add constraint in_progress_question_question_id_fk
 foreign key (question_id) references question (id)
 	on update cascade
 ;

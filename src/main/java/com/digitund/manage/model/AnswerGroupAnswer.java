@@ -3,6 +3,7 @@ package com.digitund.manage.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class AnswerGroupAnswer {
@@ -10,8 +11,10 @@ public class AnswerGroupAnswer {
   @Id
   @GeneratedValue
   private Long id;
-  private long answerGroupId;
   private String text;
+
+  @ManyToOne
+  private AnswerGroup answerGroup;
 
   public AnswerGroupAnswer() {
   }
@@ -24,14 +27,6 @@ public class AnswerGroupAnswer {
     this.id = id;
   }
 
-  public long getAnswerGroupId() {
-    return answerGroupId;
-  }
-
-  public void setAnswerGroupId(long answerGroupId) {
-    this.answerGroupId = answerGroupId;
-  }
-
   public String getText() {
     return text;
   }
@@ -40,4 +35,11 @@ public class AnswerGroupAnswer {
     this.text = text;
   }
 
+  public AnswerGroup getAnswerGroup() {
+    return answerGroup;
+  }
+
+  public void setAnswerGroup(AnswerGroup answerGroup) {
+    this.answerGroup = answerGroup;
+  }
 }

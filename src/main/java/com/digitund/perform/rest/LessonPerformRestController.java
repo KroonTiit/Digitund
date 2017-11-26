@@ -1,6 +1,6 @@
 package com.digitund.perform.rest;
 
-import com.digitund.perform.rest.model.AnswerData;
+import com.digitund.perform.rest.model.AnswerRequest;
 import com.digitund.perform.rest.model.AnswerQuestionResponse;
 import com.digitund.perform.rest.model.StartPerformanceResponse;
 import com.digitund.perform.service.PerformanceService;
@@ -35,8 +35,8 @@ public class LessonPerformRestController {
   @RequestMapping(method = RequestMethod.POST, value = "/{lessonId}/answer")
   public AnswerQuestionResponse answerQuestion(
       Principal principal,
-      @RequestBody AnswerData answer,
-      @PathVariable String lessonId
+      @RequestBody AnswerRequest answer,
+      @PathVariable Long lessonId
   ) {
     String userId = principal.getName(); // TODO user ID retrieving needs to be looked into.
     return performanceService.answerQuestion(answer, lessonId, userId);

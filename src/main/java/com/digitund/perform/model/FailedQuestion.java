@@ -1,6 +1,7 @@
 package com.digitund.perform.model;
 
 import com.digitund.enums.QuestionType;
+import com.digitund.perform.rest.model.AnswerRequestAnswer;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class FailedQuestion {
    */
   @Type(type = "com.vladmihalcea.hibernate.type.json.JsonStringType")
   @Column(columnDefinition = "json")
-  private AnswerJson answerJson;
+  private AnswerRequestAnswer answerJson;
   private boolean corrected;
   private Long compMaterialId;
   private int orderNr;
@@ -63,11 +64,11 @@ public class FailedQuestion {
     this.questionType = questionType;
   }
 
-  public AnswerJson getAnswerJson() {
+  public AnswerRequestAnswer getAnswerJson() {
     return answerJson;
   }
 
-  public void setAnswerJson(AnswerJson answerJson) {
+  public void setAnswerJson(AnswerRequestAnswer answerJson) {
     this.answerJson = answerJson;
   }
 

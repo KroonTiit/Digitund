@@ -1,7 +1,10 @@
 package com.digitund.perform.model;
 
+import com.digitund.enums.PerformanceStatus;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -13,7 +16,10 @@ public class Performance {
   private Long id;
   private String performerId;
   private Long lessonId;
-  private LocalDateTime startDate;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
+  @Enumerated(EnumType.STRING)
+  private PerformanceStatus status;
   private int activeOrderNr;
 
   public Performance() {
@@ -26,7 +32,7 @@ public class Performance {
 
   public Performance(String performerId, Long lessonId, LocalDateTime startDate) {
     this(performerId, lessonId);
-    this.startDate = startDate;
+    this.startTime = startDate;
   }
 
   public Long getId() {
@@ -53,12 +59,12 @@ public class Performance {
     this.lessonId = lessonId;
   }
 
-  public LocalDateTime getStartDate() {
-    return startDate;
+  public LocalDateTime getStartTime() {
+    return startTime;
   }
 
-  public void setStartDate(LocalDateTime startDate) {
-    this.startDate = startDate;
+  public void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
   }
 
   public int getActiveOrderNr() {
@@ -67,5 +73,21 @@ public class Performance {
 
   public void setActiveOrderNr(int activeOrderNr) {
     this.activeOrderNr = activeOrderNr;
+  }
+
+  public LocalDateTime getEndTime() {
+    return endTime;
+  }
+
+  public void setEndTime(LocalDateTime endTime) {
+    this.endTime = endTime;
+  }
+
+  public PerformanceStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(PerformanceStatus status) {
+    this.status = status;
   }
 }
