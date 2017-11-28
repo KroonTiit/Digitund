@@ -7,6 +7,7 @@ public class PerformanceData {
 
   public Long performanceId;
   public int activeOrderNr;
+  public String status;
   public List<CompMaterialData> compMaterials;
 
   @Transient

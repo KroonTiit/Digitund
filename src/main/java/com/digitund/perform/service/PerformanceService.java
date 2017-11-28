@@ -1,5 +1,6 @@
 package com.digitund.perform.service;
 
+import com.digitund.enums.PerformanceStatus;
 import com.digitund.manage.data.AnswerGroupAnswerRepo;
 import com.digitund.manage.data.AnswerGroupRepo;
 import com.digitund.manage.data.AnswerOptionRepo;
@@ -18,11 +19,11 @@ import com.digitund.perform.data.PerformanceRepo;
 import com.digitund.perform.model.FailedQuestion;
 import com.digitund.perform.model.InProgressQuestion;
 import com.digitund.perform.model.Performance;
-import com.digitund.perform.rest.model.AnswerRequest;
 import com.digitund.perform.rest.model.AnswerGroupAnswerData;
 import com.digitund.perform.rest.model.AnswerGroupData;
 import com.digitund.perform.rest.model.AnswerOptionData;
 import com.digitund.perform.rest.model.AnswerQuestionResponse;
+import com.digitund.perform.rest.model.AnswerRequest;
 import com.digitund.perform.rest.model.AnswerRequestAnswer;
 import com.digitund.perform.rest.model.CompMaterialData;
 import com.digitund.perform.rest.model.MaterialData;
@@ -41,6 +42,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +90,7 @@ public class PerformanceService {
 
   public StartPerformanceResponse startPerformance(Long lessonId, String userId) {
     StartPerformanceResponse response = new StartPerformanceResponse();
-    PerformanceData performance = getPerformanceData(lessonId, userId);
+    PerformanceData performance = getStartPerformance(lessonId, userId);
     response.performance = performance;
     response.materials = getMaterials(performance.activeCompMaterialId);
     response.questions = getQuestions(performance);
@@ -115,14 +117,19 @@ public class PerformanceService {
       } else {
         // Take 1 question from the active comp material and 2 from previous comp materials.
         questionIds.add(getRandomQuestionIdFromCompMaterial(performance.activeCompMaterialId));
-        Set<Long> previousCompMaterialIds = new HashSet<>(2);
-        while (previousCompMaterialIds.size() < 2) {
-          // TODO Should consider if we really want to get questions from distinct complex materials
-          int randomIndex = random.nextInt(performance.compMaterials.size() - 1);
-          previousCompMaterialIds.add(performance.compMaterials.get(randomIndex).id);
+
+        Set<Long> previousCompMaterialIds = performance.compMaterials.stream()
+            .map(cm -> cm.id)
+            .limit(performance.activeOrderNr)
+            .collect(Collectors.toSet());
+        Set<Long> selectedPrevCompMaterialIds = new HashSet<>();
+        while (selectedPrevCompMaterialIds.size() < 2) {
+          int randomIndex = random.nextInt(previousCompMaterialIds.size() - 1);
+          Long prevCompMaterialId = performance.compMaterials.get(randomIndex).id;
+          selectedPrevCompMaterialIds.add(prevCompMaterialId);
         }
-        for (Long prevCompMaterialId : previousCompMaterialIds) {
-          questionIds.add(getRandomQuestionIdFromCompMaterial(prevCompMaterialId));
+        for (Long selectedPrevCompMaterialId : selectedPrevCompMaterialIds) {
+          questionIds.add(getRandomQuestionIdFromCompMaterial(selectedPrevCompMaterialId));
         }
       }
       inProgressQuestionRepo.save(questionIds.stream()
@@ -148,7 +155,8 @@ public class PerformanceService {
     return questions.get(random.nextInt(questions.size())).getId();
   }
 
-  private PerformanceData getPerformanceData(Long lessonId, String userId) {
+  // TODO there has to be a better way
+  private PerformanceData getStartPerformance(Long lessonId, String userId) {
     Optional<Performance> activePerformance = performanceRepo
         .findInProgressByPerformerAndLesson(userId, lessonId);
     PerformanceData data = new PerformanceData();
@@ -165,18 +173,81 @@ public class PerformanceService {
       failedQuestions.stream()
           .map(FailedQuestion::getOrderNr)
           .distinct()
-          .forEach((failedOrderNr -> {
-            data.compMaterials.stream()
-                .filter(cm -> cm.orderNr == failedOrderNr)
-                .findAny()
-                .ifPresent(cm -> cm.failed = true);
-          }));
+          .forEach(failedOrderNr -> data.compMaterials.stream()
+              .filter(cm -> cm.orderNr == failedOrderNr)
+              .findAny()
+              .ifPresent(cm -> cm.failed = true)
+          );
       data.performanceId = activePerformance.get().getId();
       data.activeOrderNr = activePerformance.get().getActiveOrderNr();
     } else {
       data.performanceId = createPerformance(lessonId, userId).getId();
       data.activeOrderNr = 1;
     }
+
+    int currentOrderNr = data.compMaterials.stream()
+        .filter(cm -> cm.failed)
+        .map(cm -> cm.orderNr)
+        .min(Integer::compareTo)
+        .orElse(data.activeOrderNr);
+
+    data.activeCompMaterialId = compMaterials.stream()
+        .filter(cm -> cm.getOrderNr() == currentOrderNr)
+        .map(CompMaterial::getId)
+        .findFirst().orElseThrow(IllegalStateException::new);
+
+    return data;
+  }
+
+  // TODO there has to be a better way
+  private PerformanceData getAnswerQuestionPerformance(
+      Long lessonId,
+      String userId,
+      List<FailedQuestion> failedQuestions
+  ) {
+    Performance performance = performanceRepo
+        .findInProgressByPerformerAndLesson(userId, lessonId)
+        .orElseThrow(IllegalStateException::new);
+    PerformanceData data = new PerformanceData();
+    data.performanceId = performance.getId();
+    List<CompMaterial> compMaterials = compMaterialRepo.findByLessonId(lessonId);
+    data.compMaterials = compMaterials.stream()
+        .sorted(Comparator.comparingInt(CompMaterial::getOrderNr))
+        .map(CompMaterialData::fromModel)
+        .collect(Collectors.toList());
+
+    List<FailedQuestion> prevFailedQuestions =
+        failedQuestionRepo.findUncorrectedByPerformanceId(performance.getId());
+
+    List<FailedQuestion> allFailedQuestions = Stream.concat(
+        failedQuestions.stream(),
+        prevFailedQuestions.stream()
+    ).collect(Collectors.toList());
+
+    boolean isAtLatestCompMaterial = performance.getActiveOrderNr() == data.compMaterials.size();
+    if (isAtLatestCompMaterial && allFailedQuestions.isEmpty()) {
+      performance.setStatus(PerformanceStatus.FINISHED);
+      data.status = PerformanceStatus.FINISHED.name();
+      performanceRepo.save(performance);
+      return data;
+    }
+    boolean hasAnsweredLatestCompMaterialCorrectly = failedQuestions.stream()
+        .noneMatch(fq -> fq.getOrderNr() == performance.getActiveOrderNr());
+    if (isAtLatestCompMaterial && hasAnsweredLatestCompMaterialCorrectly) {
+      int newActiveOrderNr = performance.getActiveOrderNr() + 1;
+      performance.setActiveOrderNr(newActiveOrderNr);
+      data.activeOrderNr = newActiveOrderNr;
+      performanceRepo.save(performance);
+    }
+
+    allFailedQuestions.stream()
+        .map(FailedQuestion::getOrderNr)
+        .distinct()
+        .forEach(failedOrderNr -> data.compMaterials.stream()
+            .filter(cm -> cm.orderNr == failedOrderNr)
+            .findAny()
+            .ifPresent(cm -> cm.failed = true)
+        );
 
     int currentOrderNr = data.compMaterials.stream()
         .filter(cm -> cm.failed)
@@ -228,39 +299,20 @@ public class PerformanceService {
 
   @Transactional
   public AnswerQuestionResponse answerQuestion(AnswerRequest answerRequest, Long lessonId, String userId) {
-    PerformanceData performance = getPerformanceData(lessonId, userId);
-    inProgressQuestionRepo.deleteByPerformanceId(performance.performanceId);
-    Optional<CompMaterialData> firstFailedCompMaterial = performance.compMaterials.stream()
-        .filter(cm -> cm.failed)
-        .findFirst();
-
     List<FailedQuestion> failedQuestions = validateAnswerRequest(answerRequest);
-
-    if (firstFailedCompMaterial.isPresent() && failedQuestions.isEmpty()) {
-      failedQuestionRepo.setCorrectedByPerformanceAndCompMaterial(
-          performance.performanceId,
-          firstFailedCompMaterial.get().id
-      );
-      firstFailedCompMaterial.get().failed = false;
-    } else {
-      for (FailedQuestion failedQuestion : failedQuestions) {
-        performance.compMaterials.stream()
-            .filter(cm -> cm.id.equals(failedQuestion.getCompMaterialId()))
-            .findFirst()
-            .ifPresent(cm -> cm.failed = true);
-        CompMaterialData latestCompMaterial =
-            performance.compMaterials.get(performance.compMaterials.size() - 1);
-        if (!latestCompMaterial.failed) {
-          // TODO Update activeOrderNr and activeCompMaterialId in performance.
-          // Performance completion logic should be here aswell.
-        }
-      }
-    }
+    PerformanceData performance = getAnswerQuestionPerformance(lessonId, userId, failedQuestions);
+    inProgressQuestionRepo.deleteByPerformanceId(performance.performanceId);
 
     AnswerQuestionResponse response = new AnswerQuestionResponse();
+    if (!failedQuestions.isEmpty()) {
+      failedQuestionRepo.save(failedQuestions);
+    }
+
     response.performance = performance;
-    response.materials = getMaterials(performance.activeCompMaterialId);
-    response.questions = getQuestions(performance);
+    if (PerformanceStatus.IN_PROGRESS.name().equals(performance.status)) {
+      response.materials = getMaterials(performance.activeCompMaterialId);
+      response.questions = getQuestions(performance);
+    }
     return response;
   }
 
@@ -289,20 +341,19 @@ public class PerformanceService {
     switch (question.getType()) {
       case CHOOSE:
         if (!validateAnswerOptions(question.getId(), answer.answerOptions)) {
-          // TODO need to get orderNr from compMaterial?
-          FailedQuestion failed = saveFailedQuestion(question, answer, performanceId, 1);
+          FailedQuestion failed = createFailedQuestion(question, answer, performanceId);
           return Optional.of(failed);
         }
         break;
       case ORDER:
         if (!validateOrderedAnswers(question.getId(), answer.orderedAnswers)) {
-          FailedQuestion failed = saveFailedQuestion(question, answer, performanceId, 1);
+          FailedQuestion failed = createFailedQuestion(question, answer, performanceId);
           return Optional.of(failed);
         }
         break;
       case GROUP:
         if (!validateAnswerGroups(question.getId(), answer.answerGroups)) {
-          FailedQuestion failed = saveFailedQuestion(question, answer, performanceId, 1);
+          FailedQuestion failed = createFailedQuestion(question, answer, performanceId);
           return Optional.of(failed);
         }
         break;
@@ -345,20 +396,19 @@ public class PerformanceService {
     return true;
   }
 
-  private FailedQuestion saveFailedQuestion(
+  private FailedQuestion createFailedQuestion(
       Question question,
       AnswerRequestAnswer answer,
-      Long performanceId,
-      int orderNr
+      Long performanceId
   ) {
     FailedQuestion failedQuestion = new FailedQuestion();
-    failedQuestion.setCompMaterialId(question.getCompMaterialId());
+    failedQuestion.setCompMaterialId(question.getCompMaterial().getId());
     failedQuestion.setCorrected(false);
     failedQuestion.setFailTime(LocalDateTime.now());
     failedQuestion.setPerformanceId(performanceId);
     failedQuestion.setQuestionType(question.getType());
     failedQuestion.setAnswerJson(answer);
-    failedQuestion.setOrderNr(orderNr);
-    return failedQuestionRepo.save(failedQuestion);
+    failedQuestion.setOrderNr(question.getCompMaterial().getOrderNr());
+    return failedQuestion;
   }
 }

@@ -1,6 +1,7 @@
 package com.digitund.perform.model;
 
 import com.digitund.enums.QuestionType;
+import com.digitund.manage.model.CompMaterial;
 import com.digitund.perform.rest.model.AnswerRequestAnswer;
 import java.time.LocalDateTime;
 import javax.persistence.Column;

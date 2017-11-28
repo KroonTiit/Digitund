@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,42 +19,43 @@ public class Question {
   @Id
   @GeneratedValue
   private Long id;
-  private Long compMaterialId;
+  @ManyToOne
+  private CompMaterial compMaterial;
   private String text;
   @Enumerated(EnumType.STRING)
   private QuestionType type;
   private Boolean deleted = false;
 
-  public Question() {
+//  public Question() {
+//  }
+//
+//  public Question(Long compMaterial) {
+//    this.compMaterial = compMaterial;
+//  }
+//
+//  public Question(Long id, Long compMaterial) {
+//    this.id = id;
+//    this.compMaterial = compMaterial;
+//  }
+//
+//  public Question(Long compMaterial, String texts) {
+//    this.compMaterial = compMaterial;
+//    this.text = texts;
+//  }
+//
+//  public Question(Long id, Long compMaterial, String text, QuestionType type) {
+//    this.id = id;
+//    this.compMaterial = compMaterial;
+//    this.text = text;
+//    this.type = type;
+//  }
+
+  public CompMaterial getCompMaterial() {
+    return compMaterial;
   }
 
-  public Question(Long compMaterialId) {
-    this.compMaterialId = compMaterialId;
-  }
-
-  public Question(Long id, Long compMaterialId) {
-    this.id = id;
-    this.compMaterialId = compMaterialId;
-  }
-
-  public Question(Long compMaterialId, String texts) {
-    this.compMaterialId = compMaterialId;
-    this.text = texts;
-  }
-
-  public Question(Long id, Long compMaterialId, String text, QuestionType type) {
-    this.id = id;
-    this.compMaterialId = compMaterialId;
-    this.text = text;
-    this.type = type;
-  }
-
-  public long getCompMaterialId() {
-    return compMaterialId;
-  }
-
-  public void setCompMaterialId(Long compMaterialId) {
-    this.compMaterialId = compMaterialId;
+  public void setCompMaterial(CompMaterial compMaterial) {
+    this.compMaterial = compMaterial;
   }
 
   public String getText() {

@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionRepo extends JpaRepository<Question, Long> {
 
-  @Query("select q from Question q where q.compMaterialId like ?1 ")
+  @Query("select q from Question q where q.compMaterial.id like ?1 ")
   List<Question> findByCompMaterial(Long compMaterialId);
 
-  @Query("select q.id from Question q where q.compMaterialId in ?1 ")
+  @Query("select q.id from Question q where q.compMaterial.id in ?1 ")
   List<Long> findIdsByCompMaterials(Set<Long> compMaterialId);
 
 }
