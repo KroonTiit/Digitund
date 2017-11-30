@@ -6,6 +6,9 @@ import com.digitund.perform.rest.model.StartPerformanceResponse;
 import com.digitund.perform.service.PerformanceService;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +30,7 @@ public class LessonPerformRestController {
   @CrossOrigin(origins = "http://localhost:3000") // TODO this needs to be fixed
   @RequestMapping(method = RequestMethod.POST, value = "/{lessonId}/start")
   public StartPerformanceResponse startPerformance(Principal principal, @PathVariable Long lessonId) {
-    String userId = principal.getName(); // TODO user ID retrieving needs to be looked into.
-    return performanceService.startPerformance(lessonId, userId);
+    return performanceService.startPerformance(lessonId, principal.getName());
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -38,7 +40,6 @@ public class LessonPerformRestController {
       @RequestBody AnswerRequest answer,
       @PathVariable Long lessonId
   ) {
-    String userId = principal.getName(); // TODO user ID retrieving needs to be looked into.
-    return performanceService.answerQuestion(answer, lessonId, userId);
+    return performanceService.answerQuestion(answer, lessonId, principal.getName());
   }
 }

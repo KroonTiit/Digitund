@@ -44,6 +44,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -63,6 +65,8 @@ public class PerformanceService {
   private final InProgressQuestionRepo inProgressQuestionRepo;
 
   private final Random random = new Random();
+
+  private static final Logger LOG = LoggerFactory.getLogger(PerformanceService.class);
 
   @Autowired
   public PerformanceService(
@@ -88,7 +92,9 @@ public class PerformanceService {
     this.inProgressQuestionRepo = inProgressQuestionRepo;
   }
 
+  @Transactional
   public StartPerformanceResponse startPerformance(Long lessonId, String userId) {
+    LOG.info("startPerformance() called with {lessonId: " + lessonId + ", userId: " + userId + "}");
     StartPerformanceResponse response = new StartPerformanceResponse();
     PerformanceData performance = getStartPerformance(lessonId, userId);
     response.performance = performance;
@@ -118,14 +124,15 @@ public class PerformanceService {
         // Take 1 question from the active comp material and 2 from previous comp materials.
         questionIds.add(getRandomQuestionIdFromCompMaterial(performance.activeCompMaterialId));
 
-        Set<Long> previousCompMaterialIds = performance.compMaterials.stream()
+        List<Long> previousCompMaterialIds = performance.compMaterials.stream()
             .map(cm -> cm.id)
             .limit(performance.activeOrderNr)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toList());
         Set<Long> selectedPrevCompMaterialIds = new HashSet<>();
-        while (selectedPrevCompMaterialIds.size() < 2) {
-          int randomIndex = random.nextInt(previousCompMaterialIds.size() - 1);
-          Long prevCompMaterialId = performance.compMaterials.get(randomIndex).id;
+        while (previousCompMaterialIds.size() > 0 && selectedPrevCompMaterialIds.size() < 2) {
+          int randomIndex = random.nextInt(previousCompMaterialIds.size());
+          Long prevCompMaterialId = previousCompMaterialIds.get(randomIndex);
+          previousCompMaterialIds.remove(prevCompMaterialId);
           selectedPrevCompMaterialIds.add(prevCompMaterialId);
         }
         for (Long selectedPrevCompMaterialId : selectedPrevCompMaterialIds) {
@@ -180,9 +187,11 @@ public class PerformanceService {
           );
       data.performanceId = activePerformance.get().getId();
       data.activeOrderNr = activePerformance.get().getActiveOrderNr();
+      data.status = activePerformance.get().getStatus().name();
     } else {
       data.performanceId = createPerformance(lessonId, userId).getId();
       data.activeOrderNr = 1;
+      data.status = PerformanceStatus.IN_PROGRESS.name();
     }
 
     int currentOrderNr = data.compMaterials.stream()
@@ -194,7 +203,7 @@ public class PerformanceService {
     data.activeCompMaterialId = compMaterials.stream()
         .filter(cm -> cm.getOrderNr() == currentOrderNr)
         .map(CompMaterial::getId)
-        .findFirst().orElseThrow(IllegalStateException::new);
+        .findFirst().orElseThrow(() -> new IllegalStateException("Current comp material not found (order nr " + currentOrderNr + ")"));
 
     return data;
   }
@@ -268,6 +277,8 @@ public class PerformanceService {
     performance.setPerformerId(userId);
     performance.setLessonId(lessonId);
     performance.setStartTime(LocalDateTime.now());
+    performance.setStatus(PerformanceStatus.IN_PROGRESS);
+    performance.setActiveOrderNr(1);
     return performanceRepo.save(performance);
   }
 

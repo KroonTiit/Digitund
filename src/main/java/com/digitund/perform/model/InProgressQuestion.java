@@ -13,6 +13,10 @@ public class InProgressQuestion {
   private Long questionId;
   private Long performanceId;
 
+  public InProgressQuestion() {
+    //
+  }
+
   public InProgressQuestion(Long questionId, Long performanceId) {
     this.questionId = questionId;
     this.performanceId = performanceId;
