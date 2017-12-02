@@ -2,8 +2,8 @@ create table answer_group
 (
 	id bigint auto_increment
 		primary key,
-	question_id bigint null,
-	text varchar(255) null,
+	question_id bigint not null,
+	text varchar(1000) not null,
 	deleted tinyint(1) default '0' not null
 )
 ;
@@ -16,8 +16,8 @@ create table answer_group_answer
 (
 	id bigint auto_increment
 		primary key,
-	answer_group_id bigint null,
-	text varchar(255) null,
+	answer_group_id bigint not null,
+	text varchar(1000) not null,
 	constraint answer_group_answer_answer_group_id_fk
 	foreign key (answer_group_id) references answer_group (id)
 		on update cascade
@@ -32,9 +32,9 @@ create table answer_option
 (
 	id bigint auto_increment
 		primary key,
-	question_id bigint null,
-	text varchar(255) null,
-	correct tinyint(1) null
+	question_id bigint not null,
+	text varchar(1000) not null,
+	correct tinyint(1) not null
 )
 ;
 
@@ -48,7 +48,7 @@ create table comp_material
 		primary key,
 	lesson_id bigint null,
 	order_nr int not null,
-	name varchar(200) null,
+	name varchar(200) not null,
 	deleted tinyint(1) default '0' not null
 )
 ;
@@ -64,11 +64,11 @@ create table failed_question
 	fail_time timestamp default CURRENT_TIMESTAMP not null,
 	performance_id bigint not null,
 	question_id bigint not null,
-	question_type varchar(50) null,
+	question_type varchar(50) not null,
 	answer_json json not null,
 	corrected tinyint(1) not null,
 	comp_material_id bigint not null,
-	order_nr int null,
+	order_nr int not null,
 	constraint failed_question_comp_material_id_fk
 	foreign key (comp_material_id) references comp_material (id)
 		on update cascade
@@ -113,7 +113,7 @@ create table lesson
 	end_time timestamp null,
 	created timestamp null,
 	user_id varchar(255) not null,
-	name varchar(255) null,
+	name varchar(255) not null,
 	description varchar(2000) null,
 	deleted tinyint(1) default '0' not null
 )
@@ -129,8 +129,8 @@ create table material
 (
 	id bigint auto_increment
 		primary key,
-	comp_material_id bigint null,
-	order_nr int null,
+	comp_material_id bigint not null,
+	order_nr int not null,
 	type varchar(255) not null,
 	text_content varchar(255) null,
 	video_start decimal(10,2) null,
@@ -154,7 +154,7 @@ create table ordered_answer
 (
 	id bigint auto_increment
 		primary key,
-	question_id bigint null,
+	question_id bigint not null,
 	order_nr int not null,
 	text varchar(255) null
 )
@@ -200,8 +200,8 @@ create table question
 (
 	id bigint auto_increment
 		primary key,
-	comp_material_id bigint null,
-	text varchar(255) null,
+	comp_material_id bigint not null,
+	text varchar(2000) not null,
 	type varchar(50) not null,
 	deleted tinyint(1) default '0' not null,
 	constraint question_comp_material_id_fk
